@@ -1,37 +1,11 @@
-import "@/styles/globals.css";
-import { MantineProvider, ColorSchemeProvider } from "@mantine/core";
-import { useColorScheme, useLocalStorage } from "@mantine/hooks";
-import { use, useEffect, useState } from "react";
+import "/styles/globals.css";
+import { ThemeProvider } from "next-themes";
+import {Providers} from "components/providers";
 
-export default function App({ Component, pageProps }) {
-  const preferredColorScheme = useColorScheme();
-  const [colorScheme, setColorScheme] = useLocalStorage({
-    key: "mantine-color-scheme",
-    defaultValue: preferredColorScheme,
-    getInitialValueInEffect: true,
-  });
-
-  useEffect(()=>{
-    console.log(`Preferred: ${preferredColorScheme}`)
-  },[preferredColorScheme])
-
-  const toggleColorScheme = (value) => {
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
-  };
-  
-  useEffect(() => {
-    document.documentElement.className = colorScheme;
-  }, [colorScheme]);
-
+export default function App({ Component, pageProps, router}) {
   return (
-    <ColorSchemeProvider
-      colorScheme={colorScheme}
-      toggleColorScheme={toggleColorScheme}
-    >
-      <MantineProvider theme={{ colorScheme }} withNormalizeCSS>
-        <Component {...pageProps} />
-      </MantineProvider>
-    </ColorSchemeProvider>
+    <ThemeProvider attribute="class">
+        <Providers Component={Component} pageProps={pageProps} router={router} />
+    </ThemeProvider>
   );
 }
-
