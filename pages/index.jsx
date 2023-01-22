@@ -8,7 +8,7 @@ import {
 } from "components/home";
 
 import { webCards } from "dummyData";
-import { engineeringCards } from "../dummyData";
+import { engineeringCards } from "dummyData";
 
 export default function Home() {
   return (

@@ -32,13 +32,16 @@ export default function Providers({ Component, pageProps, router }) {
               emotionCache={myCache}
               withNormalizeCSS
             >
-              <Header />
+              <AnimatePresence>
+                <Header />
+              </AnimatePresence>
               <AnimatePresence
                 mode="wait"
                 initial={false}
+                onExitComplete={() => window.scrollTo(0, 0)}
               >
                 <motion.div key={router.pathname}>
-                  <Component {...pageProps}  />
+                  <Component {...pageProps} />
                 </motion.div>
               </AnimatePresence>
               <Footer />

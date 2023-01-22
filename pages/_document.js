@@ -11,7 +11,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body className="font-sans text-[#111111] dark:bg-[#001A22] dark:text-[#E9E2CC]">
+      <body className="bg-white font-sans text-text dark:bg-darkbg dark:text-darktext">
         <Main />
         <NextScript />
       </body>

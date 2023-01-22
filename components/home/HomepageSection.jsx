@@ -49,7 +49,7 @@ export default function HomepageSection({ title, cards, reverse }) {
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
-            <Link href="" className="flex items-center gap-1 hover:underline">
+            <Link scroll={false} href="/projects/web/internal-memo-board" className="flex items-center gap-1 hover:underline">
               Project details
               <IconChevronRight size={16} />
             </Link>

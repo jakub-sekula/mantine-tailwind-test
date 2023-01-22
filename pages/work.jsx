@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Layout } from "components/layout";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { transition } from "../dummyData";
+import { customEaseTransition } from "dummyData";
+import { useSiteAnimationContext } from "../components/providers";
 
 const selected = {
   initial: { opacity: 1 },
@@ -20,6 +21,8 @@ const others = {
 export default function Work() {
   const router = useRouter();
   const [defaultTransition, setDefaultTransition] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const {animationsDisabled} = useSiteAnimationContext()
 
   useEffect(() => {
     setDefaultTransition(true);
@@ -27,6 +30,7 @@ export default function Work() {
 
   useEffect(() => {
     console.log("transition in work: ", defaultTransition);
+    if (defaultTransition) setSelectedId(null);
   }, [defaultTransition]);
 
   const alternateTransition = {
@@ -44,46 +48,50 @@ export default function Work() {
     },
   };
 
+  const activeCardAnimation = !animationsDisabled ? {
+    layoutId: defaultTransition ? null : 10,
+    initial: "visible",
+    animate: "visible",
+    exit: "visible",
+    transition: customEaseTransition,
+  }: {} ;
+
+  const otherCardAnimation = !animationsDisabled ? {
+    initial: "initial",
+    animate: "enter",
+    exit: "exit",
+    variants: {
+      initial: { opacity: 0 },
+      enter: { opacity: 1 },
+      exit: { opacity: 0, scale: 0.95 },
+    },
+    transition: customEaseTransition,
+  }: {};
+
   return (
     <Layout
       defaultTransition={defaultTransition}
       alternateTransition={alternateTransition}
     >
       <motion.div
-        key="jdhsgfcvtsdsf"
         className="relative mx-auto grid h-[600px] w-full max-w-page grid-cols-12 
-    gap-4 py-36 text-center"
+                   gap-4 py-36 text-center"
       >
         <motion.div
+          {...activeCardAnimation}
           onClick={() => {
             setDefaultTransition(false);
             router.push("/about");
           }}
-          initial="initial"
-          animate="enter"
-          exit="exit"
-          variants={selected}
-          layoutId={defaultTransition ? "dsadsf" : 10}
-          transition={transition}
           className="col-span-4 flex h-20 items-center justify-center 
         rounded-md bg-js-yellow"
         >
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={transition}
-            className="text-5xl font-bold"
-          >
+          <motion.h1 {...otherCardAnimation} className="text-5xl font-bold">
             Hello
           </motion.h1>
         </motion.div>
         <motion.div
-          initial="initial"
-          animate="enter"
-          exit="exit"
-          variants={others}
-          transition={transition}
+          {...otherCardAnimation}
           className="col-span-4 flex h-20 items-center justify-center 
         rounded-md bg-js-red text-5xl font-bold "
         >

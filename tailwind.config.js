@@ -17,6 +17,9 @@ module.exports = {
         "js-green": "#44EAA0",
         "js-blue": "#59B8DF",
         "js-yellow": "#FED557",
+        "darkbg": "#091519",
+        "text": "#111111",
+        "darktext": "#E9E2CC"
       },
       keyframes: {
         underline: {
@@ -25,7 +28,7 @@ module.exports = {
         }
       },
       animation: {
-        underline: 'underline 1s 4.5s backwards ease-in-out',
+        underline: 'underline 1s 7.5s backwards ease-in-out',
       },
       maxWidth: {
         'page': '1200px',

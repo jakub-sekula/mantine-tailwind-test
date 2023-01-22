@@ -32,7 +32,7 @@ export default function HeroCard({ title, color, className, href, layoutId }) {
 	rounded-md dark:border-2 h-24 text-4xl font-bold flex justify-center
 	items-center font-poppins select-none`}
       >
-        <Link href={href || ""}>{title}</Link>
+        <Link scroll={false} href={href || ""}>{title}</Link>
       </motion.div>
   );
 }
