@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Layout } from "components/layout";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -19,40 +19,77 @@ const others = {
 
 export default function Work() {
   const router = useRouter();
+  const [defaultTransition, setDefaultTransition] = useState(false);
+
+  useEffect(() => {
+    setDefaultTransition(true);
+  }, []);
+
+  useEffect(() => {
+    console.log("transition in work: ", defaultTransition);
+  }, [defaultTransition]);
+
+  const alternateTransition = {
+    // initial: "hidden",
+    // animate: "enter",
+    // exit: "exit",
+    // variants: {
+    //   hidden: { opacity: 0, scale: 0.95 },
+    //   enter: { opacity: 1, scale: 1.05 },
+    //   exit: { opacity: 0, scale: 0.95 },
+    // },
+    transition: {
+      duration: 0.75,
+      ease: [0.36, 0.66, 0.04, 1],
+    },
+  };
+
   return (
-    <motion.div
-      key="jdhsgfcvtsdsf"
-      className="relative mx-auto grid w-full max-w-page grid-cols-12 
-    gap-4 py-36 text-center"
+    <Layout
+      defaultTransition={defaultTransition}
+      alternateTransition={alternateTransition}
     >
       <motion.div
-        onClick={() => {
-          router.push("/about");
-        }}
-        initial="initial"
-        animate="enter"
-        exit="exit"
-        variants={selected}
-        layoutId={10}
-        key="dhjsfasd"
-        transition={transition}
-        className="col-span-4 flex h-20 items-center justify-center 
-        rounded-md bg-js-yellow text-5xl font-bold "
+        key="jdhsgfcvtsdsf"
+        className="relative mx-auto grid h-[600px] w-full max-w-page grid-cols-12 
+    gap-4 py-36 text-center"
       >
-        Hello
+        <motion.div
+          onClick={() => {
+            setDefaultTransition(false);
+            router.push("/about");
+          }}
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          variants={selected}
+          layoutId={defaultTransition ? "dsadsf" : 10}
+          transition={transition}
+          className="col-span-4 flex h-20 items-center justify-center 
+        rounded-md bg-js-yellow"
+        >
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={transition}
+            className="text-5xl font-bold"
+          >
+            Hello
+          </motion.h1>
+        </motion.div>
+        <motion.div
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          variants={others}
+          transition={transition}
+          className="col-span-4 flex h-20 items-center justify-center 
+        rounded-md bg-js-red text-5xl font-bold "
+        >
+          World
+        </motion.div>
       </motion.div>
-      <motion.div
-        initial="initial"
-        animate="enter"
-        exit="exit"
-        variants={others}
-        transition={transition}
-        key="jnsdbfgsdvgyf"
-        className="col-span-4 flex h-20 items-center justify-center 
-        rounded-md bg-js-yellow text-5xl font-bold "
-      >
-        This is shit
-      </motion.div>
-    </motion.div>
+    </Layout>
   );
 }

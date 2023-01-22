@@ -77,7 +77,7 @@ export default function HomepageSection({ title, cards, reverse }) {
           })}
         </div>
       </div>
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {selected && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -99,7 +99,7 @@ export default function HomepageSection({ title, cards, reverse }) {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </motion.section>
   );
 }

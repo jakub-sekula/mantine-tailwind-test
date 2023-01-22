@@ -5,10 +5,12 @@ const SiteAnimationContext = createContext({
 });
 
 export const SiteAnimationProvider = ({ children }) => {
-  const [HeroFinished, setHeroFinished] = useState(false);
+  const [heroFinished, setHeroFinished] = useState(false);
+  const [animationMode, setAnimationMode ] = useState("wait")
+  const [animationsDisabled,  setAnimationsDisabled] = useState(false)
 
   return (
-    <SiteAnimationContext.Provider value={{ HeroFinished, setHeroFinished }}>
+    <SiteAnimationContext.Provider value={{ heroFinished, setHeroFinished, animationsDisabled}}>
       {children}
     </SiteAnimationContext.Provider>
   );

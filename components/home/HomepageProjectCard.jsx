@@ -1,5 +1,8 @@
 import { Chip } from "components/common";
 import { motion } from "framer-motion";
+import { nanoid } from 'nanoid'
+
+import {useRouter} from "next/router";
 
 const colors = {
   red: "bg-js-red  border-js-red",
@@ -28,8 +31,8 @@ export default function HomepageProjectCard({
 		 rounded-lg border-2 text-white `}
     >
       <ul className="absolute flex gap-2 p-3 ">
-        {tags.map((tag) => {
-          return <Chip className=" bg-zinc-800 font-bold" name={tag} />;
+        {tags.map((tag, index) => {
+          return <Chip className=" bg-zinc-800 font-bold" name={tag} key={nanoid()}/>;
         })}
       </ul>
       <img src={img} className="h-60 w-full" />

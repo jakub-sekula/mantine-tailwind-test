@@ -36,13 +36,12 @@ export default function Providers({ Component, pageProps, router }) {
               <AnimatePresence
                 mode="wait"
                 initial={false}
-                // onExitComplete={() => window.scrollTo(0, 0)}
               >
                 <motion.div key={router.pathname}>
                   <Component {...pageProps}  />
                 </motion.div>
               </AnimatePresence>
-              {/* <Footer /> */}
+              <Footer />
             </MantineProvider>
           </MotionConfig>
         </SiteAnimationProvider>

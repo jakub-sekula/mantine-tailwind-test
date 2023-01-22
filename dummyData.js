@@ -86,6 +86,6 @@ export const engineeringCards = [
 
 export const transition = {
   type: "linear",
-  duration: 0.4,
+  duration: 0.3,
   ease: [0.36, 0.66, 0.04, 1],
 };
