@@ -1,15 +1,14 @@
 import { Layout } from "components/layout";
-import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { transition } from "../dummyData";
+import { customEaseTransition } from "dummyData";
 import { useEffect, useState } from "react";
 import { useSiteAnimationContext } from "components/providers";
 
 export default function About() {
   const router = useRouter();
   const [defaultTransition, setDefaultTransition] = useState(false);
-  const {animationsDisabled} = useSiteAnimationContext()
+  const { animationsDisabled } = useSiteAnimationContext();
 
   useEffect(() => {
     setDefaultTransition(true);
@@ -19,38 +18,29 @@ export default function About() {
     console.log("transition in about: ", defaultTransition);
   }, [defaultTransition]);
 
-  const variants = !animationsDisabled ? {
-    hidden: { opacity: 0 },
-    enter: { opacity: 1 },
-    exit: { opacity: 0, scale: 0.95 },
-  } : {};
+  const activeCardAnimation = !animationsDisabled
+    ? {
+        layoutId: defaultTransition ? null : 10,
+        initial: "visible",
+        animate: "visible",
+        exit: "visible",
+        transition: customEaseTransition,
+      }
+    : {};
 
-  const selected = !animationsDisabled ? {
-    initial: { opacity: 1 },
-    enter: { opacity: 1 },
-    exit: { opacity: 1, },
-  } : {};
-
-  const activeCardProps = {
-    layoutId: defaultTransition ? "ewadas" : 10,
-    initial: "hidden",
-    animate: "enter",
-    exit: "exit",
-    variants: selected,
-    onClick: () => {
-      setDefaultTransition(false);
-      router.push("/work");
-    },
-    transition: transition,
-  };
-
-  const otherCardProps = {
-    initial: "hidden",
-    animate: "enter",
-    exit: "exit",
-    variants: variants,
-    transition: transition,
-  };
+  const otherCardAnimation = !animationsDisabled
+    ? {
+        initial: "initial",
+        animate: "enter",
+        exit: "exit",
+        variants: {
+          initial: { opacity: 0 },
+          enter: { opacity: 1 },
+          exit: { opacity: 0, scale: 0.95 },
+        },
+        transition: customEaseTransition,
+      }
+    : {};
 
   const alternateTransition = {
     // initial: "hidden",
@@ -61,10 +51,10 @@ export default function About() {
     //   enter: { opacity: 1 , scale: 1.05},
     //   exit: { opacity: 0, scale:  0.95},
     // },
-    transition: {
-      duration: 0.75,
-      ease: [0.36, 0.66, 0.04, 1],
-    },
+    // transition: {
+    //   duration: 1.5,
+    //   ease: [0.36, 0.66, 0.04, 1],
+    // },
   };
 
   return (
@@ -72,16 +62,20 @@ export default function About() {
       defaultTransition={defaultTransition}
       alternateTransition={alternateTransition}
     >
-      <motion.div className=" inset-0 -z-10 flex items-center justify-center gap-12">
+      <motion.div className=" flex items-center justify-center gap-12">
         <motion.div
-          {...activeCardProps}
+          {...activeCardAnimation}
+          onClick={() => {
+            setDefaultTransition(false);
+            router.push("/work");
+          }}
           className=" flex h-96 w-96 items-center justify-center rounded-md bg-js-blue text-center text-5xl font-bold"
         >
-          <motion.h1 {...otherCardProps}>World</motion.h1>
+          <motion.h1 {...otherCardAnimation}>World</motion.h1>
         </motion.div>
 
         <motion.div
-          {...otherCardProps}
+          {...otherCardAnimation}
           className="flex h-96 w-96 items-center justify-center rounded-md bg-js-green text-center text-5xl font-bold"
         />
       </motion.div>
