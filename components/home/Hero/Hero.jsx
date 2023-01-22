@@ -1,12 +1,12 @@
 import HeroCard from "./HeroCard";
-import { IconChevronDown } from "@tabler/icons";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSiteAnimationContext } from "components/providers/SiteAnimation";
 
 const list = {
   visible: {
     opacity: 1,
     transition: {
-      delay:1,
+      delay: 0.5,
       when: "beforeChildren",
       staggerChildren: 0.75,
     },
@@ -23,7 +23,7 @@ const grid = {
   visible: {
     opacity: 1,
     transition: {
-      delay: 3.25,
+      delay: 2.75,
       when: "beforeChildren",
       staggerChildren: 0.05,
     },
@@ -41,12 +41,34 @@ const variants = {
   visible: { opacity: 1, y: 0 },
 };
 
+const animationProps = {
+  variants: variants,
+  transition: {
+    duration: 0.3,
+    ease: [0.36, 0.66, 0.04, 1],
+  },
+};
+
+
+
 export default function Hero() {
+  const { HeroFinished, setHeroFinished } = useSiteAnimationContext();
+
+  const gridAnimationProps = {
+    layout: true,
+    initial: "hidden",
+    animate: "visible",
+    variants: grid,
+    onAnimationComplete: () => {
+      setHeroFinished(true);
+    },
+  };
+
   return (
-    <div className="bg-[#001A22] flex flex-col  gap-4 items-center py-16 w-full absolute left-0 top-0">
-      <div className="max-w-[1200px] w-full text-[#E9E2CC] flex flex-col gap-8 justify-center items-center">
-        <div className="flex flex-col ">
-          <AnimatePresence>
+    <section   className="left-0 top-0 flex w-full justify-center bg-neutral-50 py-32 dark:bg-transparent">
+      <div className="flex w-full  max-w-page flex-col items-center justify-center gap-8">
+        <div className="flex w-full flex-col">
+          <AnimatePresence initial={!HeroFinished}>
             <motion.div
               layout
               transition={{ when: "beforeChildren", staggerChildren: 50 }}
@@ -56,124 +78,67 @@ export default function Hero() {
               className="flex flex-col items-center justify-center"
             >
               <motion.h1
-                variants={variants}
-                transition={{
-                  duration: 0.3,
-                  ease: [0.36, 0.66, 0.04, 1],
-                }}
-                className="font-sans text-6xl font-bold mb-6"
+                {...animationProps}
+                className="mb-8 font-poppins text-5xl font-bold"
               >
-                Never not creating.
+                Hi, my name is{" "}
+                <span
+                  className="relative after:absolute after:left-0
+                after:bottom-1 after:-z-10 after:h-2 after:w-full
+                after:animate-underline after:bg-js-yellow"
+                >
+                  Jakub
+                </span>{" "}
+                👋🏻
               </motion.h1>
-              <motion.p
-                variants={variants}
-                transition={{
-                  duration: 0.3,
-                  ease: [0.36, 0.66, 0.04, 1],
-                }}
-                className="font-sans font-light text-2xl "
-              >
-                Hi, and welcome to my corner of the Internet. My name is Jakub
-                Sekula.
+              <motion.p {...animationProps} className=" text-2xl font-light ">
+                I’m an <span className="font-bold text-js-green">engineer</span>
+                , <span className="font-bold text-js-yellow">developer</span>,{" "}
+                <span className="font-bold text-js-blue">photographer</span>,
+                and <span className="font-bold text-js-red">tinkerer</span>.
               </motion.p>
               <motion.p
-                variants={variants}
-                transition={{
-                  duration: 0.3,
-                  ease: [0.36, 0.66, 0.04, 1],
-                }}
-                className="font-sans font-light text-2xl pb-8 "
+                {...animationProps}
+                className="mb-24 text-2xl font-light"
               >
-                I’m an{" "}
-                <span
-                  variants={variants}
-                  transition={{
-                    type: "linear",
-                    duration: 0.3,
-                    ease: [0.36, 0.66, 0.04, 1],
-                  }}
-                  className="font-bold text-js-green"
-                >
-                  engineer
-                </span>
-                ,{" "}
-                <span
-                  variants={variants}
-                  transition={{
-                    type: "linear",
-                    duration: 0.3,
-                    ease: [0.36, 0.66, 0.04, 1],
-                  }}
-                  className="font-bold text-js-yellow"
-                >
-                  developer
-                </span>
-                ,{" "}
-                <span
-                  variants={variants}
-                  transition={{
-                    type: "linear",
-                    duration: 0.3,
-                    ease: [0.36, 0.66, 0.04, 1],
-                  }}
-                  className="font-bold text-js-blue"
-                >
-                  photographer
-                </span>
-                , and{" "}
-                <span
-                  variants={variants}
-                  transition={{
-                    type: "linear",
-                    duration: 0.3,
-                    ease: [0.36, 0.66, 0.04, 1],
-                  }}
-                  className="font-bold text-js-red"
-                >
-                  tinkerer
-                </span>
-                .
+                Welcome to my little corner of the Internet.
               </motion.p>
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: -16},
-                  visible: { opacity: 1, y: 0},
-                }}
-                transition={{
-                  delay:3.75,
-                  duration: 0.3,
-                  ease: [0.36, 0.66, 0.04, 1],
-                }}
-                className="text-js-yellow"
-              >
-                <IconChevronDown size={40} />
-              </motion.div>
+            </motion.div>
+            <motion.div
+              {...gridAnimationProps}
+              className="grid w-full grid-cols-12 gap-5"
+            >
+              <HeroCard
+                className="col-span-8"
+                title="WEB DEVELOPMENT"
+                color="yellow"
+                href="#webdev"
+              />
+              <HeroCard
+                className="col-span-4"
+                title="ENGINEERING"
+                color="green"
+              />
+              <HeroCard
+                layoutId="keks"
+                href="/work"
+                className="col-span-4"
+                title="TOOLS"
+                color="red"
+              />
+              <HeroCard
+                className="col-span-8"
+                title="PHOTOGRAPHY"
+                color="blue"
+              />
+              <HeroCard className="col-span-8" title="ABOUT" color="green" />
+              <HeroCard className="col-span-4" title="CONTACT" color="yellow" />
+              <HeroCard className="col-span-4" title="CV" color="yellow" />
+              <HeroCard className="col-span-8" title="BLOG" color="red" />
             </motion.div>
           </AnimatePresence>
         </div>
-        <AnimatePresence>
-          <motion.div
-            layout
-            initial="hidden"
-            animate="visible"
-            variants={grid}
-            className="grid grid-cols-12 w-full gap-4 mt-6"
-          >
-            <HeroCard className="col-span-8" title="WEB DEV" color="yellow" />
-            <HeroCard
-              className="col-span-4"
-              title="ENGINEERING"
-              color="green"
-            />
-            <HeroCard className="col-span-4" title="TOOLS" color="red" />
-            <HeroCard className="col-span-8" title="PHOTOGRAPHY" color="blue" />
-            <HeroCard className="col-span-8" title="ABOUT" color="green" />
-            <HeroCard className="col-span-4" title="CONTACT" color="yellow" />
-            <HeroCard className="col-span-4" title="CV" color="yellow" />
-            <HeroCard className="col-span-8" title="BLOG" color="red" />
-          </motion.div>
-        </AnimatePresence>
       </div>
-    </div>
+    </section >
   );
 }

@@ -8,8 +8,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Helvetica Neue"', "Arial", "sans-serif"],
+        sans: ['"Open Sans"', "Arial", "sans-serif"],
         mono: ['"Source Code Pro"', "Consolas", "mono"],
+        poppins: ["Poppins"]
       },
       colors: {
         "js-red": "#F1647B",
@@ -17,6 +18,18 @@ module.exports = {
         "js-blue": "#59B8DF",
         "js-yellow": "#FED557",
       },
+      keyframes: {
+        underline: {
+          '0%': { width:0},
+          '100': { width: "100%" },
+        }
+      },
+      animation: {
+        underline: 'underline 1s 4.5s backwards ease-in-out',
+      },
+      maxWidth: {
+        'page': '1200px',
+      }
     },
   },
   plugins: [],
