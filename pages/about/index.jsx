@@ -14,10 +14,6 @@ export default function About() {
     setDefaultTransition(true);
   }, []);
 
-  useEffect(() => {
-    console.log("transition in about: ", defaultTransition);
-  }, [defaultTransition]);
-
   const activeCardAnimation = !animationsDisabled
     ? {
         layoutId: defaultTransition ? null : 10,
@@ -66,7 +62,7 @@ export default function About() {
         <motion.div
           {...activeCardAnimation}
           onClick={() => {
-            setDefaultTransition(false);
+            // setDefaultTransition(false);
             router.push("/work");
           }}
           className=" flex h-96 w-96 items-center justify-center rounded-md bg-js-blue text-center text-5xl font-bold"

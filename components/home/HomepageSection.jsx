@@ -1,24 +1,16 @@
-import Link from "next/link";
-import { Chip } from "components/common";
-import { HomepageProjectCard } from "components/home";
-import { IconChevronRight } from "@tabler/icons";
+import { Chip, Hyperlink} from "components/common";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { nanoid } from "nanoid";
 
-const chips = [
-  { id: 1, name: "NextJS" },
-  { id: 2, name: "Strapi" },
-  { id: 3, name: "GraphQL" },
-  { id: 4, name: "Mantine UI" },
-  { id: 5, name: "Full stack" },
-];
+import {chips} from "dummyData"
 
 export default function HomepageSection({ title, cards, reverse }) {
   const [selected, setSelected] = useState(null);
 
   return (
-    <motion.section className="mx-auto flex w-full max-w-page flex-col items-center gap-12 py-12 ">
-      <h2 id="webdev" className="font-poppins text-4xl font-bold text-js-red">
+    <motion.section className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
+      <h2 id="webdev-section" className="font-poppins text-4xl font-bold text-js-red">
         {title}
       </h2>
       <div className="relative grid w-full grid-cols-12 gap-16  ">
@@ -49,10 +41,7 @@ export default function HomepageSection({ title, cards, reverse }) {
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
-            <Link scroll={false} href="/projects/web/internal-memo-board" className="flex items-center gap-1 hover:underline">
-              Project details
-              <IconChevronRight size={16} />
-            </Link>
+            <Hyperlink href="/projects/web/internal-memo-board"/>
           </div>
           <div
             className={`row-start-1 h-80 w-full rounded-md bg-js-yellow ${
@@ -77,29 +66,44 @@ export default function HomepageSection({ title, cards, reverse }) {
           })}
         </div>
       </div>
-      {/* <AnimatePresence>
-        {selected && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-            onClick={() => {
-              setSelected(false);
-            }}
-          >
-            <motion.div
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              className="flex h-56 w-[600px] items-center justify-center rounded-md bg-js-yellow text-5xl font-bold"
-              layoutId={selected}
-            >
-              {selected}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence> */}
     </motion.section>
+  );
+}
+
+
+const colors = {
+  red: "bg-js-red  border-js-red",
+  green: "bg-js-green  border-js-green",
+  blue: " bg-js-blue border-js-blue",
+  yellow: "bg-js-yellow  border-js-yellowŚ",
+};
+
+function HomepageProjectCard({
+  setSelected,
+  id,
+  title = "Title",
+  img,
+  color = "yellow",
+  tags = [],
+}) {
+  return (
+    <motion.div
+      key={id}
+      onClick={() => {
+        setSelected(id);
+      }}
+      layoutId={id}
+      whileTap={{ scale: 0.95 }}
+      className={`${colors[color]}relative flex w-full flex-col overflow-hidden
+		 rounded-lg border-2 text-white `}
+    >
+      <ul className="absolute flex gap-2 p-3 ">
+        {tags.map((tag, index) => {
+          return <Chip className=" bg-zinc-800 font-bold" name={tag} key={nanoid()}/>;
+        })}
+      </ul>
+      <img src={img} alt={img} className="h-60 w-full" />
+      <h4 className="w-1/2 p-4 font-poppins text-2xl font-bold">{title}</h4>
+    </motion.div>
   );
 }

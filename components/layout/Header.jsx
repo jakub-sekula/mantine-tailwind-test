@@ -1,34 +1,32 @@
 import { ColorSchemeToggle, DotsLogo } from "components/common";
+import { useSiteAnimationContext } from "components/providers";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { disabledAnimationProps } from "dummyData";
 
 export default function Header() {
-  //   window.onscroll = function(e) {
-  //     var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-  //     var header = document.querySelector('header');
+  const router = useRouter();
+  const { animationsDisabled } = useSiteAnimationContext();
 
-  //     scrollY <= this.lastScroll
-  //       ? header.style.visibility = 'visible'
-  //       : header.style.visibility = 'hidden';
-
-  //     this.lastScroll = scrollY ;
-  // }
-
-  const headerAnimation = {
-    initial: "hidden",
-    animate: "enter",
-    exit: "exit",
-    variants: {
-      hidden: { opacity: 0, y: -100 },
-      enter: { opacity: 1, x: 0, y: 0 },
-      exit: { opacity: 0, x: 0, y: 100 },
-    },
-    transition: {
-      delay: 4,
-      duration: 0.5,
-      ease: [0.36, 0.66, 0.04, 1],
-    },
-  };
+  const headerAnimation =
+    router.pathname === "/" && !animationsDisabled
+      ? {
+          initial: "hidden",
+          animate: "enter",
+          exit: "exit",
+          variants: {
+            hidden: { opacity: 0, y: -100 },
+            enter: { opacity: 1, x: 0, y: 0 },
+            exit: { opacity: 0, x: 0, y: 100 },
+          },
+          transition: {
+            delay: 4,
+            duration: 0.5,
+            ease: [0.36, 0.66, 0.04, 1],
+          },
+        }
+      : disabledAnimationProps;
 
   return (
     <motion.header
@@ -36,7 +34,6 @@ export default function Header() {
       className="fixed top-0 z-50 flex h-20 w-full items-center justify-center border-b border-zinc-300 bg-white/90 
     px-4 backdrop-blur-lg dark:border-0 dark:bg-[#111111]/90"
     >
-      
       <div className="flex w-screen  max-w-[1400px]">
         <Link
           scroll={false}

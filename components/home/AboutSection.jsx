@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { SectionHeading } from "components/common";
+import { SectionHeading, ExperienceLine } from "components/common";
 
 export default function AboutSection({ title }) {
   return (
-    <section className="mx-auto flex w-full max-w-page flex-col items-center gap-12 py-12 ">
+    <section 
+    id="about-section"
+    className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
       <h2 id="webdev" className="font-poppins text-4xl font-bold text-js-red">
         {title}
       </h2>
@@ -17,7 +19,7 @@ export default function AboutSection({ title }) {
         <div className="col-span-5 flex flex-col gap-4">
           <SectionHeading title="Education" color="yellow" />
           <div className="flex flex-col gap-2">
-            <img src="UoB.svg" className=" w-36 select-none" />
+            <img src="UoB.svg" alt="University of Birmingham logo" className=" w-36 select-none" />
             <div className="flex justify-between border-b border-neutral-200 pb-1">
               <h5>University of Birmingham</h5>
               <h6>2017 - 2022</h6>
@@ -60,14 +62,3 @@ export default function AboutSection({ title }) {
   );
 }
 
-function ExperienceLine({ top, bottom, years }) {
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="flex justify-between border-b border-neutral-200 pb-1">
-        <h5>{top}</h5>
-        <h6>{years}</h6>
-      </div>
-      <span className="text-sm font-light">{bottom}</span>
-    </div>
-  );
-}

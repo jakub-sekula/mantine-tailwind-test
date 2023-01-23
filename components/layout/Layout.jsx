@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { useSiteAnimationContext } from "../providers";
+import { useSiteAnimationContext } from "components/providers";
+import { disabledAnimationProps } from "../../dummyData";
 
 export default function Layout({
   children,
@@ -29,14 +28,7 @@ export default function Layout({
           ease: [0.36, 0.66, 0.04, 1],
         },
       }
-    : {
-        initial: "initial",
-        exit: "exit",
-        variants: {
-          initial: { opacity: 1 },
-          exit: { opacity: 1 }  ,
-        },
-      };
+    : disabledAnimationProps;
 
 
   if (defaultTransition) {
@@ -49,7 +41,7 @@ export default function Layout({
     <motion.main
       {...transitionProps}
       className="relative flex h-full w-full flex-col items-center
-      gap-24 overflow-hidden mt-20"
+      gap-36 overflow-hidden mt-20"
     >
       {children}
     </motion.main>

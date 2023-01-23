@@ -1,17 +1,15 @@
-import Hero from "./Hero/Hero";
-import HeroCard from "./Hero/HeroCard";
+import Hero from "./Hero";
 import HomepageSection from "./HomepageSection";
-import HomepageProjectCard from "./HomepageProjectCard";
 import AboutSection from "./AboutSection";
 import ToolsSection from "./ToolsSection";
 import BlogSection from "./BlogSection";
+import PhotographySection from "./PhotographySection";
 
 export {
   Hero,
-  HeroCard,
   HomepageSection,
-  HomepageProjectCard,
   AboutSection,
   ToolsSection,
   BlogSection,
+  PhotographySection
 };

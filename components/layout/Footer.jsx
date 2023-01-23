@@ -9,20 +9,20 @@ export default function Footer() {
     dark:bg-black/80"
     >
       <div className="flex w-full flex-col gap-6 py-10 items-center text-center">
-        <h4 className=" font-poppins text-4xl font-bold">Let's talk!</h4>
+        <h4 className=" font-poppins text-4xl font-bold">Let&apos;s talk!</h4>
         <div className="flex flex-col gap-2">
-          <p>I’m open to remote freelance opportunities.</p>
+          <p>I&apos;m open to remote freelance opportunities.</p>
           <p className="">
-            Shoot me a message and let’s make cool things together:
+            Shoot me a message and let&apos;s make cool things together:
           </p>
         </div>
         <a href="mailto:contact@jakubsekula.com" className="font-bold">
           contact@jakubsekula.com
         </a>
         <div className="flex gap-10">
-          <a target="_blank" href="https://github.com/jakub-sekula"><FaGithub size={24} /></a>
-          <a target="_blank" href="https://instagram.com/sekula.jpg"><FaInstagram size={24} /></a>
-          <a target="_blank" href="https://www.linkedin.com/in/jakub-sekula"><FaLinkedin size={24} /></a>
+          <a target="_blank" rel="noreferrer" href="https://github.com/jakub-sekula"><FaGithub size={24} /></a>
+          <a target="_blank" rel="noreferrer" href="https://instagram.com/sekula.jpg"><FaInstagram size={24} /></a>
+          <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/jakub-sekula"><FaLinkedin size={24} /></a>
         </div>
       </div>
       <div
