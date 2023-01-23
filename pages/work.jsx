@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Layout } from "components/layout";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { customEaseTransition } from "dummyData";
+import { customEaseTransition } from "siteConfig";
 import { useSiteAnimationContext } from "../components/providers";
 
 const selected = {

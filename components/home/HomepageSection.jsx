@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { nanoid } from "nanoid";
 
-import {chips} from "dummyData"
+import {chips} from "siteConfig"
 
 export default function HomepageSection({ title, cards, reverse }) {
   const [selected, setSelected] = useState(null);

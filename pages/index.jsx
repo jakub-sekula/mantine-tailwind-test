@@ -8,8 +8,8 @@ import {
   PhotographySection,
 } from "components/home";
 
-import { webCards } from "dummyData";
-import { engineeringCards } from "dummyData";
+import { webCards } from "siteConfig";
+import { engineeringCards } from "siteConfig";
 import { useEffect, useState } from "react";
 import { useSiteAnimationContext } from "components/providers";
 

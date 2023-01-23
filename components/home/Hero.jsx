@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSiteAnimationContext } from "components/providers/SiteAnimation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { heroBlockIds, disabledAnimationProps } from "dummyData";
+import { heroBlockIds, disabledAnimationProps } from "siteConfig";
 
 export default function Hero() {
   const { heroFinished, setHeroFinished, animationsDisabled } =

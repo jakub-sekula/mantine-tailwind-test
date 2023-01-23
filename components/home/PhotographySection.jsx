@@ -1,7 +1,7 @@
 import { Hyperlink } from "components/common";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { customEaseTransition } from "dummyData";
+import { customEaseTransition } from "siteConfig";
 import Link from "next/link";
 
 export default function PhotographySection({ title }) {

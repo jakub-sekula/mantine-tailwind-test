@@ -3,7 +3,7 @@ import { useSiteAnimationContext } from "components/providers";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { disabledAnimationProps } from "dummyData";
+import { disabledAnimationProps } from "siteConfig";
 
 export default function Header() {
   const router = useRouter();

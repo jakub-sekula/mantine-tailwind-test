@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useSiteAnimationContext } from "components/providers";
-import { disabledAnimationProps } from "../../dummyData";
+import { disabledAnimationProps } from "../../siteConfig";
 
 export default function Layout({
   children,
