@@ -1,4 +1,4 @@
-import { useReducedMotion } from "@mantine/hooks";
+import { useReducedMotion } from "framer-motion";
 import { useRouter } from "next/router";
 import React, { createContext, useEffect, useState } from "react";
 

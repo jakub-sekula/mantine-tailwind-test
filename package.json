@@ -9,23 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/server": "^11.10.0",
-    "@mantine/core": "^5.10.1",
-    "@mantine/hooks": "^5.10.1",
-    "@mantine/next": "^5.10.0",
-    "@mantine/tiptap": "^5.10.1",
     "@next/font": "13.1.2",
-    "@prisma/client": "^4.8.1",
     "@tabler/icons": "^1.119.0",
-    "@tiptap/extension-highlight": "^2.0.0-beta.209",
-    "@tiptap/extension-link": "^2.0.0-beta.209",
-    "@tiptap/extension-subscript": "^2.0.0-beta.209",
-    "@tiptap/extension-superscript": "^2.0.0-beta.209",
-    "@tiptap/extension-text-align": "^2.0.0-beta.209",
-    "@tiptap/extension-underline": "^2.0.0-beta.209",
-    "@tiptap/react": "^2.0.0-beta.209",
-    "@tiptap/starter-kit": "^2.0.0-beta.209",
     "cookies-next": "^2.1.1",
     "eslint-config-next": "13.1.2",
     "framer-motion": "^8.5.0",
@@ -34,8 +19,7 @@
     "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "^4.7.1",
-    "twin.macro": "^3.1.0"
+    "react-icons": "^4.7.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
