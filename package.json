@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^13.1.4",
     "@next/font": "13.1.2",
     "@tabler/icons": "^1.119.0",
     "cookies-next": "^2.1.1",
