@@ -1,8 +1,10 @@
-import Link from "next/link";
+import { motion } from "framer-motion";
+import { sectionEntryAnimation } from "siteConfig";
 
 export default function BlogSection({ title }) {
   return (
-    <section 
+    <motion.section 
+    {...sectionEntryAnimation}
     id="about-section"
     className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
       <h2 id="webdev" className="font-poppins text-4xl font-bold text-js-red">
@@ -35,7 +37,7 @@ export default function BlogSection({ title }) {
           <BlogLink />
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
 

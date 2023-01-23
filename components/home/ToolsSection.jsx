@@ -1,8 +1,11 @@
 import { SectionHeading } from "components/common";
+import { motion } from "framer-motion";
+import { sectionEntryAnimation } from "siteConfig";
 
 export default function ToolsSection({ title }) {
   return (
-    <section
+    <motion.section
+    {...sectionEntryAnimation}
       id="tools-section"
       className="mx-auto flex w-full max-w-page flex-col items-center gap-12"
     >
@@ -47,7 +50,7 @@ export default function ToolsSection({ title }) {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
 

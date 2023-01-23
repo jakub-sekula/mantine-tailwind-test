@@ -2,6 +2,7 @@ import { Chip, Hyperlink} from "components/common";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { nanoid } from "nanoid";
+import { sectionEntryAnimation } from "siteConfig";
 
 import {chips} from "siteConfig"
 
@@ -9,7 +10,9 @@ export default function HomepageSection({ title, cards, reverse }) {
   const [selected, setSelected] = useState(null);
 
   return (
-    <motion.section className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
+    <motion.section 
+    {...sectionEntryAnimation}
+    className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
       <h2 id="webdev-section" className="font-poppins text-4xl font-bold text-js-red">
         {title}
       </h2>

@@ -1,9 +1,11 @@
-import Link from "next/link";
 import { SectionHeading, ExperienceLine } from "components/common";
+import { sectionEntryAnimation } from "siteConfig";
+import { motion } from "framer-motion";
 
 export default function AboutSection({ title }) {
   return (
-    <section 
+    <motion.section 
+    {...sectionEntryAnimation}
     id="about-section"
     className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
       <h2 id="webdev" className="font-poppins text-4xl font-bold text-js-red">
@@ -58,7 +60,7 @@ export default function AboutSection({ title }) {
           />
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
 

@@ -1,12 +1,14 @@
 import { Hyperlink } from "components/common";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { customEaseTransition } from "siteConfig";
+import { customEaseTransition, sectionEntryAnimation } from "siteConfig";
 import Link from "next/link";
 
 export default function PhotographySection({ title }) {
+
   return (
-    <section
+    <motion.section
+      {...sectionEntryAnimation}
       id="photography-section"
       className="mx-auto flex w-full max-w-page flex-col items-center gap-12"
     >
@@ -25,7 +27,7 @@ export default function PhotographySection({ title }) {
         <PhotoCard img="images/experiments.jpg" title="experiments" />
       </div>
       <Hyperlink title="Go to photography page" href="/photography" />
-    </section>
+    </motion.section>
   );
 }
 
