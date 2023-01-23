@@ -1,8 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useSiteAnimationContext } from "components/providers/SiteAnimation";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect } from "react";
 import { heroBlockIds, disabledAnimationProps } from "siteConfig";
+import { useRouter } from "next/router";
 
 export default function Hero() {
   const { heroFinished, setHeroFinished, animationsDisabled } =
@@ -188,6 +188,7 @@ const variants = {
 };
 
 function HeroCard({ title, color, className, href, layoutId }) {
+  const router = useRouter();
   const colors = {
     red: "dark:border-js-red dark:text-js-red dark:bg-transparent bg-js-red text-white",
     green:
@@ -207,13 +208,14 @@ function HeroCard({ title, color, className, href, layoutId }) {
         ease: [0.36, 0.66, 0.04, 1],
       }}
       whileHover={{ scale: 1.025 }}
+      onClick={() => {
+        router.push(href);
+      }}
       className={`${className} ${colors[color]}
 	flex h-24 select-none items-center justify-center rounded-md font-poppins
-	text-4xl font-bold dark:border-2`}
+	text-4xl font-bold dark:border-2 cursor-pointer`}
     >
-      <Link scroll={false} href={href || ""}>
-        {title}
-      </Link>
+      {title}
     </motion.div>
   );
 }
