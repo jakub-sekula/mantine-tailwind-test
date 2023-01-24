@@ -49,7 +49,7 @@ export default function Hero() {
                 </span>{" "}
                 👋🏻
               </motion.h1>
-              <motion.p
+              <motion.h2
                 {...heroTextAnimation}
                 className=" text-2xl font-light "
               >
@@ -57,13 +57,13 @@ export default function Hero() {
                 , <span className="font-bold text-js-yellow">developer</span>,{" "}
                 <span className="font-bold text-js-blue">photographer</span>,
                 and <span className="font-bold text-js-red">maker</span>.
-              </motion.p>
-              <motion.p
+              </motion.h2>
+              <motion.h2
                 {...heroTextAnimation}
                 className="mb-24 text-2xl font-light"
               >
                 Welcome to my little corner of the Internet.
-              </motion.p>
+              </motion.h2>
             </motion.div>
             {/* Hero grid */}
             <motion.div

@@ -1,16 +1,19 @@
 import { Layout } from "components/layout";
 import { SectionHeading, ExperienceLine } from "components/common";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 
 export default function Cv() {
   return (
     <Layout>
-      <motion.section id="cv" className="relative mx-auto grid w-full max-w-page grid-cols-12 gap-8 py-16  ">
+      <motion.section
+        id="cv"
+        className="relative mx-auto grid w-full max-w-page grid-cols-12 gap-8 py-16  "
+      >
         <h1 className=" col-span-full row-start-1 mb-4 font-poppins text-4xl font-bold">
-          CV
+          Curriculum Vitae
         </h1>
-        <aside className="col-span-3 col-start-10 row-[span_7_/_span_7] row-start-2 w-full  ">
-          <ul className="sticky top-36 flex flex-col gap-4 text-right font-light">
+        <aside className="col-span-3 col-start-10 row-[span_7_/_span_7] row-start-2 w-full text-right font-light text-sm ">
+          <ul className="sticky top-36 flex flex-col gap-4 ">
             <li>
               <a href="#experience">Experience</a>
             </li>
@@ -31,12 +34,14 @@ export default function Cv() {
             </li>
           </ul>
         </aside>
-        <div id="experience" className="col-span-9 col-start-1 flex flex-col gap-2">
+        <article
+          id="experience"
+          className="col-span-9 col-start-1 flex flex-col gap-2"
+        >
           <SectionHeading
-            
             color="green"
             title="Professional Experience"
-            className="sticky top-20 w-full bg-white/95 py-3 backdrop-blur dark:bg-darkbg"
+            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -185,13 +190,16 @@ export default function Cv() {
               years="2019 - 2020"
             />
           </div>
-        </div>
+        </article>
 
-        <div id="education" className="col-span-9 col-start-1 flex flex-col gap-2">
+        <article
+          id="education"
+          className="col-span-9 col-start-1 flex flex-col gap-2"
+        >
           <SectionHeading
             color="yellow"
             title="Education"
-            className="sticky top-20 w-full bg-white/95 py-3 backdrop-blur dark:bg-darkbg"
+            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -340,12 +348,15 @@ export default function Cv() {
               years="2019 - 2020"
             />
           </div>
-        </div>
-        <div id="extracurriculars" className="col-span-9 col-start-1 flex flex-col gap-2">
+        </article>
+        <article
+          id="extracurriculars"
+          className="col-span-9 col-start-1 flex flex-col gap-2"
+        >
           <SectionHeading
             color="blue"
             title="Extracurriculars"
-            className="sticky top-20 w-full bg-white/95 py-3 backdrop-blur dark:bg-darkbg"
+            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -494,12 +505,15 @@ export default function Cv() {
               years="2019 - 2020"
             />
           </div>
-        </div>
-        <div id="skills" className="col-span-9 col-start-1 flex flex-col gap-2">
+        </article>
+        <article
+          id="skills"
+          className="col-span-9 col-start-1 flex flex-col gap-2"
+        >
           <SectionHeading
             color="red"
             title="Skills"
-            className="sticky top-20 w-full bg-white/95 py-3 backdrop-blur dark:bg-darkbg"
+            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -648,12 +662,15 @@ export default function Cv() {
               years="2019 - 2020"
             />
           </div>
-        </div>
-        <div id="certifications" className="col-span-9 col-start-1 flex flex-col gap-2">
+        </article>
+        <article
+          id="certifications"
+          className="col-span-9 col-start-1 flex flex-col gap-2"
+        >
           <SectionHeading
             color="green"
             title="Certifications"
-            className="sticky top-20 w-full bg-white/95 py-3 backdrop-blur dark:bg-darkbg"
+            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -802,12 +819,15 @@ export default function Cv() {
               years="2019 - 2020"
             />
           </div>
-        </div>
-        <div id="interests" className="col-span-9 col-start-1 flex flex-col gap-2">
+        </article>
+        <article
+          id="interests"
+          className="col-span-9 col-start-1 flex flex-col gap-2"
+        >
           <SectionHeading
             color="yellow"
             title="Interests"
-            className="sticky top-20 w-full bg-white/95 py-3 backdrop-blur dark:bg-darkbg"
+            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -956,7 +976,7 @@ export default function Cv() {
               years="2019 - 2020"
             />
           </div>
-        </div>
+        </article>
       </motion.section>
     </Layout>
   );

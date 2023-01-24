@@ -27,7 +27,7 @@ export default function Header() {
             <span className="text-js-blue">$</span>
           </span>
         </Link>
-        <div className="hidden flex-row items-center gap-14 md:flex ">
+        <nav className="hidden flex-row items-center gap-14 md:flex ">
           <Link
             scroll={false}
             className="relative font-sans font-bold uppercase after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
@@ -65,7 +65,7 @@ export default function Header() {
             CV
           </Link>
           <ColorSchemeToggle />
-        </div>
+        </nav>
       </div>
     </motion.header>
   );
