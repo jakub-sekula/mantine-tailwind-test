@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "@mantine/hooks";
 
 const SiteAnimationContext = createContext({
   HeroFinished: false,
@@ -197,7 +197,6 @@ export const SiteAnimationProvider = ({ children }) => {
     if (animationsDisabled !== undefined) {
       setMounted(true);
       setPrev(animationsDisabled);
-      console.log(animationsDisabled, prev);
       if (animationsDisabled === !prev && mounted) {
         router.reload();
       }
