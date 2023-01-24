@@ -1,12 +1,19 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useSiteAnimationContext } from "components/providers/SiteAnimation";
 import { useEffect } from "react";
-import { heroBlockIds, disabledAnimationProps } from "siteConfig";
 import { useRouter } from "next/router";
+import { motion, AnimatePresence } from "framer-motion";
+import { useSiteAnimationContext } from "components/providers";
+import { heroBlockIds } from "siteConfig";
 
 export default function Hero() {
-  const { heroFinished, setHeroFinished, animationsDisabled } =
-    useSiteAnimationContext();
+  const {
+    heroFinished,
+    setHeroFinished,
+    animationsDisabled,
+    disabledAnimationProps,
+    heroTextContainerAnimation,
+    heroGridAnimation,
+    heroTextAnimation,
+  } = useSiteAnimationContext();
 
   useEffect(() => {
     if (animationsDisabled) {
@@ -14,63 +21,12 @@ export default function Hero() {
     }
   }, [animationsDisabled, setHeroFinished]);
 
-  const gridAnimation = !animationsDisabled
-    ? {
-        initial: "hidden",
-        animate: "visible",
-        variants: {
-          visible: {
-            opacity: 1,
-            transition: {
-              delay: 2.75,
-              when: "beforeChildren",
-              staggerChildren: 0.1,
-            },
-          },
-          hidden: { opacity: 0 },
-        },
-      }
-    : disabledAnimationProps;
-
-  const heroTextAnimation = !animationsDisabled
-    ? {
-        variants: {
-          hidden: { opacity: 0, y: -16 },
-          visible: { opacity: 1, y: 0 },
-        },
-        transition: {
-          duration: 0.3,
-          ease: [0.36, 0.66, 0.04, 1],
-        },
-      }
-    : disabledAnimationProps;
-
-  const heroTextContainerAnimation = !animationsDisabled
-    ? {
-        initial: "hidden",
-        animate: "visible",
-        variants: {
-          visible: {
-            opacity: 1,
-            transition: {
-              delay: 0.5,
-              when: "beforeChildren",
-              staggerChildren: 0.75,
-            },
-          },
-          hidden: {
-            opacity: 0,
-          },
-        },
-      }
-    : disabledAnimationProps;
-
   return (
     <AnimatePresence initial={!heroFinished && !animationsDisabled}>
       <motion.section
         id="hero-section"
         key="hero-section"
-        className="flex w-full justify-center py-32 dark:bg-transparent"
+        className="flex w-full justify-center pt-32 dark:bg-transparent"
       >
         <div className="flex w-full  max-w-page flex-col items-center justify-center gap-8">
           <div className="flex w-full flex-col">
@@ -100,7 +56,7 @@ export default function Hero() {
                 I’m an <span className="font-bold text-js-green">engineer</span>
                 , <span className="font-bold text-js-yellow">developer</span>,{" "}
                 <span className="font-bold text-js-blue">photographer</span>,
-                and <span className="font-bold text-js-red">tinkerer</span>.
+                and <span className="font-bold text-js-red">maker</span>.
               </motion.p>
               <motion.p
                 {...heroTextAnimation}
@@ -111,7 +67,7 @@ export default function Hero() {
             </motion.div>
             {/* Hero grid */}
             <motion.div
-              {...gridAnimation}
+              {...heroGridAnimation}
               onAnimationComplete={() => {
                 setHeroFinished(true);
               }}
@@ -182,13 +138,9 @@ export default function Hero() {
   );
 }
 
-const variants = {
-  hidden: { opacity: 0, y: -16 },
-  visible: { opacity: 1, y: 0 },
-};
-
 function HeroCard({ title, color, className, href, layoutId }) {
   const router = useRouter();
+  const {heroCardAnimation} = useSiteAnimationContext()
   const colors = {
     red: "dark:border-js-red dark:text-js-red dark:bg-transparent bg-js-red text-white",
     green:
@@ -200,20 +152,15 @@ function HeroCard({ title, color, className, href, layoutId }) {
 
   return (
     <motion.div
+    {...heroCardAnimation}
       key={layoutId}
       layoutId={layoutId}
-      variants={variants}
-      transition={{
-        duration: 0.3,
-        ease: [0.36, 0.66, 0.04, 1],
-      }}
-      whileHover={{ scale: 1.025 }}
       onClick={() => {
         router.push(href);
       }}
       className={`${className} ${colors[color]}
-	flex h-24 select-none items-center justify-center rounded-md font-poppins
-	text-4xl font-bold dark:border-2 cursor-pointer`}
+	flex h-24 cursor-pointer select-none items-center justify-center rounded-md
+	font-poppins text-4xl font-bold dark:border-2`}
     >
       {title}
     </motion.div>

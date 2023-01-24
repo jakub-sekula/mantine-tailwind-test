@@ -92,11 +92,6 @@ export const chips = [
   { id: "chip-5", name: "Full stack" },
 ];
 
-export const customEaseTransition = {
-  type: "linear",
-  duration: 0.3,
-  ease: [0.36, 0.66, 0.04, 1],
-};
 
 export const heroBlockIds = [
   "94ae1f06-9a9f-11ed-a8fc-0242ac120002",
@@ -111,8 +106,3 @@ export const heroBlockIds = [
   "94ae4620-9a9f-11ed-a8fc-0242ac120002",
 ];
 
-export const disabledAnimationProps = {
-  initial: "visible",
-  animate: "visible",
-  exit: "visible",
-};

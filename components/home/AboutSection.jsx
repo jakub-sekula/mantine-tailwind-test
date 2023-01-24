@@ -1,8 +1,11 @@
-import { SectionHeading, ExperienceLine } from "components/common";
-import { sectionEntryAnimation } from "siteConfig";
 import { motion } from "framer-motion";
+import { SectionHeading, ExperienceLine } from "components/common";
+import { useSiteAnimationContext } from "components/providers";
+
 
 export default function AboutSection({ title }) {
+  const { sectionEntryAnimation } = useSiteAnimationContext()
+
   return (
     <motion.section 
     {...sectionEntryAnimation}

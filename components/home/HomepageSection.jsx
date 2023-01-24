@@ -2,11 +2,12 @@ import { Chip, Hyperlink} from "components/common";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { nanoid } from "nanoid";
-import { sectionEntryAnimation } from "siteConfig";
+import { useSiteAnimationContext } from "components/providers";
 
 import {chips} from "siteConfig"
 
 export default function HomepageSection({ title, cards, reverse }) {
+  const { sectionEntryAnimation } = useSiteAnimationContext()
   const [selected, setSelected] = useState(null);
 
   return (

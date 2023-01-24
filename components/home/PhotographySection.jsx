@@ -1,10 +1,11 @@
-import { Hyperlink } from "components/common";
-import { motion } from "framer-motion";
-import { useRouter } from "next/router";
-import { customEaseTransition, sectionEntryAnimation } from "siteConfig";
 import Link from "next/link";
+import { motion } from "framer-motion";
+
+import { Hyperlink } from "components/common";
+import { useSiteAnimationContext } from "components/providers";
 
 export default function PhotographySection({ title }) {
+  const { sectionEntryAnimation } = useSiteAnimationContext()
 
   return (
     <motion.section
@@ -32,14 +33,6 @@ export default function PhotographySection({ title }) {
 }
 
 function PhotoCard({ title = "Photo", img = "IMG_1933.jpg" }) {
-  const router = useRouter();
-
-  const activeCardAnimation = {
-    initial: "hidden",
-    animate: "visible",
-    exit: "hidden",
-    transition: customEaseTransition,
-  };
 
   return (
     <Link
@@ -48,7 +41,7 @@ function PhotoCard({ title = "Photo", img = "IMG_1933.jpg" }) {
       className="relative col-span-4 flex h-56 w-full flex-col items-center justify-center gap-4 overflow-hidden
     rounded-md border border-neutral-200 px-3 py-6 font-bold"
     >
-      <motion.div {...activeCardAnimation} key={`photocard-${title}`}>
+      <motion.div key={`photocard-${title}`}>
         <img
           src={img}
           alt={title}

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { Layout } from "components/layout";
 import {
   Hero,
@@ -7,15 +9,12 @@ import {
   BlogSection,
   PhotographySection,
 } from "components/home";
-
 import { webCards } from "siteConfig";
 import { engineeringCards } from "siteConfig";
-import { useEffect, useState } from "react";
-import { useSiteAnimationContext } from "components/providers";
 
 export default function Home() {
+  // If linked to specific section, (hash in url) scroll there on page load
   useEffect(() => {
-    // If linked to specific section, scroll there on page load
     if (window !== "undefined") {
       const hashId = window.location.hash;
 
@@ -39,9 +38,7 @@ export default function Home() {
   return (
     <Layout>
       <Hero />
-      <PhotographySection
-        title="Photography"
-      />
+      <PhotographySection title="Photography" />
       <HomepageSection title="Web Development" cards={webCards} />
       <HomepageSection
         title="Engineering & DIY"

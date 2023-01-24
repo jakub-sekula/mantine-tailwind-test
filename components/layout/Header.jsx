@@ -1,32 +1,10 @@
+import Link from "next/link";
+import { motion } from "framer-motion";
 import { ColorSchemeToggle, DotsLogo } from "components/common";
 import { useSiteAnimationContext } from "components/providers";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { disabledAnimationProps } from "siteConfig";
 
 export default function Header() {
-  const router = useRouter();
-  const { animationsDisabled } = useSiteAnimationContext();
-
-  const headerAnimation =
-    router.pathname === "/" && !animationsDisabled
-      ? {
-          initial: "hidden",
-          animate: "enter",
-          exit: "exit",
-          variants: {
-            hidden: { opacity: 0, y: -100 },
-            enter: { opacity: 1, x: 0, y: 0 },
-            exit: { opacity: 0, x: 0, y: 100 },
-          },
-          transition: {
-            delay: 4,
-            duration: 0.5,
-            ease: [0.36, 0.66, 0.04, 1],
-          },
-        }
-      : disabledAnimationProps;
+  const { headerAnimation } = useSiteAnimationContext();
 
   return (
     <motion.header

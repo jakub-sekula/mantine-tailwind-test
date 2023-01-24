@@ -1,8 +1,10 @@
 import { SectionHeading } from "components/common";
 import { motion } from "framer-motion";
-import { sectionEntryAnimation } from "siteConfig";
+import { useSiteAnimationContext } from "components/providers";
+
 
 export default function ToolsSection({ title }) {
+  const { sectionEntryAnimation } = useSiteAnimationContext()
   return (
     <motion.section
     {...sectionEntryAnimation}
