@@ -30,7 +30,6 @@ export default function Work() {
   }, []);
 
   useEffect(() => {
-    console.log("transition in work: ", defaultTransition);
     if (defaultTransition) setSelectedId(null);
   }, [defaultTransition]);
 
