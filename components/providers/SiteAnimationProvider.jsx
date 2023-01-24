@@ -14,11 +14,34 @@ export const SiteAnimationProvider = ({ children }) => {
   const router = useRouter();
   // const animationsDisabled = true
 
-  const customEaseTransition = {
-    type: "linear",
-    duration: 0.3,
-    ease: [0.36, 0.66, 0.04, 1],
-  };
+  const easingFunction = [0.36, 0.66, 0.04, 1];
+
+  const defaultPageTransition = !animationsDisabled
+  ? {
+      initial: "hidden",
+      animate: "enter",
+      exit: "exit",
+      variants: {
+        hidden: { opacity: 0, x: 200, y: 0 },
+        enter: { opacity: 1, x: 0, y: 0 },
+        exit: { opacity: 0, x: 0, y: -100 },
+      },
+      transition: {
+        type: "linear",
+        duration: 0.35,
+        ease: easingFunction,
+      },
+    }
+  : disabledAnimationProps;
+
+const alternatePageTransition = !animationsDisabled
+  ? {
+      transition: {
+        duration: 0.75,
+        ease: easingFunction,
+      },
+    }
+  : disabledAnimationProps;
 
   const disabledAnimationProps = {
     initial: "visible",
@@ -31,7 +54,7 @@ export const SiteAnimationProvider = ({ children }) => {
         initial: "hidden",
         animate: "hidden",
         whileInView: "visible",
-        transition: { ...customEaseTransition, delay: 0.2, duration: 0.5 },
+        transition: { ease: easingFunction, delay: 0.2, duration: 0.5 },
         viewport: { once: true },
         variants: {
           hidden: { opacity: 0, x: 20 },
@@ -46,7 +69,7 @@ export const SiteAnimationProvider = ({ children }) => {
         initial: "visible",
         animate: "visible",
         exit: "visible",
-        transition: customEaseTransition,
+        transition: easingFunction,
       }
     : disabledAnimationProps;
 
@@ -62,9 +85,9 @@ export const SiteAnimationProvider = ({ children }) => {
             exit: { opacity: 0, x: 0, y: 100 },
           },
           transition: {
-            delay: 4,
+            delay: heroFinished ? 0 : 4,
             duration: 0.5,
-            ease: [0.36, 0.66, 0.04, 1],
+            ease: easingFunction,
           },
         }
       : disabledAnimationProps;
@@ -95,7 +118,7 @@ export const SiteAnimationProvider = ({ children }) => {
         },
         transition: {
           duration: 0.3,
-          ease: [0.36, 0.66, 0.04, 1],
+          ease: easingFunction,
         },
       }
     : disabledAnimationProps;
@@ -133,37 +156,12 @@ export const SiteAnimationProvider = ({ children }) => {
         transition: {
           type: "linear",
           duration: 0.2,
-          ease: [0.36, 0.66, 0.04, 1],
+          ease: easingFunction,
         },
       }
     : disabledAnimationProps;
 
-  const defaultPageTransition = !animationsDisabled
-    ? {
-        initial: "hidden",
-        animate: "enter",
-        exit: "exit",
-        variants: {
-          hidden: { opacity: 0, x: 200, y: 0 },
-          enter: { opacity: 1, x: 0, y: 0 },
-          exit: { opacity: 0, x: 0, y: -100 },
-        },
-        transition: {
-          type: "linear",
-          duration: 0.4,
-          ease: [0.36, 0.66, 0.04, 1],
-        },
-      }
-    : disabledAnimationProps;
 
-  const alternatePageTransition = !animationsDisabled
-    ? {
-        transition: {
-          duration: 0.75,
-          ease: [0.36, 0.66, 0.04, 1],
-        },
-      }
-    : disabledAnimationProps;
 
   const otherCardAnimation = !animationsDisabled
     ? {
@@ -175,7 +173,7 @@ export const SiteAnimationProvider = ({ children }) => {
           enter: { opacity: 1 },
           exit: { opacity: 0, scale: 0.95 },
         },
-        transition: customEaseTransition,
+        transition: easingFunction,
       }
     : disabledAnimationProps;
 
@@ -187,7 +185,7 @@ export const SiteAnimationProvider = ({ children }) => {
         },
         transition: {
           duration: 0.3,
-          ease: [0.36, 0.66, 0.04, 1],
+          ease: easingFunction,
         },
         whileHover: { scale: 1.025 },
       }
@@ -211,7 +209,7 @@ export const SiteAnimationProvider = ({ children }) => {
             heroFinished,
             setHeroFinished,
             animationsDisabled,
-            customEaseTransition,
+            easingFunction,
             disabledAnimationProps,
             sectionEntryAnimation,
             activeCardAnimation,
