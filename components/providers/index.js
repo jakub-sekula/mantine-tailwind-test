@@ -1,5 +1,5 @@
 import Providers from "./Providers";
-import { SiteAnimationProvider } from "./SiteAnimation";
-import { useSiteAnimationContext } from "./SiteAnimation";
+import { SiteAnimationProvider } from "./SiteAnimationProvider";
+import { useSiteAnimationContext } from "./SiteAnimationProvider";
 
 export {Providers, SiteAnimationProvider, useSiteAnimationContext}
