@@ -2,46 +2,42 @@ import React, { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useReducedMotion } from "@mantine/hooks";
 
-const SiteAnimationContext = createContext({
-  HeroFinished: false,
-});
+const SiteAnimationContext = createContext();
 
-export const SiteAnimationProvider = ({ children }) => {
+export const AnimationContext = ({ children }) => {
   const [heroFinished, setHeroFinished] = useState(false);
   const [mounted, setMounted] = useState(false);
   const animationsDisabled = useReducedMotion();
   const [prev, setPrev] = useState(false);
   const router = useRouter();
-  // const animationsDisabled = true
 
   const easingFunction = [0.36, 0.66, 0.04, 1];
 
   const defaultPageTransition = !animationsDisabled
-  ? {
-      initial: "hidden",
-      animate: "enter",
-      exit: "exit",
-      variants: {
-        hidden: { opacity: 0, x: 200, y: 0 },
-        enter: { opacity: 1, x: 0, y: 0 },
-        exit: { opacity: 0, x: 0, y: -100 },
-      },
-      transition: {
-        type: "linear",
-        duration: 0.35,
-        ease: easingFunction,
-      },
-    }
-  : disabledAnimationProps;
+    ? {
+        initial: "hidden",
+        animate: "enter",
+        exit: "exit",
+        variants: {
+          hidden: { opacity: 0, x: 200, y: 0 },
+          enter: { opacity: 1, x: 0, y: 0 },
+          exit: { opacity: 0, x: 0, y: -100 },
+        },
+        transition: {
+          duration: 0.4,
+          ease: easingFunction,
+        },
+      }
+    : disabledAnimationProps;
 
-const alternatePageTransition = !animationsDisabled
-  ? {
-      transition: {
-        duration: 0.75,
-        ease: easingFunction,
-      },
-    }
-  : disabledAnimationProps;
+  const alternatePageTransition = !animationsDisabled
+    ? {
+        transition: {
+          duration: 0.75,
+          ease: easingFunction,
+        },
+      }
+    : disabledAnimationProps;
 
   const disabledAnimationProps = {
     initial: "visible",
@@ -54,11 +50,20 @@ const alternatePageTransition = !animationsDisabled
         initial: "hidden",
         animate: "hidden",
         whileInView: "visible",
-        transition: { ease: easingFunction, delay: 0.2, duration: 0.5 },
-        viewport: { once: true },
+        transition: {
+          ease: easingFunction,
+          delay: 0.15,
+          duration: 0.4,
+          // when: "beforeChildren",
+          staggerChildren: 0.05,
+        },
+        viewport: { 
+          once: true ,
+          margin: "-300px"
+        },
         variants: {
-          hidden: { opacity: 0, x: 20 },
-          visible: { opacity: 1, x: 0 },
+          hidden: { opacity: 0, y: -20 },
+          visible: { opacity: 1, y: 0 },
         },
       }
     : disabledAnimationProps;
@@ -110,6 +115,20 @@ const alternatePageTransition = !animationsDisabled
       }
     : disabledAnimationProps;
 
+  const cardEntryAnimation = !animationsDisabled
+    ? {
+        variants: {
+          hidden: { opacity: 0, y: -16 },
+          visible: { opacity: 1, y: 0 },
+        },
+        transition: {
+          duration: 0.2,
+          ease: easingFunction,
+        },
+        whileHover: { scale: 1.025 },
+      }
+    : disabledAnimationProps;
+
   const heroTextAnimation = !animationsDisabled
     ? {
         variants: {
@@ -154,14 +173,11 @@ const alternatePageTransition = !animationsDisabled
           exit: { opacity: 0, y: -10 },
         },
         transition: {
-          type: "linear",
           duration: 0.2,
           ease: easingFunction,
         },
       }
     : disabledAnimationProps;
-
-
 
   const otherCardAnimation = !animationsDisabled
     ? {
@@ -174,20 +190,6 @@ const alternatePageTransition = !animationsDisabled
           exit: { opacity: 0, scale: 0.95 },
         },
         transition: easingFunction,
-      }
-    : disabledAnimationProps;
-
-  const heroCardAnimation = !animationsDisabled
-    ? {
-        variants: {
-          hidden: { opacity: 0, y: -16 },
-          visible: { opacity: 1, y: 0 },
-        },
-        transition: {
-          duration: 0.3,
-          ease: easingFunction,
-        },
-        whileHover: { scale: 1.025 },
       }
     : disabledAnimationProps;
 
@@ -216,7 +218,7 @@ const alternatePageTransition = !animationsDisabled
             otherCardAnimation,
             headerAnimation,
             heroGridAnimation,
-            heroCardAnimation,
+            cardEntryAnimation,
             heroTextAnimation,
             heroTextContainerAnimation,
             darkModeButtonAnimation,
@@ -231,5 +233,5 @@ const alternatePageTransition = !animationsDisabled
   );
 };
 
-export const useSiteAnimationContext = () =>
+export const useAnimationContext = () =>
   React.useContext(SiteAnimationContext);

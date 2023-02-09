@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { useSiteAnimationContext } from "components/providers";
+import { useAnimationContext } from "components/contexts";
 
 export default function BlogSection({ title }) {
-  const {sectionEntryAnimation} = useSiteAnimationContext()
+  const {sectionEntryAnimation} = useAnimationContext()
 
   return (
     <motion.section 

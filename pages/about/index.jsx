@@ -2,12 +2,12 @@ import { Layout } from "components/layout";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSiteAnimationContext } from "components/providers";
+import { useAnimationContext } from "components/contexts";
 
 export default function About() {
   const router = useRouter();
   const [defaultTransition, setDefaultTransition] = useState(false);
-  const { activeCardAnimation, otherCardAnimation } = useSiteAnimationContext();
+  const { activeCardAnimation, otherCardAnimation } = useAnimationContext();
 
   useEffect(() => {
     setDefaultTransition(true);
@@ -22,7 +22,7 @@ export default function About() {
           {...activeCardAnimation}
           onClick={() => {
             setDefaultTransition(false);
-            router.push("/work");
+            router.push("/work", undefined, {scroll:false});
           }}
           className=" flex h-96 w-96 items-center justify-center rounded-md bg-js-blue text-center text-5xl font-bold"
         >

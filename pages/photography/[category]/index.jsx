@@ -2,7 +2,7 @@ import { Layout } from "components/layout";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { useSiteAnimationContext } from "components/providers";
+import { useAnimationContext } from "components/contexts";
 import Link from "next/link";
 
 export default function Page() {

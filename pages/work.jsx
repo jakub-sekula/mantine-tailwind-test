@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Layout } from "components/layout";
 import { useRouter } from "next/router";
 
-import { useSiteAnimationContext } from "components/providers";
+import { useAnimationContext } from "components/contexts";
 
 const selected = {
   initial: { opacity: 1 },
@@ -19,7 +19,7 @@ const others = {
 
 export default function Work() {
   const { activeCardAnimation, otherCardAnimation } =
-    useSiteAnimationContext();
+    useAnimationContext();
 
   const router = useRouter();
   const [defaultTransition, setDefaultTransition] = useState(false);
@@ -46,7 +46,7 @@ export default function Work() {
           {...activeCardAnimation}
           onClick={() => {
             setDefaultTransition(false);
-            router.push("/about");
+            router.push("/about", undefined, {scroll:false});
           }}
           className="col-span-4 flex h-20 items-center justify-center 
         rounded-md bg-js-yellow"

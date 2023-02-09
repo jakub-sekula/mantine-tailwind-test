@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ColorSchemeToggle, DotsLogo } from "components/common";
-import { useSiteAnimationContext } from "components/providers";
+import { useAnimationContext } from "components/contexts";
 
 export default function Header() {
-  const { headerAnimation } = useSiteAnimationContext();
+  const { headerAnimation } = useAnimationContext();
 
   return (
     <motion.header

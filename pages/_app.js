@@ -1,18 +1,27 @@
 import "/styles/globals.css";
+import { AnimatePresence } from "framer-motion";
 import { ThemeProvider } from "next-themes";
-import { Providers } from "components/providers";
-import { SiteAnimationProvider } from "components/providers";
+import { AnimationContext } from "components/contexts";
+import { Header, Footer } from "components/layout";
 
 export default function App({ Component, pageProps, router }) {
   return (
-    <SiteAnimationProvider>
+    <AnimationContext>
       <ThemeProvider attribute="class">
-        <Providers
-          Component={Component}
-          pageProps={pageProps}
-          router={router}
-        />
+        <AnimatePresence>
+          <Header />
+        </AnimatePresence>
+        <AnimatePresence
+          mode="wait"
+          initial={false}
+          onExitComplete={() => {
+            window.scrollTo(0, 0);
+          }}
+        >
+          <Component {...pageProps} key={router.pathname} />
+        </AnimatePresence>
+        <Footer />
       </ThemeProvider>
-    </SiteAnimationProvider>
+    </AnimationContext>
   );
 }

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useSiteAnimationContext } from "components/providers";
+import { useAnimationContext } from "components/contexts";
 
 export default function Layout({
   children,
@@ -7,7 +7,7 @@ export default function Layout({
   alternateTransition = {},
   className,
 }) {
-  const { defaultPageTransition } = useSiteAnimationContext();
+  const { defaultPageTransition } = useAnimationContext();
 
   let transitionProps = {};
 

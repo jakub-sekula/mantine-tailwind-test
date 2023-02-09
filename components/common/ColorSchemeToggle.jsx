@@ -2,11 +2,11 @@ import { IconSun, IconMoonStars } from "@tabler/icons";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useSiteAnimationContext } from "components/providers";
+import { useAnimationContext } from "components/contexts";
 
 export default function ColorSchemeToggle() {
   const { theme, systemTheme, resolvedTheme, setTheme } = useTheme();
-  const { darkModeButtonAnimation } = useSiteAnimationContext();
+  const { darkModeButtonAnimation } = useAnimationContext();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

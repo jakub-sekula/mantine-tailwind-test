@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSiteAnimationContext } from "components/providers";
+import { useAnimationContext } from "components/contexts";
 import { heroBlockIds } from "siteConfig";
 
 export default function Hero() {
@@ -9,11 +9,10 @@ export default function Hero() {
     heroFinished,
     setHeroFinished,
     animationsDisabled,
-    disabledAnimationProps,
     heroTextContainerAnimation,
     heroGridAnimation,
     heroTextAnimation,
-  } = useSiteAnimationContext();
+  } = useAnimationContext();
 
   useEffect(() => {
     if (animationsDisabled) {
@@ -140,7 +139,7 @@ export default function Hero() {
 
 function HeroCard({ title, color, className, href, layoutId }) {
   const router = useRouter();
-  const {heroCardAnimation} = useSiteAnimationContext()
+  const {cardEntryAnimation} = useAnimationContext()
   const colors = {
     red: "dark:border-js-red dark:text-js-red dark:bg-transparent bg-js-red text-white",
     green:
@@ -152,11 +151,11 @@ function HeroCard({ title, color, className, href, layoutId }) {
 
   return (
     <motion.div
-    {...heroCardAnimation}
+    {...cardEntryAnimation}
       key={layoutId}
       layoutId={layoutId}
       onClick={() => {
-        router.push(href);
+        router.push(href, undefined, {scroll:false});
       }}
       className={`${className} ${colors[color]}
 	flex h-24 cursor-pointer select-none items-center justify-center rounded-md
