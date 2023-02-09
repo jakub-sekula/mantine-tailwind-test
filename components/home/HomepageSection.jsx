@@ -1,20 +1,27 @@
-import { Chip, Hyperlink} from "components/common";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import { nanoid } from "nanoid";
+import slugify from "slugify";
+
+import { Chip, Hyperlink } from "components/common";
 import { useAnimationContext } from "components/contexts";
 
-import {chips} from "siteConfig"
+import { chips } from "siteConfig";
 
 export default function HomepageSection({ title, cards, reverse }) {
-  const { sectionEntryAnimation } = useAnimationContext()
+  const { sectionEntryAnimation } = useAnimationContext();
   const [selected, setSelected] = useState(null);
 
   return (
-    <motion.section 
-    {...sectionEntryAnimation}
-    className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
-      <h2 id="webdev-section" className="font-poppins text-4xl font-bold text-js-red">
+    <motion.section
+      // {...sectionEntryAnimation}
+      className="mx-auto flex w-full max-w-page flex-col items-center gap-12"
+    >
+      <h2
+        id={`${slugify(title).toLowerCase()}-section`}
+        className="font-poppins text-4xl font-bold text-js-red"
+      >
         {title}
       </h2>
       <div className="relative grid w-full grid-cols-12 gap-16  ">
@@ -45,7 +52,7 @@ export default function HomepageSection({ title, cards, reverse }) {
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
-            <Hyperlink href="/projects/web/internal-memo-board"/>
+            <Hyperlink href="/projects/web/internal-memo-board" />
           </div>
           <div
             className={`row-start-1 h-80 w-full rounded-md bg-js-yellow ${
@@ -53,7 +60,7 @@ export default function HomepageSection({ title, cards, reverse }) {
             }`}
           ></div>
         </div>
-        <div className="col-span-full row-start-2 flex gap-4 items-stretch">
+        <div className="col-span-full row-start-2 flex items-stretch gap-4">
           {cards.map((card) => {
             return (
               <HomepageProjectCard
@@ -74,12 +81,11 @@ export default function HomepageSection({ title, cards, reverse }) {
   );
 }
 
-
 const colors = {
-  red: "bg-js-red  border-js-red",
-  green: "bg-js-green  border-js-green",
+  red: "bg-js-red border-js-red",
+  green: "bg-js-green border-js-green",
   blue: " bg-js-blue border-js-blue",
-  yellow: "bg-js-yellow  border-js-yellowŚ",
+  yellow: "bg-js-yellow border-js-yellowŚ",
 };
 
 function HomepageProjectCard({
@@ -103,10 +109,22 @@ function HomepageProjectCard({
     >
       <ul className="absolute flex gap-2 p-3 ">
         {tags.map((tag, index) => {
-          return <Chip className=" bg-zinc-800 font-bold" name={tag} key={nanoid()}/>;
+          return (
+            <Chip
+              className=" bg-zinc-800 font-bold"
+              name={tag}
+              key={nanoid()}
+            />
+          );
         })}
       </ul>
-      <img src={img} alt={img} className="h-60 w-full" />
+      <Image
+        width={300}
+        height={600}
+        src={img}
+        alt={img}
+        className="h-60 w-full"
+      />
       <h4 className="w-1/2 p-4 font-poppins text-2xl font-bold">{title}</h4>
     </motion.div>
   );

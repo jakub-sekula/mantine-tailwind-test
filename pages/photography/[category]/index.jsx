@@ -1,9 +1,8 @@
-import { Layout } from "components/layout";
-import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import { useAnimationContext } from "components/contexts";
 import Link from "next/link";
+import Image from "next/image";
+
+import { Layout } from "components/layout";
 
 export default function Page() {
   const router = useRouter();
@@ -14,13 +13,15 @@ export default function Page() {
       <Link
         scroll={false}
         href="/#photography-section"
-        className="w-full py-36 min-h-[1000px] text-center text-5xl font-bold"
+        className="min-h-[1000px] w-full py-36 text-center text-5xl font-bold"
       >
         Photo category {category}
-        <img
+        <Image
+          width={2000}
+          height={500}
           alt={category}
           src={`/images/${category}.jpg`}
-          className="mx-auto w-[600px]"
+          className="mx-auto max-w-page max-h-[500px] -z-50 object-cover"
         />
       </Link>
     </Layout>

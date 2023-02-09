@@ -52,7 +52,7 @@ export const AnimationContext = ({ children }) => {
         whileInView: "visible",
         transition: {
           ease: easingFunction,
-          delay: 0.15,
+          // delay: 0.15,
           duration: 0.4,
           // when: "beforeChildren",
           staggerChildren: 0.05,
@@ -90,7 +90,7 @@ export const AnimationContext = ({ children }) => {
             exit: { opacity: 0, x: 0, y: 100 },
           },
           transition: {
-            delay: heroFinished ? 0 : 4,
+            // delay: heroFinished ? 0 : 4,
             duration: 0.5,
             ease: easingFunction,
           },
@@ -105,7 +105,7 @@ export const AnimationContext = ({ children }) => {
           visible: {
             opacity: 1,
             transition: {
-              delay: 2.75,
+              // delay: 2.75,
               when: "beforeChildren",
               staggerChildren: 0.1,
             },
@@ -150,9 +150,9 @@ export const AnimationContext = ({ children }) => {
           visible: {
             opacity: 1,
             transition: {
-              delay: 0.5,
+              // delay: 0.5,
               when: "beforeChildren",
-              staggerChildren: 0.75,
+              // staggerChildren: 0.75,
             },
           },
           hidden: {

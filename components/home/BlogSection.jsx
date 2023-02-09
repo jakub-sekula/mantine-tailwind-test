@@ -6,7 +6,7 @@ export default function BlogSection({ title }) {
 
   return (
     <motion.section 
-    {...sectionEntryAnimation}
+    // {...sectionEntryAnimation}
     id="about-section"
     className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
       <h2 id="webdev" className="font-poppins text-4xl font-bold text-js-red">

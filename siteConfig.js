@@ -2,7 +2,7 @@ export const webCards = [
   {
     id: "web-1",
     title: "Habit tracker",
-    img: "Frame 36.png",
+    img: "/IMG_1933.jpg",
     href: "",
     color: "blue",
     tags: ["NextJS", "Firebase", "Tailwind"],
@@ -10,7 +10,7 @@ export const webCards = [
   {
     id: "web-2",
     title: "Automating News",
-    img: "",
+    img: "/IMG_1933.jpg",
     href: "",
     color: "red",
     tags: ["NextJS", "Firebase", "Tailwind"],
@@ -18,7 +18,7 @@ export const webCards = [
   {
     id: "web-3",
     title: "Booking Sysetm",
-    img: "",
+    img: "/IMG_1933.jpg",
     href: "",
     color: "green",
     tags: ["NextJS", "Firebase", "Tailwind"],
@@ -26,7 +26,7 @@ export const webCards = [
   {
     id: "web-4",
     title: "Personal Site",
-    img: "",
+    img: "/IMG_1933.jpg",
     href: "",
     color: "yellow",
     tags: ["NextJS", "Firebase", "Tailwind"],
@@ -34,7 +34,7 @@ export const webCards = [
   {
     id: "web-5",
     title: "Spotify Stats",
-    img: "",
+    img: "/IMG_1933.jpg",
     href: "",
     color: "blue",
     tags: ["NextJS", "Firebase", "Tailwind"],
@@ -45,7 +45,7 @@ export const engineeringCards = [
   {
     id: "engineering-1",
     title: "Pallet Coasters",
-    img: "Frame 36.png",
+    img: "/IMG_1933.jpg",
     href: "",
     color: "blue",
     tags: ["NextJS", "Firebase", "Tailwind"],
@@ -53,7 +53,7 @@ export const engineeringCards = [
   {
     id: "engineering-2",
     title: "Neon Sign",
-    img: "Frame 36.png",
+    img: "/IMG_1933.jpg",
     href: "",
     color: "red",
     tags: ["NextJS", "Firebase", "Tailwind"],
@@ -61,7 +61,7 @@ export const engineeringCards = [
   {
     id: "engineering-3",
     title: "Wind Tunnel",
-    img: "Frame 36.png",
+    img: "/IMG_1933.jpg",
     href: "",
     color: "green",
     tags: ["NextJS", "Firebase", "Tailwind"],
@@ -69,7 +69,7 @@ export const engineeringCards = [
   {
     id: "engineering-4",
     title: "Film Scanner",
-    img: "Frame 36.png",
+    img: "/IMG_1933.jpg",
     href: "",
     color: "yellow",
     tags: ["NextJS", "Firebase", "Tailwind"],
@@ -77,7 +77,7 @@ export const engineeringCards = [
   {
     id: "engineering-5",
     title: "Copy Stand",
-    img: "Frame 36.png",
+    img: "/IMG_1933.jpg",
     href: "",
     color: "blue",
     tags: ["NextJS", "Firebase", "Tailwind"],

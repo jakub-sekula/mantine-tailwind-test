@@ -1,5 +1,7 @@
-import { SectionHeading } from "components/common";
+import Image from "next/image";
 import { motion } from "framer-motion";
+
+import { SectionHeading } from "components/common";
 import { useAnimationContext } from "components/contexts";
 
 
@@ -7,7 +9,7 @@ export default function ToolsSection({ title }) {
   const { sectionEntryAnimation } = useAnimationContext()
   return (
     <motion.section
-    {...sectionEntryAnimation}
+    // {...sectionEntryAnimation}
       id="tools-section"
       className="mx-auto flex w-full max-w-page flex-col items-center gap-12"
     >
@@ -62,7 +64,7 @@ function ToolCard({ name, img }) {
       className="flex flex-col items-center  justify-center gap-4
     rounded-md border border-neutral-200 px-3 py-6 font-bold"
     >
-      <img src={img} alt={name} className=" w-16" />
+      <Image src={img} alt={name} width={48} height={48} className="w-16" />
       <h6 className=" text-sm">{name}</h6>
     </div>
   );

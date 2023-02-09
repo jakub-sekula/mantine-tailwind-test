@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { motion } from "framer-motion";
+
 import { SectionHeading, ExperienceLine } from "components/common";
 import { useAnimationContext } from "components/contexts";
 
@@ -8,7 +10,7 @@ export default function AboutSection({ title }) {
 
   return (
     <motion.section 
-    {...sectionEntryAnimation}
+    // {...sectionEntryAnimation}
     id="about-section"
     className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
       <h2 id="webdev" className="font-poppins text-4xl font-bold text-js-red">
@@ -24,7 +26,7 @@ export default function AboutSection({ title }) {
         <div className="col-span-5 flex flex-col gap-4">
           <SectionHeading title="Education" color="yellow" />
           <div className="flex flex-col gap-2">
-            <img src="UoB.svg" alt="University of Birmingham logo" className=" w-36 select-none" />
+            <Image src="UoB.svg" alt="University of Birmingham logo" width={144} height={144} className=" w-36 select-none" />
             <div className="flex justify-between border-b border-neutral-200 pb-1">
               <h5>University of Birmingham</h5>
               <h6>2017 - 2022</h6>
