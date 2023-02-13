@@ -15,7 +15,7 @@ export default function ToolsSection({ title }) {
     >
       <h2
         id="webdev"
-        className="font-poppins text-4xl font-bold text-js-yellow"
+        className="font-heading text-4xl font-bold text-js-yellow"
       >
         {title}
       </h2>
@@ -23,34 +23,34 @@ export default function ToolsSection({ title }) {
         <div className="col-span-4 flex flex-col gap-4">
           <SectionHeading title="Frontend" color="red" />
           <div className="grid grid-cols-2 gap-2">
-            <ToolCard name="CSS" img="logos/css.svg" />
-            <ToolCard name="HTML" img="logos/html.svg" />
-            <ToolCard name="JavaScript" img="logos/js.svg" />
-            <ToolCard name="React JS" img="logos/react.svg" />
-            <ToolCard name="Next.js" img="logos/nextjs.svg" />
-            <ToolCard name="Tailwind CSS" img="logos/tailwind.svg" />
+            <ToolCard name="CSS" img="/logos/css.svg" />
+            <ToolCard name="HTML" img="/logos/html.svg" />
+            <ToolCard name="JavaScript" img="/logos/js.svg" />
+            <ToolCard name="React JS" img="/logos/react.svg" />
+            <ToolCard name="Next.js" img="/logos/nextjs.svg" />
+            <ToolCard name="Tailwind CSS" img="/logos/tailwind.svg" />
           </div>
         </div>
         <div className="col-span-4 flex flex-col gap-4">
           <SectionHeading title="Backend" color="green" />
           <div className="grid grid-cols-2 gap-2">
-            <ToolCard name="Node" img="logos/nodejs.svg" />
-            <ToolCard name="GraphQL" img="logos/graphql.svg" />
-            <ToolCard name="Python" img="logos/python.svg" />
-            <ToolCard name="Flask" img="logos/flask.svg" />
-            <ToolCard name="WordPress" img="logos/wordpress.svg" />
-            <ToolCard name="SQLite" img="logos/sqlite.svg" />
+            <ToolCard name="Node" img="/logos/nodejs.svg" />
+            <ToolCard name="GraphQL" img="/logos/graphql.svg" />
+            <ToolCard name="Python" img="/logos/python.svg" />
+            <ToolCard name="Flask" img="/logos/flask.svg" />
+            <ToolCard name="WordPress" img="/logos/wordpress.svg" />
+            <ToolCard name="SQLite" img="/logos/sqlite.svg" />
           </div>
         </div>
         <div className="col-span-4 flex flex-col gap-4">
           <SectionHeading title="General" color="blue" />
           <div className="grid grid-cols-2 gap-2">
-            <ToolCard name="Git" img="logos/git.svg" />
-            <ToolCard name="Linux" img="logos/linux.svg" />
-            <ToolCard name="Arduino" img="logos/arduino.svg" />
-            <ToolCard name="Figma" img="logos/figma.svg" />
-            <ToolCard name="Docker" img="logos/docker.svg" />
-            <ToolCard name="Bash" img="logos/bash.svg" />
+            <ToolCard name="Git" img="/logos/git.svg" />
+            <ToolCard name="Linux" img="/logos/linux.svg" />
+            <ToolCard name="Arduino" img="/logos/arduino.svg" />
+            <ToolCard name="Figma" img="/logos/figma.svg" />
+            <ToolCard name="Docker" img="/logos/docker.svg" />
+            <ToolCard name="Bash" img="/logos/bash.svg" />
           </div>
         </div>
       </div>

@@ -16,25 +16,21 @@ export default function HomepageSection({ title, cards, reverse }) {
   return (
     <motion.section
       // {...sectionEntryAnimation}
+      id={`${slugify(title).toLowerCase()}-section`}
       className="mx-auto flex w-full max-w-page flex-col items-center gap-12"
     >
-      <h2
-        id={`${slugify(title).toLowerCase()}-section`}
-        className="font-poppins text-4xl font-bold text-js-red"
-      >
-        {title}
-      </h2>
+      <h2 className="font-heading text-4xl font-semibold ">{title}</h2>
       <div className="relative grid w-full grid-cols-12 gap-16  ">
         <div
-          className="col-span-10 col-start-2 row-start-1 grid grid-cols-2
-        grid-rows-1 gap-12"
+          className="col-span-10 col-start-2 row-start-1 grid md:grid-cols-2
+        md:grid-rows-1 grid-rows-2 gap-12"
         >
           <div
-            className={`row-start-1 flex flex-col gap-4 ${
-              reverse ? "col-start-2" : "col-start-1"
+            className={`md:row-start-1 flex flex-col gap-4 ${
+              reverse ? "md:col-start-2" : "md:col-start-1"
             }`}
           >
-            <h3 className="font-poppins text-4xl font-bold">
+            <h3 className="font-heading text-2xl font-semibold leading-none sm:mb-4 sm:text-3xl">
               Internal memo board
             </h3>
             <ul className="flex gap-2">
@@ -46,17 +42,17 @@ export default function HomepageSection({ title, cards, reverse }) {
                 />
               ))}
             </ul>
-            <p className="font-light leading-6">
+            <p className="leading-normal md:text-lg md:leading-snug ">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
-            <Hyperlink href="/projects/web/internal-memo-board" />
+            <Hyperlink href="/projects/web/internal-memo-board" className="text-sm" />
           </div>
           <div
             className={`row-start-1 h-80 w-full rounded-md bg-js-yellow ${
-              reverse ? "col-start-1" : "col-start-2"
+              reverse ? "md:col-start-1" : "md:col-start-2"
             }`}
           ></div>
         </div>
@@ -105,9 +101,9 @@ function HomepageProjectCard({
       layoutId={id}
       whileTap={{ scale: 0.95 }}
       className={`${colors[color]}relative flex w-full flex-col overflow-hidden
-		 rounded-lg border-2 text-white `}
+		 rounded-lg  text-white `}
     >
-      <ul className="absolute flex gap-2 p-3 ">
+      {/* <ul className="absolute flex gap-2 p-3 ">
         {tags.map((tag, index) => {
           return (
             <Chip
@@ -117,7 +113,7 @@ function HomepageProjectCard({
             />
           );
         })}
-      </ul>
+      </ul> */}
       <Image
         width={300}
         height={600}
@@ -125,7 +121,7 @@ function HomepageProjectCard({
         alt={img}
         className="h-60 w-full"
       />
-      <h4 className="w-1/2 p-4 font-poppins text-2xl font-bold">{title}</h4>
+      <h4 className="w-1/2 p-4 font-heading text-2xl font-bold">{title}</h4>
     </motion.div>
   );
 }

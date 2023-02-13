@@ -9,7 +9,7 @@ export default function BlogSection({ title }) {
     // {...sectionEntryAnimation}
     id="about-section"
     className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
-      <h2 id="webdev" className="font-poppins text-4xl font-bold text-js-red">
+      <h2 id="webdev" className="font-heading text-4xl font-bold text-js-red">
         {title}
       </h2>
       <div className="relative grid w-full grid-cols-12 gap-12">
@@ -20,7 +20,7 @@ export default function BlogSection({ title }) {
               <span className="text-xs font-light text-neutral-500">
                 22 December 2022
               </span>
-              <h3 className="font-poppins text-2xl font-bold">
+              <h3 className="font-heading text-2xl font-bold">
                 This is a very long post title
               </h3>
             </div>
@@ -48,7 +48,7 @@ function BlogLink() {
     <div className="flex items-center gap-4 border-b border-neutral-300 pb-3">
       <div className="h-16 w-16 rounded-md bg-js-yellow" />
       <div className="flex flex-col">
-        <h3 className="font-poppins text-lg font-bold">
+        <h3 className="font-heading text-lg font-bold">
           This is a very long post title
         </h3>
         <span className="text-xs font-light text-neutral-500">

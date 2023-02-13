@@ -9,7 +9,7 @@ export default function Cv() {
         id="cv"
         className="relative mx-auto grid w-full max-w-page grid-cols-12 gap-8 py-16  "
       >
-        <h1 className=" col-span-full row-start-1 mb-4 font-poppins text-4xl font-bold">
+        <h1 className=" col-span-full row-start-1 mb-4 font-heading text-4xl font-bold">
           Curriculum Vitae
         </h1>
         <aside className="col-span-3 col-start-10 row-[span_7_/_span_7] row-start-2 w-full text-right font-light text-sm ">
@@ -41,7 +41,7 @@ export default function Cv() {
           <SectionHeading
             color="green"
             title="Professional Experience"
-            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
+            className="sticky top-24 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -199,7 +199,7 @@ export default function Cv() {
           <SectionHeading
             color="yellow"
             title="Education"
-            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
+            className="sticky top-24 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -356,7 +356,7 @@ export default function Cv() {
           <SectionHeading
             color="blue"
             title="Extracurriculars"
-            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
+            className="sticky top-24 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -513,7 +513,7 @@ export default function Cv() {
           <SectionHeading
             color="red"
             title="Skills"
-            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
+            className="sticky top-24 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -670,7 +670,7 @@ export default function Cv() {
           <SectionHeading
             color="green"
             title="Certifications"
-            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
+            className="sticky top-24 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine
@@ -827,7 +827,7 @@ export default function Cv() {
           <SectionHeading
             color="yellow"
             title="Interests"
-            className="sticky top-20 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
+            className="sticky top-24 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
           />
           <div className="flex flex-col gap-6">
             <ExperienceLine

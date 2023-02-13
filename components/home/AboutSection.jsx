@@ -13,7 +13,7 @@ export default function AboutSection({ title }) {
     // {...sectionEntryAnimation}
     id="about-section"
     className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
-      <h2 id="webdev" className="font-poppins text-4xl font-bold text-js-red">
+      <h2 id="webdev" className="font-heading text-4xl font-semibold ">
         {title}
       </h2>
       <div className="relative grid w-full grid-cols-12 gap-12  ">

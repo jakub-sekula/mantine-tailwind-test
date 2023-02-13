@@ -9,14 +9,14 @@ export default function Header() {
   return (
     <motion.header
       {...headerAnimation}
-      className="fixed top-0 z-50 flex h-20 w-full items-center justify-center border-b border-zinc-300 bg-white/90 
-    px-4 backdrop-blur-lg dark:border-0 dark:bg-[#111111]/90"
+      className="fixed top-0 z-50 flex h-24 w-full items-center justify-center border-b border-neutral-100 bg-lightbg/90 
+    px-4 backdrop-blur-lg dark:border-darktext/5 dark:bg-darkbg/90"
     >
       <div className="flex w-screen  max-w-[1400px]">
         <Link
           scroll={false}
           href="/"
-          className="mr-auto flex items-center gap-2 font-mono text-xl"
+          className="mx-auto md:mx-0 md:mr-auto flex flex-col md:flex-row items-center gap-2 font-mono text-lg md:text-xl"
         >
           <DotsLogo />
           <span className="font-bold">
@@ -30,7 +30,7 @@ export default function Header() {
         <nav className="hidden flex-row items-center gap-14 md:flex ">
           <Link
             scroll={false}
-            className="relative font-sans font-bold uppercase after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
+            className="relative font-sans font-bold  after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
                 after:bg-js-blue after:opacity-0 after:transition-all after:duration-300
                  hover:after:opacity-100"
             href="/work"
@@ -39,7 +39,7 @@ export default function Header() {
           </Link>
           <Link
             scroll={false}
-            className="relative font-sans font-bold uppercase after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
+            className="relative font-sans font-bold  after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
           after:bg-js-green after:opacity-0 after:transition-all after:duration-300
            hover:after:opacity-100"
             href="/about"
@@ -48,7 +48,7 @@ export default function Header() {
           </Link>
           <Link
             scroll={false}
-            className="relative font-sans font-bold uppercase after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
+            className="relative font-sans font-bold  after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
           after:bg-js-red after:opacity-0 after:transition-all after:duration-300
            hover:after:opacity-100"
             href="/blog"
@@ -57,7 +57,7 @@ export default function Header() {
           </Link>
           <Link
             scroll={false}
-            className="relative font-sans font-bold uppercase after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
+            className="relative font-sans font-bold  after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
           after:bg-js-yellow after:opacity-0 after:transition-all after:duration-300
            hover:after:opacity-100"
             href="/cv"
