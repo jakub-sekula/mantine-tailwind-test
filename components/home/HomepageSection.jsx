@@ -30,7 +30,7 @@ export default function HomepageSection({ title, cards, reverse }) {
               reverse ? "md:col-start-2" : "md:col-start-1"
             }`}
           >
-            <h3 className="font-heading text-2xl font-semibold leading-none sm:mb-4 sm:text-3xl">
+            <h3 className="font-heading text-2xl font-semibold leading-none mb-1 sm:text-3xl">
               Internal memo board
             </h3>
             <ul className="flex gap-2">
@@ -42,7 +42,7 @@ export default function HomepageSection({ title, cards, reverse }) {
                 />
               ))}
             </ul>
-            <p className="leading-normal md:text-lg md:leading-snug ">
+            <p className="leading-normal md:text-lg md:leading-snug font-light">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -103,17 +103,6 @@ function HomepageProjectCard({
       className={`${colors[color]}relative flex w-full flex-col overflow-hidden
 		 rounded-lg  text-white `}
     >
-      {/* <ul className="absolute flex gap-2 p-3 ">
-        {tags.map((tag, index) => {
-          return (
-            <Chip
-              className=" bg-zinc-800 font-bold"
-              name={tag}
-              key={nanoid()}
-            />
-          );
-        })}
-      </ul> */}
       <Image
         width={300}
         height={600}

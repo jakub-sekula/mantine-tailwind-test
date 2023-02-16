@@ -33,10 +33,10 @@ export default function PhotographySection({ title }) {
 
 function PhotoCard({ title = "Photo", img = "IMG_1933.jpg" }) {
   const { cardEntryAnimation } = useAnimationContext();
-  const router = useRouter();
 
   return (
     <Link
+    scroll={false}
       href={`/photography/${title}`}
       className="relative col-span-4 flex h-56 w-full flex-col items-center justify-center gap-4 overflow-hidden
     rounded-md border border-neutral-200 dark:border-0 px-3 py-6 font-bold"
@@ -53,16 +53,5 @@ function PhotoCard({ title = "Photo", img = "IMG_1933.jpg" }) {
         {title.toUpperCase()}
       </h6>
     </Link>
-    // <motion.div
-    //   // {...cardEntryAnimation}
-    //   onClick={() => {
-    //     router.push(`/photography/${title}`), undefined, { scroll: false };
-    //   }}
-    //   className="relative col-span-4 flex h-56 w-full flex-col items-center justify-center gap-4 overflow-hidden
-    // rounded-md border border-neutral-200 px-3 py-6 font-bold"
-    //   key={`photocard-${title}`}
-    // >
-
-    // </motion.div>
   );
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ColorSchemeToggle, DotsLogo } from "components/common";
 import { useAnimationContext } from "components/contexts";
+import { useRouter } from "next/router";
 
 export default function Header() {
   const { headerAnimation } = useAnimationContext();
@@ -16,7 +17,7 @@ export default function Header() {
         <Link
           scroll={false}
           href="/"
-          className="mx-auto md:mx-0 md:mr-auto flex flex-col md:flex-row items-center gap-2 font-mono text-lg md:text-xl"
+          className="mx-auto flex flex-col items-center gap-2 font-mono text-lg md:mx-0 md:mr-auto md:flex-row md:text-lg"
         >
           <DotsLogo />
           <span className="font-bold">
@@ -28,45 +29,39 @@ export default function Header() {
           </span>
         </Link>
         <nav className="hidden flex-row items-center gap-14 md:flex ">
-          <Link
-            scroll={false}
-            className="relative font-sans font-bold  after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
-                after:bg-js-blue after:opacity-0 after:transition-all after:duration-300
-                 hover:after:opacity-100"
-            href="/work"
-          >
-            My work
-          </Link>
-          <Link
-            scroll={false}
-            className="relative font-sans font-bold  after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
-          after:bg-js-green after:opacity-0 after:transition-all after:duration-300
-           hover:after:opacity-100"
-            href="/about"
-          >
-            About me
-          </Link>
-          <Link
-            scroll={false}
-            className="relative font-sans font-bold  after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
-          after:bg-js-red after:opacity-0 after:transition-all after:duration-300
-           hover:after:opacity-100"
-            href="/blog"
-          >
-            Blog
-          </Link>
-          <Link
-            scroll={false}
-            className="relative font-sans font-bold  after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
-          after:bg-js-yellow after:opacity-0 after:transition-all after:duration-300
-           hover:after:opacity-100"
-            href="/cv"
-          >
-            CV
-          </Link>
+          <NavLink label="My work" href="/work" color="blue" />
+          <NavLink label="About" href="/about" color="green" />
+          <NavLink label="CV" href="/cv" color="yellow" />
+          <NavLink label="Blog" href="/blog" color="red" />
           <ColorSchemeToggle />
         </nav>
       </div>
     </motion.header>
   );
 }
+
+function NavLink({ label, href, color, ...props }) {
+  const router = useRouter();
+  const selected = router.pathname === href;
+  return (
+    <Link
+      {...props}
+      scroll={false}
+      className={`relative font-sans  after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[3px] after:w-full
+           after:opacity-0 after:transition-all after:duration-300
+           hover:after:opacity-100 ${selected ? "after:opacity-100" : null} ${
+        COLORS?.[color]
+      }`}
+      href={href}
+    >
+      {label}
+    </Link>
+  );
+}
+
+const COLORS = {
+  red: "after:bg-js-red",
+  green: "after:bg-js-green",
+  blue: "after:bg-js-blue",
+  yellow: "after:bg-js-yellow",
+};

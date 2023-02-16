@@ -94,24 +94,23 @@ export default function Hero() {
 }
 
 function HeroCard({ title, color, className, href, layoutId }) {
-  const router = useRouter();
   const { cardEntryAnimation } = useAnimationContext();
   const colors = {
-    red: "dark:border-js-red dark:text-js-red dark:bg-transparent bg-js-red text-rose-900",
+    red: "border-js-red text-js-red ",
     green:
-      "dark:border-js-green dark:text-js-green dark:bg-transparent bg-js-green text-green-900",
-    blue: "dark:border-js-blue dark:text-js-blue dark:bg-transparent bg-js-blue text-cyan-900",
+      "border-js-green text-js-green",
+    blue: "border-js-blue text-js-blue",
     yellow:
-      "dark:border-js-yellow dark:text-js-yellow dark:bg-transparent bg-js-yellow text-yellow-900",
+      "border-js-yellow text-js-yellow",
   };
 
   return (
     <Link
       href={href}
       scroll={false}
-      className={`${className} ${colors[color]}
+      className={`${className} ${colors[color] || "border-text/5"}
     flex grow cursor-pointer select-none items-center justify-center rounded-lg py-2
-    px-6 text-center font-heading text-sm font-semibold dark:border md:text-lg`}
+    px-6 text-center font-heading text-sm font-semibold border md:text-lg`}
     >
       {title}
     </Link>

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-import { SectionHeading, ExperienceLine } from "components/common";
+import { SectionHeading } from "components/common";
+import { ExperienceLine } from "components/cv";
 import { useAnimationContext } from "components/contexts";
 
 
