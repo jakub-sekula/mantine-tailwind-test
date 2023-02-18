@@ -12,8 +12,10 @@ import {
 import { webCards } from "siteConfig";
 import { engineeringCards } from "siteConfig";
 
-export default function Home() {
-  // If linked to specific section, (hash in url) scroll there on page load
+export default function Home({tools}) {
+    // If linked to specific section, (hash in url) scroll there on page load
+  console.log(tools)
+
   useEffect(() => {
     if (window !== "undefined") {
       const hashId = window.location.hash;
@@ -46,8 +48,30 @@ export default function Home() {
         reverse
       />
       <AboutSection title="About me" />
-      <ToolsSection title="Tools and Skills" />
+      <ToolsSection title="Tools and Skills" tools={tools} />
       <BlogSection title="Recent blog posts" />
     </Layout>
   );
+}
+
+
+export async function getStaticProps(){
+  const headers = new Headers({
+    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+  });
+
+  let res = await fetch(
+    "http://localhost:1337/api/tools?populate[tools][populate]=*",
+    { headers }
+  );
+
+  let resJson = await res.json();
+
+  console.log(resJson.data)
+
+  return {
+    props: {
+      tools: resJson.data,
+    },
+  };
 }
