@@ -18,7 +18,10 @@ export default function Cv() {
         <aside className="col-span-3 col-start-10 row-[span_7_/_span_7] row-start-2 w-full text-right text-sm font-light ">
           <ul className="sticky top-36 flex flex-col gap-4 ">
             {CVData.map((category) => (
-              <li className="underline">
+              <li
+                className="underline"
+                key={`${category.title}-${category.id}-sidebar`}
+              >
                 <a href={`#${slugify(category.title).toLowerCase()}`}>
                   {category.title}
                 </a>
@@ -29,6 +32,7 @@ export default function Cv() {
         {CVData.map((category) => {
           return (
             <section
+              key={`${category.title}-${category.id}-main`}
               id={slugify(category.title).toLowerCase()}
               className="col-span-9 col-start-1 flex flex-col"
             >
@@ -39,7 +43,7 @@ export default function Cv() {
               />
               <div className="flex flex-col gap-5">
                 {category.items.map((item) => {
-                  return <ExperienceLine item={item} />;
+                  return <ExperienceLine key={`${JSON.stringify(item)}`} item={item} />;
                 })}
               </div>
             </section>

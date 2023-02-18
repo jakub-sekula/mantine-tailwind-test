@@ -1,24 +1,24 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ColorSchemeToggle, DotsLogo } from "components/common";
-import { useAnimationContext } from "components/contexts";
 import { useRouter } from "next/router";
 
-export default function Header() {
-  const { headerAnimation } = useAnimationContext();
+export default function Header({fixed,transparent,dark}) {
 
   return (
     <motion.header
-      {...headerAnimation}
-      className="fixed top-0 z-50 flex h-24 w-full items-center justify-center border-b border-neutral-100 bg-lightbg/90 
-    px-4 backdrop-blur-lg dark:border-darktext/5 dark:bg-darkbg/90"
+      className={`${fixed === true ? "fixed" : "absolute"}
+      ${transparent === true ? "bg-gradient-to-b from-darkbg/40 pb-px border-transparent" : "border-b border-neutral-100 bg-lightbg/90 px-4 backdrop-blur-lg dark:border-darktext/5 dark:bg-darkbg/90"}
+      ${dark === true ?"text-darktext" : ""}
+      top-0 z-50 flex h-24 w-full items-center justify-center
+      transition-colors duration-200 `}
     >
       <div className="flex w-screen  max-w-[1400px]">
         <Link
           scroll={false}
           href="/"
           className="mx-auto flex flex-col items-center gap-2 font-mono text-lg md:mx-0 md:mr-auto md:flex-row md:text-lg"
-        >
+          >
           <DotsLogo />
           <span className="font-bold">
             <span className="text-js-yellow">

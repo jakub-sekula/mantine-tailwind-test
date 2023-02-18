@@ -1,22 +1,14 @@
 import Image from "next/image";
-import { motion } from "framer-motion";
 
 import { SectionHeading } from "components/common";
 import { ExperienceLine } from "components/cv";
-import { useAnimationContext } from "components/contexts";
+import SectionContainer from "./SectionContainer";
 
 
 export default function AboutSection({ title }) {
-  const { sectionEntryAnimation } = useAnimationContext()
 
   return (
-    <motion.section 
-    // {...sectionEntryAnimation}
-    id="about-section"
-    className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
-      <h2 id="webdev" className="font-heading text-4xl font-semibold ">
-        {title}
-      </h2>
+    <SectionContainer title="About me">
       <div className="relative grid w-full grid-cols-12 gap-12  ">
         <p className="col-span-full text-center  font-light leading-6">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -66,7 +58,7 @@ export default function AboutSection({ title }) {
           />
         </div>
       </div>
-    </motion.section>
+    </SectionContainer>
   );
 }
 

@@ -44,7 +44,7 @@ module.exports = {
         underline: 'underline 1s 7.5s backwards ease-in-out',
       },
       maxWidth: {
-        'page': '1200px',
+        'page': '1350px',
       }
     },
   },

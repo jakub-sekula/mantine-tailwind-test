@@ -13,6 +13,15 @@ export const AnimationContext = ({ children }) => {
 
   const easingFunction = [0.36, 0.66, 0.04, 1];
 
+  const disabledAnimationProps = {
+    initial: "visible",
+    animate: "visible",
+    exit: "visible",
+    transition: {
+      duration: 0
+    }
+  };
+
   const defaultPageTransition = !animationsDisabled
     ? {
         initial: "hidden",
@@ -39,11 +48,6 @@ export const AnimationContext = ({ children }) => {
       }
     : disabledAnimationProps;
 
-  const disabledAnimationProps = {
-    initial: "visible",
-    animate: "visible",
-    exit: "visible",
-  };
 
   const sectionEntryAnimation = !animationsDisabled
     ? {

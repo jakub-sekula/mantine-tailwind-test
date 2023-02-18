@@ -1,17 +1,12 @@
 import { motion } from "framer-motion";
 import { useAnimationContext } from "components/contexts";
+import SectionContainer from "./SectionContainer";
 
 export default function BlogSection({ title }) {
   const {sectionEntryAnimation} = useAnimationContext()
 
   return (
-    <motion.section 
-    // {...sectionEntryAnimation}
-    id="about-section"
-    className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
-      <h2 id="webdev" className="font-heading text-4xl font-bold text-js-red">
-        {title}
-      </h2>
+    <SectionContainer title="Blog">
       <div className="relative grid w-full grid-cols-12 gap-12">
         <div className="col-span-6 flex flex-col gap-4">
           <div className="flex flex-col gap-2">
@@ -39,7 +34,7 @@ export default function BlogSection({ title }) {
           <BlogLink />
         </div>
       </div>
-    </motion.section>
+    </SectionContainer>
   );
 }
 

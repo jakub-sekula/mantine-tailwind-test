@@ -3,22 +3,13 @@ import { motion } from "framer-motion";
 
 import { SectionHeading } from "components/common";
 import { useAnimationContext } from "components/contexts";
+import SectionContainer from "./SectionContainer";
 
 
 export default function ToolsSection({ title }) {
   const { sectionEntryAnimation } = useAnimationContext()
   return (
-    <motion.section
-    // {...sectionEntryAnimation}
-      id="tools-section"
-      className="mx-auto flex w-full max-w-page flex-col items-center gap-12"
-    >
-      <h2
-        id="webdev"
-        className="font-heading text-4xl font-bold text-js-yellow"
-      >
-        {title}
-      </h2>
+    <SectionContainer title="Tools">
       <div className="relative grid w-full grid-cols-12 gap-12  ">
         <div className="col-span-4 flex flex-col gap-4">
           <SectionHeading title="Frontend" color="red" />
@@ -54,7 +45,7 @@ export default function ToolsSection({ title }) {
           </div>
         </div>
       </div>
-    </motion.section>
+    </SectionContainer>
   );
 }
 

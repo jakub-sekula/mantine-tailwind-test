@@ -38,8 +38,8 @@ export default function Hero() {
           <Image
             src="/me.png"
             width={600}
-            height={275}
-            className="mb-8 w-56 rounded-full bg-js-yellow sm:w-64 md:w-72"
+            height={600}
+            className="mb-8 w-56 h-56 shrink-0 rounded-full bg-js-yellow sm:w-64 sm:h-64 md:w-72 md:h-72"
           />
 
           <motion.h1 className="mb-2 font-heading text-2xl font-semibold leading-none sm:mb-4 sm:text-3xl lg:text-4xl">

@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['localhost'],
+  },
 }
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({

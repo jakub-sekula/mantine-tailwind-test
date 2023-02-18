@@ -8,18 +8,14 @@ import { Chip, Hyperlink } from "components/common";
 import { useAnimationContext } from "components/contexts";
 
 import { chips } from "siteConfig";
+import SectionContainer from "./SectionContainer";
 
 export default function HomepageSection({ title, cards, reverse }) {
   const { sectionEntryAnimation } = useAnimationContext();
   const [selected, setSelected] = useState(null);
 
   return (
-    <motion.section
-      // {...sectionEntryAnimation}
-      id={`${slugify(title).toLowerCase()}-section`}
-      className="mx-auto flex w-full max-w-page flex-col items-center gap-12"
-    >
-      <h2 className="font-heading text-4xl font-semibold ">{title}</h2>
+    <SectionContainer title={title}>
       <div className="relative grid w-full grid-cols-12 gap-16  ">
         <div
           className="col-span-10 col-start-2 row-start-1 grid md:grid-cols-2
@@ -73,7 +69,7 @@ export default function HomepageSection({ title, cards, reverse }) {
           })}
         </div>
       </div>
-    </motion.section>
+    </SectionContainer>
   );
 }
 

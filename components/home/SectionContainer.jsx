@@ -1,0 +1,16 @@
+import { motion } from "framer-motion";
+
+export default function SectionContainer({ title = "title" ,children}) {
+  return (
+    <motion.section
+      // {...sectionEntryAnimation}
+      id={`${title}-section`}
+      className="mx-auto flex w-full max-w-page flex-col items-center gap-12 my-16"
+    >
+      <h2 id="webdev" className="font-heading text-4xl font-semibold ">
+        {title}
+      </h2>
+	  {children}
+    </motion.section>
+  );
+}

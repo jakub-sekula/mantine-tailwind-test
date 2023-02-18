@@ -4,6 +4,7 @@ import AboutSection from "./AboutSection";
 import ToolsSection from "./ToolsSection";
 import BlogSection from "./BlogSection";
 import PhotographySection from "./PhotographySection";
+import { PhotoCard } from "./PhotographySection";
 
 export {
   Hero,
@@ -11,5 +12,6 @@ export {
   AboutSection,
   ToolsSection,
   BlogSection,
-  PhotographySection
+  PhotographySection,
+  PhotoCard
 };

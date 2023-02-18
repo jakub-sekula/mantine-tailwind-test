@@ -13,20 +13,15 @@ export default function ColorSchemeToggle() {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return null;
-  }
   const toggleColorScheme = (value) => {
     const currentTheme = theme === "system" ? systemTheme : theme;
     setTheme(value || (currentTheme === "dark" ? "light" : "dark"));
   };
 
-  
-
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.button
-        className="text-text dark:text-js-yellow"
+        className="w-[18px] h-[18px]"
         onClick={() => toggleColorScheme()}
         key={resolvedTheme === "dark" ? "dark-icon" : "light-icon"}
         {...darkModeButtonAnimation}

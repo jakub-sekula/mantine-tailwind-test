@@ -1,25 +1,15 @@
-import { useRouter } from "next/router";
 import Image from "next/image";
-import { motion } from "framer-motion";
 
 import { Hyperlink } from "components/common";
-import { useAnimationContext } from "components/contexts";
 import Link from "next/link";
+import SectionContainer from "./SectionContainer";
 
 export default function PhotographySection({ title }) {
-  const { sectionEntryAnimation } = useAnimationContext();
 
   return (
-    <motion.section
-      // {...sectionEntryAnimation}
-      id="photography-section"
-      className="mx-auto flex w-full max-w-page flex-col items-center gap-12"
-    >
-      <h2 id={title} className="font-heading text-4xl font-semibold text-js-yellow">
-        {title}
-      </h2>
+    <SectionContainer title="Photography">
       <div className="relative grid w-full grid-cols-12 gap-4">
-        <PhotoCard img="/images/travel.jpg" title="travel" />
+        <PhotoCard img="/images/thailand.jpg" title="thailand" />
         <PhotoCard img="/images/architecture.jpg" title="architecture" />
         <PhotoCard img="/images/analogue.jpg" title="analogue" />
         <PhotoCard img="/images/monochrome.jpg" title="monochrome" />
@@ -27,19 +17,17 @@ export default function PhotographySection({ title }) {
         <PhotoCard img="/images/experiments.jpg" title="experiments" />
       </div>
       <Hyperlink title="Go to photography page" href="/photography" />
-    </motion.section>
+    </SectionContainer>
   );
 }
 
-function PhotoCard({ title = "Photo", img = "IMG_1933.jpg" }) {
-  const { cardEntryAnimation } = useAnimationContext();
-
+export function PhotoCard({ title = "Photo", img = "IMG_1933.jpg" }) {
   return (
     <Link
     scroll={false}
       href={`/photography/${title}`}
-      className="relative col-span-4 flex h-56 w-full flex-col items-center justify-center gap-4 overflow-hidden
-    rounded-md border border-neutral-200 dark:border-0 px-3 py-6 font-bold"
+      className="relative col-span-4 flex h-64 w-full flex-col items-center justify-center gap-4 overflow-hidden
+    rounded-md border border-neutral-200 dark:border-0 px-3 py-6 font-bold group"
       key={`photocard-${title}`}
     >
       <Image
@@ -47,10 +35,11 @@ function PhotoCard({ title = "Photo", img = "IMG_1933.jpg" }) {
         height={100}
         src={img}
         alt={title}
-        className="absolute inset-0 -z-10 h-full w-full"
+        className="absolute -z-10 w-full h-full group-hover:scale-105 transition-transform"
       />
-      <h6 className="z-10 font-heading text-4xl font-bold text-white">
-        {title.toUpperCase()}
+      <div className="absolute inset-0 bg-gradient-to-tr from-darkbg/50 "/>
+      <h6 className="z-10 font-heading text-2xl font-semibold text-white uppercase">
+        {title}
       </h6>
     </Link>
   );
