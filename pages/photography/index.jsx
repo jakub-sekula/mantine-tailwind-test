@@ -20,9 +20,10 @@ export default function Page({ data, instagramData }) {
         <h2 className="col-span-full text-center">
           Latest photos from my Instagram
         </h2>
-        {instagramData.map((item) => (
-          <img className="col-span-2 rounded-sm" src={item.media_url} />
-        ))}
+        {!!instagramData &&
+          instagramData.map((item) => (
+            <img className="col-span-2 rounded-sm" src={item.media_url} />
+          ))}
       </div>
     </Layout>
   );
@@ -60,12 +61,15 @@ export async function getStaticProps(ctx) {
     { headers: instagramHeaders }
   );
 
-  let instagramResJson = await instagramRes.json();
+  let instagramResJson;
+  if (instagramRes.ok) {
+    instagramResJson = await instagramRes.json();
+  }
 
   return {
     props: {
       data: strapiResJson.data,
-      instagramData: instagramResJson.data.slice(0, 6),
+      instagramData: !!instagramResJson && instagramResJson.data.slice(0, 6),
     },
   };
 }
