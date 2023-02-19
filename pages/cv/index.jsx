@@ -13,30 +13,50 @@ import { useState } from "react";
 import { IconDownload } from "@tabler/icons";
 
 export default function Cv({ data }) {
-  console.log(data);
   return (
     <Layout>
       <motion.section
         id="cv"
-        className="relative mx-auto grid w-full max-w-page grid-cols-12 pt-8"
+        className="relative mx-auto grid w-full max-w-page grid-cols-12 px-6 pt-8 xl:px-2 2xl:px-0 "
       >
         <h1 className="col-span-full row-start-1 font-heading text-2xl font-bold md:text-4xl">
           Curriculum Vitae
         </h1>
         <a
-          href={`${process.env.NEXT_PUBLIC_API_URL}${data.cv_pdf.data.attributes.url}`}
-          target="_blank"
-          referrerPolicy="noreferrer"
-          className="my-2 flex h-min w-max cursor-pointer select-none items-center
+                  href={`${process.env.NEXT_PUBLIC_API_URL}${data.cv_pdf.data.attributes.url}`}
+                  target="_blank"
+                  referrerPolicy="noreferrer"
+                  className="lg:hidden ml-auto mt-4 flex h-min w-max cursor-pointer select-none items-center
           justify-center gap-2 rounded-md border border-text py-2 px-4
           text-center text-xs transition-all duration-200 hover:-translate-y-[2px]
         dark:border-darktext"
+                >
+                  <IconDownload size={16} />
+                  Download PDF
+                </a>
+        <aside
+          className="row-[span_7_/_span_7] row-start-2 mt-4 hidden w-full flex-col pt-4 text-right text-sm
+        font-light lg:col-span-3 lg:col-start-10 lg:block "
         >
-          <IconDownload size={16} />
-          Download PDF
-        </a>
-        <aside className="row-[span_7_/_span_7] row-start-3 hidden w-full text-right text-sm font-light lg:col-span-3 lg:col-start-10 lg:block ">
-          <TableOfContents />
+          <nav aria-label="Table of contents" className="sticky top-36">
+            <ul className="flex flex-col">
+              <TableOfContents />
+              <li>
+                <a
+                  href={`${process.env.NEXT_PUBLIC_API_URL}${data.cv_pdf.data.attributes.url}`}
+                  target="_blank"
+                  referrerPolicy="noreferrer"
+                  className=" ml-auto mt-4 flex h-min w-max cursor-pointer select-none items-center
+          justify-center gap-2 rounded-md border border-text py-2 px-4
+          text-center text-xs transition-all duration-200 hover:-translate-y-[2px]
+        dark:border-darktext"
+                >
+                  <IconDownload size={16} />
+                  Download PDF
+                </a>
+              </li>
+            </ul>
+          </nav>
         </aside>
 
         {data.sections.map((section) => {
@@ -94,28 +114,30 @@ const TableOfContents = () => {
   useIntersectionObserver(setActiveId);
 
   return (
-    <nav aria-label="Table of contents" className="sticky top-36">
-      <ul className="flex flex-col gap-4">
-        {nestedHeadings.map((heading) => (
-          <li
-            key={heading.id}
-            className={heading.id === activeId ? "font-bold" : ""}
+    <>
+      {nestedHeadings.map((heading) => (
+        <li
+          key={heading.id}
+          className={`${
+            heading.id === activeId
+              ? "border-js-yellow  font-bold"
+              : "border-text/10 dark:border-darktext/10 "
+          } border-r-2 py-2 pr-4 transition-all duration-500`}
+        >
+          <a
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector(`#${heading.id}`).scrollIntoView({
+                behavior: "smooth",
+              });
+            }}
+            href={`#${heading.id}`}
           >
-            <a
-              onClick={(e) => {
-                e.preventDefault();
-                document.querySelector(`#${heading.id}`).scrollIntoView({
-                  behavior: "smooth",
-                });
-              }}
-              href={`#${heading.id}`}
-            >
-              {heading.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+            {heading.title}
+          </a>
+        </li>
+      ))}
+    </>
   );
 };
 
@@ -145,8 +167,6 @@ export async function getStaticProps() {
   });
 
   const resJson = await res.json();
-
-  console.log(resJson.data.attributes.sections);
 
   return {
     props: {
