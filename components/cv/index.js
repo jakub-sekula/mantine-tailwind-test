@@ -1,4 +1,4 @@
-import { CVBullets } from "./CVBullets";
-import { ExperienceLine } from "./ExperienceLine";
+import { ExperienceLine, BulletsOnly, InlineList } from "./CVItems";
+import {useHeadingsData, useIntersectionObserver} from "./hooks"
 
-export { CVBullets, ExperienceLine };
+export { ExperienceLine , BulletsOnly, InlineList, useHeadingsData, useIntersectionObserver}

@@ -9,3 +9,7 @@
 ::selection {
   background: #fed557;
 }
+
+h2 {
+  scroll-margin-top: 7rem;
+}
