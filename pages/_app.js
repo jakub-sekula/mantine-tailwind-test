@@ -8,7 +8,7 @@ export default function App({ Component, pageProps, router }) {
 
   return (
     <AnimationContext>
-      <ThemeProvider attribute="class">
+      <ThemeProvider attribute="class" disableTransitionOnChange>
         <LayoutProvider>
           <AnimatePresence
             mode="wait"

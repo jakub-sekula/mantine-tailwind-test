@@ -27,7 +27,7 @@ export default function Layout({
         {...transitionProps}
         key="layout"
         className={`relative mt-20 flex h-full w-full flex-col
-      items-center  ${className && className}`}
+      items-center px-6 xl:px-2 2xl:px-0  ${className && className}`}
       >
         {children}
       </motion.main>

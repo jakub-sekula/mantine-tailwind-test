@@ -41,21 +41,7 @@ export default function AboutSection({ title }) {
         </div>
         <div className="col-span-7 flex flex-col gap-4 ">
           <SectionHeading title="Professional Experience" color="green" />
-          <ExperienceLine
-            top="Crux Product Design"
-            bottom="Mechanical Engineer"
-            years="2022 - current"
-          />
-          <ExperienceLine
-            top="Baba Ali"
-            bottom="Web Designer & Web Developer"
-            years="2021 - 2022"
-          />
-          <ExperienceLine
-            top="Aston Martin F1 Team"
-            bottom="Research & Development Engineer (Placement)"
-            years="2020 - 2021"
-          />
+
         </div>
       </div>
     </SectionContainer>

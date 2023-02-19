@@ -28,7 +28,7 @@ export default function Hero() {
       <motion.section
         id="hero-section"
         key="hero-section"
-        className="grid w-full max-w-6xl grid-cols-12 gap-4 px-10 py-20 dark:bg-transparent md:px-8"
+        className="grid w-full grid-cols-12 gap-4 bg-repeat px-10 py-20  dark:bg-stars md:px-8"
       >
         <motion.div
           {...heroTextContainerAnimation}
@@ -39,18 +39,15 @@ export default function Hero() {
             src="/me.png"
             width={600}
             height={600}
-            className="mb-8 w-56 h-56 shrink-0 rounded-full bg-js-yellow sm:w-64 sm:h-64 md:w-72 md:h-72"
+            className="mb-8 h-56 w-56 shrink-0 rounded-full bg-js-yellow sm:h-64 sm:w-64 md:h-72 md:w-72"
           />
 
-          <motion.h1 className="mb-2 font-heading text-2xl font-semibold leading-none sm:mb-4 sm:text-3xl lg:text-4xl">
-            Hi, my name is{" "}
-            <span
-              className="relative after:absolute after:left-0
-                  "
-            >
-              Jakub Sekula
-            </span>{" "}
-            👋🏻
+          <motion.h1
+            className="mb-2 dark:bg-gradient-to-br dark:from-rose-50 dark:to-yellow-50
+          bg-clip-text font-heading text-2xl font-semibold 
+          dark:text-transparent sm:mb-4 sm:text-3xl lg:text-4xl "
+          >
+            Hi, my name is Jakub Sekula <span className="text-white">👋🏻</span>
           </motion.h1>
           <motion.p className="mb-4 text-base sm:mb-8 md:text-lg md:leading-normal lg:text-xl">
             I’m a <span className="font-bold text-js-yellow">developer</span>,{" "}
@@ -66,7 +63,7 @@ export default function Hero() {
           onAnimationComplete={() => {
             setHeroFinished(true);
           }}
-          className=" col-span-10 col-start-2 flex w-full flex-col justify-center gap-3 md:flex-row md:gap-5"
+          className="col-span-10 col-start-2 flex w-full flex-col justify-center gap-3 md:flex-row md:gap-5"
         >
           <HeroCard
             title="SOFTWARE"
@@ -96,12 +93,10 @@ export default function Hero() {
 function HeroCard({ title, color, className, href, layoutId }) {
   const { cardEntryAnimation } = useAnimationContext();
   const colors = {
-    red: "border-js-red text-js-red ",
-    green:
-      "border-js-green text-js-green",
-    blue: "border-js-blue text-js-blue",
-    yellow:
-      "border-js-yellow text-js-yellow",
+    red: "border-js-red text-js-red hover:bg-js-red/5",
+    green: "border-js-green text-js-green hover:bg-js-green/5",
+    blue: "border-js-blue text-js-blue hover:bg-js-blue/5",
+    yellow: "border-js-yellow text-js-yellow hover:bg-js-yellow/5",
   };
 
   return (
@@ -109,8 +104,8 @@ function HeroCard({ title, color, className, href, layoutId }) {
       href={href}
       scroll={false}
       className={`${className} ${colors[color] || "border-text/5"}
-    flex grow cursor-pointer select-none items-center justify-center rounded-lg py-2
-    px-6 text-center font-heading text-sm font-semibold border md:text-lg`}
+    flex w-56 cursor-pointer select-none items-center justify-center rounded-md border
+    py-2 px-6 text-center font-heading text-sm font-semibold transition-all duration-200 hover:-translate-y-[2px] md:text-lg`}
     >
       {title}
     </Link>

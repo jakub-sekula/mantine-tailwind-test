@@ -15,6 +15,9 @@ module.exports = {
         mono: ['"Source Code Pro"', ...defaultTheme.fontFamily.mono],
         heading: ["Inter", ...defaultTheme.fontFamily.sans]
       },
+      backgroundImage: {
+        'stars': "url('/stars.png')",
+      },
       fontSize: {
         xl: '1.375rem', // 22px
         '2xl': '1.5625rem', // 25px

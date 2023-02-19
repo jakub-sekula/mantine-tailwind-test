@@ -6,17 +6,21 @@ import SectionContainer from "./SectionContainer";
 export default function ToolsSection({ tools }) {
   return (
     <SectionContainer title="Tools">
-      <div className="relative grid w-full grid-cols-12 gap-12  ">
+      <div className="relative grid w-full grid-cols-12 gap-4 md:gap-12">
         {tools.map((category) => (
-          <div className="col-span-full md:col-span-4 flex flex-col gap-4">
+          <div
+            key={`${category.attributes.title}-section`}
+            className="col-span-full flex flex-col gap-4 md:col-span-4"
+          >
             <SectionHeading
               title={category.attributes.title}
               color={category.attributes.color}
             />
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 ">
               {category.attributes.tools.map((tool) => (
                 <ToolCard
                   name={tool.name}
+                  key={`${tool.name}-card`}
                   img={
                     !!tool.icon_light.data
                       ? `${process.env.NEXT_PUBLIC_API_URL}${tool.icon_light.data?.attributes.url}`
@@ -35,8 +39,8 @@ export default function ToolsSection({ tools }) {
 function ToolCard({ name, img }) {
   return (
     <div
-      className="flex flex-col items-center  justify-center gap-4 col-span-full md:col-span-1
-    rounded-md border border-neutral-200 px-3 py-6 font-bold dark:border-darktext/5 dark:bg-darktext/[1%]"
+      className="flex flex-col  items-center justify-center gap-4 rounded-md
+    border border-neutral-200 px-3 py-6 font-bold dark:border-darktext/5 dark:bg-darktext/[1%]"
     >
       <Image src={img} alt={name} width={48} height={48} className="w-16" />
       <h6 className=" text-sm">{name}</h6>
