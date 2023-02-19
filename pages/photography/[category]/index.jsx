@@ -55,6 +55,7 @@ export default function Page({ data, featured_image }) {
             height={1667}
             alt={data.title}
             src={featured_image}
+            priority={true}
             className="absolute inset-0 z-0 mx-auto h-full w-full object-cover"
           />
           <div className="z-20 mt-20 w-full max-w-page pt-40 pb-32 text-darktext ">
@@ -105,7 +106,7 @@ export default function Page({ data, featured_image }) {
                    
 
                   {!!section?.gallery?.data &&
-                    section.gallery.data.map((item, index) => {
+                    section.gallery.data.map((item) => {
                       return (
                         <img
                           key={item.title + item.id}
@@ -127,7 +128,6 @@ export default function Page({ data, featured_image }) {
                       href="/photography/[category]"
                       as={`/photography/${item.attributes.title.toLowerCase()}`}
                       key={item.attributes.title + item.id}
-                      // scroll={false}
                       className="group relative col-span-6 flex h-64 w-full flex-col items-center justify-center gap-4
                     overflow-hidden rounded-md border border-neutral-200 px-3 py-6 font-bold dark:border-0"
                     >
@@ -135,9 +135,9 @@ export default function Page({ data, featured_image }) {
                         width={400}
                         height={400}
                         src={
-                          !!item.attributes.featured_image.data
+                          !!item.attributes.featured_image?.data
                             ? `${process.env.NEXT_PUBLIC_API_URL}${item.attributes.featured_image.data.attributes.url}`
-                            : "/images/thailand.jpg"
+                            : "/"
                         }
                         alt={item.attributes.title}
                         className="absolute -z-10 h-full w-full transition-transform group-hover:scale-105 object-cover"
@@ -158,21 +158,41 @@ export default function Page({ data, featured_image }) {
 }
 
 export async function getStaticProps(ctx) {
+  const qs = require("qs");
   const { category } = ctx.params;
+  let query;
 
   const headers = new Headers({
     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
   });
 
-  const url = `http://localhost:1337/api/albums?filters[slug][$eq]=${category}`;
+  query = qs.stringify({
+    filters: {
+      slug: {
+        $eq: category
+      }
+    },
+  });
 
-  const idRes = await fetch(`${url}`, { headers });
+  const idRes = await fetch(`http://localhost:1337/api/albums?${query}`, { headers });
   const idJson = await idRes.json();
 
   const id = idJson.data[0].id;
 
+  query = qs.stringify({
+    populate: {
+      sections: {
+        tags: "*",
+        populate: ["gallery", "albums", "albums.featured_image"]
+      },
+      featured_image: {
+        populate:"formats"
+      }
+    },
+  });
+
   const res = await fetch(
-    `http://localhost:1337/api/albums/${id}?populate[sections][populate]=gallery,albums,albums.featured_image&populate[tags]=*&populate[featured_image]=*`,
+    `http://localhost:1337/api/albums/${id}?${query}`,
     { headers }
   );
 

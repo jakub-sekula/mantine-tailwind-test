@@ -14,8 +14,6 @@ import { engineeringCards } from "siteConfig";
 
 export default function Home({tools}) {
     // If linked to specific section, (hash in url) scroll there on page load
-  console.log(tools)
-
   useEffect(() => {
     if (window !== "undefined") {
       const hashId = window.location.hash;
@@ -66,8 +64,6 @@ export async function getStaticProps(){
   );
 
   let resJson = await res.json();
-
-  console.log(resJson.data)
 
   return {
     props: {
