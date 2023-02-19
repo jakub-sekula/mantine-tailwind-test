@@ -12,8 +12,8 @@ import {
 import { webCards } from "siteConfig";
 import { engineeringCards } from "siteConfig";
 
-export default function Home({tools}) {
-    // If linked to specific section, (hash in url) scroll there on page load
+export default function Home({ tools }) {
+  // If linked to specific section, (hash in url) scroll there on page load
   useEffect(() => {
     if (window !== "undefined") {
       const hashId = window.location.hash;
@@ -52,22 +52,29 @@ export default function Home({tools}) {
   );
 }
 
-
-export async function getStaticProps(){
+export async function getStaticProps() {
+  const qs = require("qs");
   const headers = new Headers({
     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
   });
 
-  let res = await fetch(
-    "http://localhost:1337/api/tools?populate[tools][populate]=*",
-    { headers }
-  );
+  const toolsQuery = qs.stringify({
+    populate: {
+      tools: {
+        populate: "*",
+      },
+    },
+  });
 
-  let resJson = await res.json();
+  let tools = await fetch(`http://localhost:1337/api/tools?${toolsQuery}`, {
+    headers,
+  });
+
+  let toolsJson = await tools.json();
 
   return {
     props: {
-      tools: resJson.data,
+      tools: toolsJson.data,
     },
   };
 }
