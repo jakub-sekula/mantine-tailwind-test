@@ -32,7 +32,7 @@ module.exports = {
         "js-green": "#44EAA0",
         "js-blue": "#59B8DF",
         "js-yellow": "#FED557",
-        "darkbg": "#121718",
+        "darkbg": "hsl(190, 14%, 6%)",
         "lightbg": "hsl(42, 100%, 99%)",
         "text": "#2b2a2a",
         "darktext": "#e6eff2"
@@ -51,5 +51,8 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/typography'),
+  ],
 };
