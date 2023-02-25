@@ -18,8 +18,8 @@ export const AnimationContext = ({ children }) => {
     animate: "visible",
     exit: "visible",
     transition: {
-      duration: 0
-    }
+      duration: 0,
+    },
   };
 
   const defaultPageTransition = !animationsDisabled
@@ -36,6 +36,7 @@ export const AnimationContext = ({ children }) => {
           duration: 0.4,
           ease: easingFunction,
         },
+        // fallbackStyle:{ opacity: 1 },
       }
     : disabledAnimationProps;
 
@@ -49,28 +50,6 @@ export const AnimationContext = ({ children }) => {
     : disabledAnimationProps;
 
 
-  const sectionEntryAnimation = !animationsDisabled
-    ? {
-        initial: "hidden",
-        animate: "hidden",
-        whileInView: "visible",
-        transition: {
-          ease: easingFunction,
-          // delay: 0.15,
-          duration: 0.4,
-          // when: "beforeChildren",
-          staggerChildren: 0.05,
-        },
-        viewport: { 
-          once: true ,
-          margin: "-300px"
-        },
-        variants: {
-          hidden: { opacity: 0, y: -20 },
-          visible: { opacity: 1, y: 0 },
-        },
-      }
-    : disabledAnimationProps;
 
   const activeCardAnimation = !animationsDisabled
     ? {
@@ -79,6 +58,7 @@ export const AnimationContext = ({ children }) => {
         animate: "visible",
         exit: "visible",
         transition: easingFunction,
+        // fallbackStyle:{ opacity: 1 },
       }
     : disabledAnimationProps;
 
@@ -98,6 +78,7 @@ export const AnimationContext = ({ children }) => {
             duration: 0.5,
             ease: easingFunction,
           },
+          // fallbackStyle:{ opacity: 1 },
         }
       : disabledAnimationProps;
 
@@ -116,26 +97,14 @@ export const AnimationContext = ({ children }) => {
           },
           hidden: { opacity: 0 },
         },
-      }
-    : disabledAnimationProps;
-
-  const cardEntryAnimation = !animationsDisabled
-    ? {
-        variants: {
-          hidden: { opacity: 0, y: -16 },
-          visible: { opacity: 1, y: 0 },
-        },
-        transition: {
-          duration: 0.2,
-          ease: easingFunction,
-        },
-        whileHover: { scale: 1.025 },
+        // fallbackStyle:{ opacity: 1 },
       }
     : disabledAnimationProps;
 
   const heroTextAnimation = !animationsDisabled
     ? {
         variants: {
+          initial: { opacity: 1 },
           hidden: { opacity: 0, y: -16 },
           visible: { opacity: 1, y: 0 },
         },
@@ -143,6 +112,7 @@ export const AnimationContext = ({ children }) => {
           duration: 0.3,
           ease: easingFunction,
         },
+        // fallbackStyle:{ opacity: 1 },
       }
     : disabledAnimationProps;
 
@@ -163,6 +133,7 @@ export const AnimationContext = ({ children }) => {
             opacity: 0,
           },
         },
+        // fallbackStyle:{ opacity: 1 },
       }
     : disabledAnimationProps;
 
@@ -180,6 +151,7 @@ export const AnimationContext = ({ children }) => {
           duration: 0.2,
           ease: easingFunction,
         },
+        // fallbackStyle:{ opacity: 1 }
       }
     : disabledAnimationProps;
 
@@ -194,6 +166,7 @@ export const AnimationContext = ({ children }) => {
           exit: { opacity: 0, scale: 0.95 },
         },
         transition: easingFunction,
+        // fallbackStyle:{ opacity: 1 }
       }
     : disabledAnimationProps;
 
@@ -217,12 +190,10 @@ export const AnimationContext = ({ children }) => {
             animationsDisabled,
             easingFunction,
             disabledAnimationProps,
-            sectionEntryAnimation,
             activeCardAnimation,
             otherCardAnimation,
             headerAnimation,
             heroGridAnimation,
-            cardEntryAnimation,
             heroTextAnimation,
             heroTextContainerAnimation,
             darkModeButtonAnimation,
@@ -237,5 +208,4 @@ export const AnimationContext = ({ children }) => {
   );
 };
 
-export const useAnimationContext = () =>
-  React.useContext(SiteAnimationContext);
+export const useAnimationContext = () => React.useContext(SiteAnimationContext);
