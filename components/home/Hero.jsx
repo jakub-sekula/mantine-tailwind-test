@@ -14,7 +14,6 @@ export default function Hero() {
     animationsDisabled,
     heroTextContainerAnimation,
     heroGridAnimation,
-    heroTextAnimation,
   } = useAnimationContext();
 
   useEffect(() => {
@@ -39,12 +38,13 @@ export default function Hero() {
             src="/me.png"
             width={600}
             height={600}
+            alt="Hero image"
             className="mb-8 h-56 w-56 shrink-0 rounded-full bg-js-yellow sm:h-64 sm:w-64 md:h-72 md:w-72"
           />
 
           <motion.h1
-            className="mb-2 dark:bg-gradient-to-br dark:from-rose-50 dark:to-yellow-50
-          bg-clip-text font-heading text-2xl font-semibold 
+            className="mb-2 bg-clip-text font-heading text-2xl
+          font-semibold dark:bg-gradient-to-br dark:from-rose-50 dark:to-yellow-50 
           dark:text-transparent sm:mb-4 sm:text-3xl lg:text-4xl "
           >
             Hi, my name is Jakub Sekula <span className="text-white">👋🏻</span>
@@ -91,7 +91,6 @@ export default function Hero() {
 }
 
 function HeroCard({ title, color, className, href, layoutId }) {
-  const { cardEntryAnimation } = useAnimationContext();
   const colors = {
     red: "border-js-red text-js-red hover:bg-js-red/5",
     green: "border-js-green text-js-green hover:bg-js-green/5",

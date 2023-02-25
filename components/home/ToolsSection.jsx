@@ -40,7 +40,7 @@ function ToolCard({ name, img }) {
   return (
     <div
       className="flex flex-col  items-center justify-center gap-4 rounded-md
-    border border-neutral-200 px-3 py-6 font-bold dark:border-darktext/5 dark:bg-darktext/[1%]"
+    border border-text/10 px-3 py-6 font-bold dark:border-darktext/10 dark:bg-darktext/[1%]"
     >
       <Image src={img} alt={name} width={48} height={48} className="w-16" />
       <h6 className=" text-sm">{name}</h6>

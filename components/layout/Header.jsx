@@ -39,6 +39,7 @@ export default function Header({ fixed, transparent, dark }) {
             menuLinks.map((link) => {
               return (
                 <NavLink
+                  key={link.title}
                   label={link.title}
                   href={link.url}
                   color={link?.color}

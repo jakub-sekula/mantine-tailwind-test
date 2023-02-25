@@ -16,17 +16,17 @@ export default function HomepageSection({ title, cards, reverse }) {
 
   return (
     <SectionContainer title={title}>
-      <div className="relative grid w-full grid-cols-12 gap-16  ">
+      <div className="relative grid w-full grid-cols-12 md:gap-12 lg:gap-16">
         <div
-          className="col-span-10 col-start-2 row-start-1 grid md:grid-cols-2
-        md:grid-rows-1 grid-rows-2 gap-12"
+          className="col-span-full row-start-1 grid grid-rows-1 gap-6 md:grid-cols-2 
+        md:gap-12 lg:col-span-10 lg:col-start-2"
         >
           <div
-            className={`md:row-start-1 flex flex-col gap-4 ${
+            className={`mb-6 flex h-min flex-col gap-4 md:row-start-1 ${
               reverse ? "md:col-start-2" : "md:col-start-1"
             }`}
           >
-            <h3 className="font-heading text-2xl font-semibold leading-none mb-1 sm:text-3xl">
+            <h3 className="mb-1 font-heading text-2xl font-semibold leading-none sm:text-3xl">
               Internal memo board
             </h3>
             <ul className="flex gap-2">
@@ -38,13 +38,16 @@ export default function HomepageSection({ title, cards, reverse }) {
                 />
               ))}
             </ul>
-            <p className="leading-normal md:text-lg md:leading-snug font-light">
+            <p className="font-light leading-normal md:text-lg md:leading-snug">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
-            <Hyperlink href="/projects/web/internal-memo-board" className="text-sm" />
+            <Hyperlink
+              href="/projects/web/internal-memo-board"
+              className="text-sm"
+            />
           </div>
           <div
             className={`row-start-1 h-80 w-full rounded-md bg-js-yellow ${
@@ -52,7 +55,7 @@ export default function HomepageSection({ title, cards, reverse }) {
             }`}
           ></div>
         </div>
-        <div className="col-span-full row-start-2 flex items-stretch gap-4">
+        <div className="col-span-full row-start-2 grid grid-cols-1 items-stretch gap-4 md:grid-cols-3 lg:grid-cols-5">
           {cards.map((card) => {
             return (
               <HomepageProjectCard
@@ -74,10 +77,10 @@ export default function HomepageSection({ title, cards, reverse }) {
 }
 
 const colors = {
-  red: "bg-js-red border-js-red",
-  green: "bg-js-green border-js-green",
-  blue: " bg-js-blue border-js-blue",
-  yellow: "bg-js-yellow border-js-yellowŚ",
+  red: " bg-js-red border-js-red",
+  green: " bg-js-green border-js-green",
+  blue: "  bg-js-blue border-js-blue",
+  yellow: " bg-js-yellow border-js-yellowŚ",
 };
 
 function HomepageProjectCard({
@@ -89,6 +92,7 @@ function HomepageProjectCard({
   tags = [],
 }) {
   return (
+    // ${colors[color]}
     <motion.div
       key={id}
       onClick={() => {
@@ -96,17 +100,30 @@ function HomepageProjectCard({
       }}
       layoutId={id}
       whileTap={{ scale: 0.95 }}
-      className={`${colors[color]}relative flex w-full flex-col overflow-hidden
-		 rounded-lg  text-white `}
+      className={`relative flex w-full flex-col overflow-hidden rounded-md
+		 border border-text/10 dark:border-darktext/10`}
     >
       <Image
         width={300}
         height={600}
         src={img}
         alt={img}
-        className="h-60 w-full"
+        className="h-48 w-full object-cover lg:h-56 xl:h-60"
       />
-      <h4 className="w-1/2 p-4 font-heading text-2xl font-bold">{title}</h4>
+      <div className="py-3 px-3 ">
+        <div className="mb-1 flex justify-between">
+          <h4 className="font-heading text-lg font-semibold">{title}</h4>
+          <span
+            className={`${colors[color]} mt-2 inline-block h-3 w-3 shrink-0 rounded-full`}
+          />
+        </div>
+        <p className="text-sm font-light line-clamp-3">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis
+          consequuntur nulla omnis vitae nostrum assumenda tempore molestiae
+          officia quas modi eius, ad exercitationem est placeat fugit
+          praesentium cumque quisquam doloremque.
+        </p>
+      </div>
     </motion.div>
   );
 }
