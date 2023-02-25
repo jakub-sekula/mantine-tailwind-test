@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export const useIntersectionObserver = (setActiveId) => {
+export const useIntersectionObserver = (setActiveId, depth) => {
   const headingElementsRef = useRef({});
   useEffect(() => {
     const callback = (headings) => {
@@ -29,10 +29,13 @@ export const useIntersectionObserver = (setActiveId) => {
     };
 
     const observer = new IntersectionObserver(callback, {
-      rootMargin: "-96px 0px 0px 0px",
+      rootMargin: "-120px 0px 0px 0px",
     });
 
-    const headingElements = Array.from(document.querySelectorAll("h2, h3"));
+    const headingElements =
+      depth === 2
+        ? Array.from(document.querySelectorAll("h2, h3"))
+        : Array.from(document.querySelectorAll("h2"));
 
     headingElements.forEach((element) => observer.observe(element));
 

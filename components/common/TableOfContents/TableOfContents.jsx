@@ -1,11 +1,24 @@
 import { useState } from "react";
 import { useHeadingsData } from "./useHeadingsData";
 import { useIntersectionObserver } from "./useIntersectionObserver";
+import { useTheme } from "next-themes";
+
+const colors = {
+  dark: {
+    default: "border-darktext/10 text-darktext/50 dark:border-text/10",
+    active: "border-js-yellow text-text dark:text-darktext",
+  },
+  light: {
+    default: "border-text/10 text-text/50 dark:border-darktext/10",
+    active: "border-js-yellow text-text dark:text-darktext",
+  },
+};
 
 export default function TableOfContents({ depth = 1, border = true }) {
+  const { resolvedTheme } = useTheme();
   const [activeId, setActiveId] = useState();
   const { nestedHeadings } = useHeadingsData();
-  useIntersectionObserver(setActiveId);
+  useIntersectionObserver(setActiveId, depth);
 
   return (
     <>
@@ -14,11 +27,19 @@ export default function TableOfContents({ depth = 1, border = true }) {
           key={heading.id}
           className={`${
             heading.id === activeId
-              ? `border-js-yellow`
-              : `border-text/10 text-text/50 dark:border-darktext/10`
+              ? `${
+                  resolvedTheme === "dark"
+                    ? colors.dark.active
+                    : colors.light.active
+                }`
+              : `${
+                  resolvedTheme === "dark"
+                    ? colors.dark.default
+                    : colors.light.default
+                }`
           } ${
             border ? "border-r-2 pr-4" : ""
-          } pb-3  transition-all duration-200`}
+          } pb-3 transition-all duration-100`}
         >
           <a
             onClick={(e) => {
@@ -28,7 +49,7 @@ export default function TableOfContents({ depth = 1, border = true }) {
               });
             }}
             href={`#${heading.id}`}
-            className="hover:text-text"
+            className="hover:text-text dark:hover:text-darktext"
           >
             {heading.title}
           </a>
@@ -39,9 +60,17 @@ export default function TableOfContents({ depth = 1, border = true }) {
                   key={child.id}
                   className={`${
                     child.id === activeId
-                      ? "border-js-yellow text-text"
-                      : "border-text/10 text-text/50 dark:border-darktext/10"
-                  } mb-1 pl-1 text-xs transition-all duration-500`}
+                      ? `${
+                          resolvedTheme === "dark"
+                            ? colors.dark.active
+                            : colors.light.active
+                        }`
+                      : `${
+                          resolvedTheme === "dark"
+                            ? colors.dark.default
+                            : colors.light.default
+                        }`
+                  }  mb-4 last:mb-0 pl-2 text-sm transition-all duration-100`}
                 >
                   <a
                     href={`#${child.id}`}
@@ -51,7 +80,7 @@ export default function TableOfContents({ depth = 1, border = true }) {
                         behavior: "smooth",
                       });
                     }}
-                    className="hover:text-text transition-all duration-200"
+                    className="transition-all duration-200 hover:text-text dark:hover:text-darktext"
                   >
                     {child.title}
                   </a>

@@ -47,7 +47,7 @@ export default function Page({ data, featured_image }) {
         <motion.section
           // {...animate}
           key={`hero-${data.title}`}
-          className="relative -mt-20 flex max-h-[900px] w-full max-w-[1920px] justify-center"
+          className="relative -mt-24 flex max-h-[900px] w-full max-w-[1920px] justify-center"
         >
           <div className="absolute inset-0 z-10 h-full bg-gradient-to-tr from-darkbg/90" />
           <Image
@@ -58,7 +58,7 @@ export default function Page({ data, featured_image }) {
             priority={true}
             className="absolute inset-0 z-0 mx-auto h-full w-full object-cover"
           />
-          <div className="z-20 mt-20 w-full max-w-page pt-40 pb-32 text-darktext ">
+          <div className="z-20 mt-20 w-full max-w-page pt-40 pb-32 text-white ">
             <Link
               scroll={false}
               href="/photography"
