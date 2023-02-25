@@ -5,6 +5,7 @@ import { useLayoutContext } from "components/contexts";
 
 export default function Layout({
   children,
+  mode,
   useDefaultTransition = true,
   alternateTransition = {},
   className,
@@ -23,14 +24,14 @@ export default function Layout({
   return (
     <>
       <Header transparent={transparent} fixed={fixed} dark={dark} />
-      <motion.main
+      <motion.div
         {...transitionProps}
         key="layout"
-        className={`relative mt-20 flex h-full w-full flex-col
-      items-center px-6 xl:px-2 2xl:px-0  ${className && className}`}
+        className={`relative mt-24 flex h-full w-full flex-col mx-auto
+      items-center ${className && className} ${mode === "blog" ? "max-w-3xl" : ""}`}
       >
         {children}
-      </motion.main>
+      </motion.div>
       <Footer />
     </>
   );
