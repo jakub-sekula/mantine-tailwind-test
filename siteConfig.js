@@ -17,7 +17,7 @@ export const webCards = [
   },
   {
     id: "web-3",
-    title: "Booking Sysetm",
+    title: "Booking System",
     img: "/IMG_1933.jpg",
     href: "",
     color: "green",

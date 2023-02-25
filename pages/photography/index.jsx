@@ -22,7 +22,11 @@ export default function Page({ data, instagramData }) {
         </h2>
         {!!instagramData &&
           instagramData.map((item) => (
-            <img className="col-span-2 rounded-sm" src={item.media_url} />
+            <img
+              className="col-span-2 rounded-sm"
+              src={item.media_url}
+              key={item.hash}
+            />
           ))}
       </div>
     </Layout>
