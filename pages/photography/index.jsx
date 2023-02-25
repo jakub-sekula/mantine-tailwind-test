@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Page({ data, instagramData }) {
   return (
     <Layout>
-      <motion.div className="flex w-full flex-col py-36 text-center text-5xl font-bold">
+      <div className="flex w-full flex-col py-36 text-center text-5xl font-bold">
         {data.map((item) => (
           <Link
             key={`index-${item.attributes.title}`}
@@ -15,7 +15,7 @@ export default function Page({ data, instagramData }) {
             {item.attributes.title}
           </Link>
         ))}
-      </motion.div>
+      </div>
       <div className="mx-auto grid w-full max-w-3xl grid-cols-6 gap-3">
         <h2 className="col-span-full text-center">
           Latest photos from my Instagram

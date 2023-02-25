@@ -5,12 +5,11 @@ import { IconChevronLeft } from "@tabler/icons";
 import { motion } from "framer-motion";
 
 import { Layout } from "components/layout";
-import { useLayoutContext, useAnimationContext } from "components/contexts";
-import { useEffect, useState } from "react";
+import { useLayoutContext} from "components/contexts";
+import { useEffect } from "react";
 import Head from "next/head";
 
 export default function Page({ data, featured_image }) {
-  const { disabledAnimationProps, animationsDisabled } = useAnimationContext();
 
   const { setTransparent, setFixed, setDark } = useLayoutContext();
   useEffect(() => {
@@ -24,19 +23,6 @@ export default function Page({ data, featured_image }) {
     };
   }, []);
 
-  const animate = !animationsDisabled
-    ? {
-        initial: "initial",
-        animate: "animate",
-        variants: {
-          initial: { scale: 0.95, opacity: 0 },
-          animate: { scale: 1, opacity: 1 },
-        },
-        transition: {
-          duration: 0.2,
-        },
-      }
-    : disabledAnimationProps;
 
   return (
     <>
@@ -44,7 +30,7 @@ export default function Page({ data, featured_image }) {
         <title>{data.title}</title>
       </Head>
       <Layout>
-        <motion.section
+        <section
           // {...animate}
           key={`hero-${data.title}`}
           className="relative -mt-24 flex max-h-[900px] w-full max-w-[1920px] justify-center"
@@ -82,7 +68,7 @@ export default function Page({ data, featured_image }) {
                 </span>
               ))}
           </div>
-        </motion.section>
+        </section>
         {!!data.sections &&
           data.sections.map((section) => {
             console.log(section);

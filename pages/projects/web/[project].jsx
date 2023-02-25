@@ -8,9 +8,9 @@ export default function Page() {
 
   return (
     <Layout>
-      <motion.div className="w-full py-36 text-center text-5xl font-bold">
+      <div className="w-full py-36 text-center text-5xl font-bold">
         Web project {project}
-      </motion.div>
+      </div>
     </Layout>
   );
 }

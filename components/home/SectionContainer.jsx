@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function SectionContainer({ title = "title" ,children}) {
   return (
-    <motion.section
+    <section
       id={`${title}-section`}
       className="mx-auto flex w-full max-w-page flex-col items-center gap-12
       my-16 px-6 xl:px-4 2xl:px-0"
@@ -11,6 +11,6 @@ export default function SectionContainer({ title = "title" ,children}) {
         {title}
       </h2>
 	  {children}
-    </motion.section>
+    </section>
   );
 }

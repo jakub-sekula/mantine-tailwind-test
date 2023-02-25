@@ -1,36 +1,16 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import { motion, AnimatePresence } from "framer-motion";
-import { useAnimationContext } from "components/contexts";
 import { heroBlockIds } from "siteConfig";
-import { Hyperlink } from "components/common";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
-  const {
-    heroFinished,
-    setHeroFinished,
-    animationsDisabled,
-    heroTextContainerAnimation,
-    heroGridAnimation,
-  } = useAnimationContext();
-
-  useEffect(() => {
-    if (animationsDisabled) {
-      setHeroFinished(true);
-    }
-  }, [animationsDisabled, setHeroFinished]);
 
   return (
-    <AnimatePresence initial={!heroFinished && !animationsDisabled}>
-      <motion.section
+      <section
         id="hero-section"
         key="hero-section"
         className="grid w-full grid-cols-12 gap-4 bg-repeat px-10 py-20  dark:bg-stars md:px-8"
       >
-        <motion.div
-          {...heroTextContainerAnimation}
+        <div
           className="col-span-full flex flex-col items-center justify-center text-center
           text-xl font-light"
         >
@@ -42,27 +22,23 @@ export default function Hero() {
             className="mb-8 h-56 w-56 shrink-0 rounded-full bg-js-yellow sm:h-64 sm:w-64 md:h-72 md:w-72"
           />
 
-          <motion.h1
+          <h1
             className="mb-2 bg-clip-text font-heading text-2xl
           font-semibold dark:bg-gradient-to-br dark:from-rose-50 dark:to-yellow-50 
           dark:text-transparent sm:mb-4 sm:text-3xl lg:text-4xl "
           >
             Hi, my name is Jakub Sekula <span className="text-white">👋🏻</span>
-          </motion.h1>
-          <motion.p className="mb-4 text-base sm:mb-8 md:text-lg md:leading-normal lg:text-xl">
+          </h1>
+          <p className="mb-4 text-base sm:mb-8 md:text-lg md:leading-normal lg:text-xl">
             I’m a <span className="font-bold text-js-yellow">developer</span>,{" "}
             <span className="font-bold text-js-green">engineer</span>,{" "}
             <span className="font-bold text-js-blue">photographer</span>, and{" "}
             <span className="font-bold text-js-red">maker</span>.
             <br />
             Welcome to my little corner of the Internet.
-          </motion.p>
-        </motion.div>
-        <motion.div
-          {...heroGridAnimation}
-          onAnimationComplete={() => {
-            setHeroFinished(true);
-          }}
+          </p>
+        </div>
+        <div
           className="col-span-10 col-start-2 flex w-full flex-col justify-center gap-3 md:flex-row md:gap-5"
         >
           <HeroCard
@@ -83,14 +59,13 @@ export default function Hero() {
             color="blue"
             layoutId={heroBlockIds[3]}
           />
-        </motion.div>
+        </div>
         {/* Hero grid */}
-      </motion.section>
-    </AnimatePresence>
+      </section>
   );
 }
 
-function HeroCard({ title, color, className, href, layoutId }) {
+function HeroCard({ title, color, className, href}) {
   const colors = {
     red: "border-js-red text-js-red hover:bg-js-red/5",
     green: "border-js-green text-js-green hover:bg-js-green/5",

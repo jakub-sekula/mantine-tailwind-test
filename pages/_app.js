@@ -1,13 +1,11 @@
 import "/styles/globals.css";
 import { AnimatePresence } from "framer-motion";
 import { ThemeProvider } from "next-themes";
-import { AnimationContext } from "components/contexts";
 import { LayoutProvider } from "components/contexts";
 
 export default function App({ Component, pageProps, router }) {
 
   return (
-    <AnimationContext>
       <ThemeProvider attribute="class" disableTransitionOnChange>
         <LayoutProvider>
           <AnimatePresence
@@ -21,6 +19,5 @@ export default function App({ Component, pageProps, router }) {
           </AnimatePresence>
         </LayoutProvider>
       </ThemeProvider>
-    </AnimationContext>
   );
 }

@@ -13,7 +13,7 @@ import { IconDownload } from "@tabler/icons";
 export default function Cv({ data }) {
   return (
     <Layout>
-      <motion.section
+      <section
         id="cv"
         className="relative mx-auto grid w-full max-w-page grid-cols-12 px-6 pt-8 xl:px-2 2xl:px-0 "
       >
@@ -101,7 +101,7 @@ export default function Cv({ data }) {
             </section>
           );
         })}
-      </motion.section>
+      </section>
     </Layout>
   );
 }

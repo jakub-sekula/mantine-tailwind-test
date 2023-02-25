@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-import { useAnimationContext } from "components/contexts";
 import SectionContainer from "./SectionContainer";
 import Image from "next/image";
 

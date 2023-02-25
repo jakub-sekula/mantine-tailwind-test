@@ -5,13 +5,11 @@ import { nanoid } from "nanoid";
 import slugify from "slugify";
 
 import { Chip, Hyperlink } from "components/common";
-import { useAnimationContext } from "components/contexts";
 
 import { chips } from "siteConfig";
 import SectionContainer from "./SectionContainer";
 
 export default function HomepageSection({ title, cards, reverse }) {
-  const { sectionEntryAnimation } = useAnimationContext();
   const [selected, setSelected] = useState(null);
 
   return (
@@ -93,7 +91,7 @@ function HomepageProjectCard({
 }) {
   return (
     // ${colors[color]}
-    <motion.div
+    <div
       key={id}
       onClick={() => {
         setSelected(id);
@@ -124,6 +122,6 @@ function HomepageProjectCard({
           praesentium cumque quisquam doloremque.
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 }

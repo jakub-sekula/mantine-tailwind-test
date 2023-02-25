@@ -8,7 +8,7 @@ export default function Header({ fixed, transparent, dark }) {
   const {menuLinks} = useLayoutContext()
   
   return (
-    <motion.header
+    <header
       className={`${fixed === true ? "fixed" : "absolute"}
       ${
         transparent === true
@@ -58,7 +58,7 @@ export default function Header({ fixed, transparent, dark }) {
           <ColorSchemeToggle />
         </nav>
       </div>
-    </motion.header>
+    </header>
   );
 }
 

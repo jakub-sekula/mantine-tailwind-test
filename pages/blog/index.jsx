@@ -6,7 +6,7 @@ export default function Blog({ data }) {
   console.log(data);
   return (
     <Layout>
-      <motion.div className="">
+      <div className="">
         {data.map((item) => (
           <Link
             key={item.attributes.slug}
@@ -15,7 +15,7 @@ export default function Blog({ data }) {
             {item.attributes.title}
           </Link>
         ))}
-      </motion.div>
+      </div>
     </Layout>
   );
 }
