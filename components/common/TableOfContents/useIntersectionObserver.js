@@ -29,7 +29,7 @@ export const useIntersectionObserver = (setActiveId, depth) => {
     };
 
     const observer = new IntersectionObserver(callback, {
-      rootMargin: "-120px 0px 0px 0px",
+      rootMargin: "-120px 0px 10% 0px",
     });
 
     const headingElements =

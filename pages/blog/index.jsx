@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function Blog({ data }) {
-  console.log(data);
   return (
     <Layout>
       <motion.div className="">

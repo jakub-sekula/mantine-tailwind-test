@@ -1,19 +1,12 @@
-import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { nanoid } from "nanoid";
-import slugify from "slugify";
 
 import { Chip, Hyperlink } from "components/common";
-import { useAnimationContext } from "components/contexts";
 
 import { chips } from "siteConfig";
 import SectionContainer from "./SectionContainer";
 
 export default function HomepageSection({ title, cards, reverse }) {
-  const { sectionEntryAnimation } = useAnimationContext();
-  const [selected, setSelected] = useState(null);
-
   return (
     <SectionContainer title={title}>
       <div className="relative grid w-full grid-cols-12 md:gap-12 lg:gap-16">
@@ -60,7 +53,6 @@ export default function HomepageSection({ title, cards, reverse }) {
             return (
               <HomepageProjectCard
                 key={`${card.title}-${card.id}`}
-                setSelected={setSelected}
                 id={`${card.title}-${card.id}`}
                 title={card.title}
                 img={card.img}
@@ -89,15 +81,11 @@ function HomepageProjectCard({
   title = "Title",
   img,
   color = "yellow",
-  tags = [],
 }) {
   return (
     // ${colors[color]}
     <motion.div
       key={id}
-      onClick={() => {
-        setSelected(id);
-      }}
       layoutId={id}
       whileTap={{ scale: 0.95 }}
       className={`relative flex w-full flex-col overflow-hidden rounded-md
