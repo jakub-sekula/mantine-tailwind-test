@@ -1,18 +1,17 @@
 import { useEffect } from "react";
+import Head from "next/head";
 
 import { Layout } from "components/layout";
 import {
   Hero,
-  HomepageSection,
+  ProjectsSection,
   AboutSection,
   ToolsSection,
   BlogSection,
   PhotographySection,
 } from "components/home";
-import { webCards } from "siteConfig";
-import { engineeringCards } from "siteConfig";
 
-export default function Home({ tools }) {
+export default function Home({ projects, tools }) {
   // If linked to specific section, (hash in url) scroll there on page load
   useEffect(() => {
     if (window !== "undefined") {
@@ -36,19 +35,31 @@ export default function Home({ tools }) {
   }, []);
 
   return (
-    <Layout>
-      <Hero />
-      <PhotographySection title="Photography" />
-      <HomepageSection title="Web Development" cards={webCards} />
-      <HomepageSection
-        title="Engineering & DIY"
-        cards={engineeringCards}
-        reverse
-      />
-      <AboutSection title="About me" />
-      <ToolsSection title="Tools and Skills" tools={tools} />
-      <BlogSection title="Recent blog posts" />
-    </Layout>
+    <>
+      <Head>
+        <title>Jakub Sekuła - personal website</title>
+      </Head>
+      <Layout>
+        <Hero />
+        <PhotographySection title="Photography" />
+        <ProjectsSection
+          title="Software"
+          projects={projects.filter(
+            (project) => project.attributes.type === "Software"
+          )}
+        />
+        <ProjectsSection
+          reverse
+          title="Engineering & DIY"
+          projects={projects.filter(
+            (project) => project.attributes.type === "Engineering"
+          )}
+        />
+        <AboutSection title="About me" />
+        <ToolsSection title="Tools and Skills" tools={tools} />
+        <BlogSection title="Recent blog posts" />
+      </Layout>
+    </>
   );
 }
 
@@ -58,7 +69,7 @@ export async function getStaticProps() {
     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
   });
 
-  const toolsQuery = qs.stringify({
+  let query = qs.stringify({
     populate: {
       tools: {
         populate: "*",
@@ -66,15 +77,26 @@ export async function getStaticProps() {
     },
   });
 
-  let tools = await fetch(`http://localhost:1337/api/tools?${toolsQuery}`, {
+  let tools = await fetch(`http://localhost:1337/api/tools?${query}`, {
     headers,
   });
 
   let toolsJson = await tools.json();
 
+  query = qs.stringify({
+    populate: ["featured_image", "tags"],
+  });
+
+  let projects = await fetch(`http://localhost:1337/api/projects?${query}`, {
+    headers,
+  });
+
+  let projectsJson = await projects.json();
+
   return {
     props: {
       tools: toolsJson.data,
+      projects: projectsJson.data,
     },
   };
 }

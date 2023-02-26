@@ -40,5 +40,5 @@ export const useIntersectionObserver = (setActiveId, depth) => {
     headingElements.forEach((element) => observer.observe(element));
 
     return () => observer.disconnect();
-  }, [setActiveId]);
+  }, [setActiveId, depth]);
 };

@@ -1,9 +1,6 @@
 import { useEffect } from "react";
-import { useRouter } from "next/router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAnimationContext } from "components/contexts";
-import { heroBlockIds } from "siteConfig";
-import { Hyperlink } from "components/common";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -35,6 +32,7 @@ export default function Hero() {
           text-xl font-light"
         >
           <Image
+            priority
             src="/me.png"
             width={600}
             height={600}
@@ -65,32 +63,20 @@ export default function Hero() {
           }}
           className="col-span-10 col-start-2 flex w-full flex-col justify-center gap-3 md:flex-row md:gap-5"
         >
-          <HeroCard
-            title="SOFTWARE"
-            color="yellow"
-            href="/projects/web"
-            layoutId={heroBlockIds[0]}
-          />
+          <HeroCard title="SOFTWARE" color="yellow" href="/tags/web" />
           <HeroCard
             title="ENGINEERING"
             color="green"
-            href="/projects/engineering"
-            layoutId={heroBlockIds[1]}
+            href="/tags/engineering"
           />
-          <HeroCard
-            title="PHOTOGRAPHY"
-            href="/photography"
-            color="blue"
-            layoutId={heroBlockIds[3]}
-          />
+          <HeroCard title="PHOTOGRAPHY" href="/photography" color="blue" />
         </motion.div>
-        {/* Hero grid */}
       </motion.section>
     </AnimatePresence>
   );
 }
 
-function HeroCard({ title, color, className, href, layoutId }) {
+function HeroCard({ title, color, className, href }) {
   const colors = {
     red: "border-js-red text-js-red hover:bg-js-red/5",
     green: "border-js-green text-js-green hover:bg-js-green/5",
