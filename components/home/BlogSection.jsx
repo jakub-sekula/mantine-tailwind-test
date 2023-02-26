@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useAnimationContext } from "components/contexts";
 import SectionContainer from "./SectionContainer";
 import Image from "next/image";
 
@@ -44,6 +43,7 @@ export default function BlogSection({ title }) {
   );
 }
 
+
 function BlogLink() {
   return (
     <div className="flex items-center gap-4 border-b border-neutral-300 pb-3">
@@ -66,3 +66,4 @@ function BlogLink() {
     </div>
   );
 }
+

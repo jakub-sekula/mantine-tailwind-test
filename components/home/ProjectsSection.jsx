@@ -98,8 +98,8 @@ const colors = {
   yellow: " bg-js-yellow border-js-yellowŚ",
 };
 
-function ProjectCard({ project }) {
-  const formats = project.attributes.featured_image.data?.attributes.formats;
+export function ProjectCard({ project }) {
+  const formats = project.attributes.featured_image?.data?.attributes.formats;
   const router = useRouter();
 
   return (
@@ -114,10 +114,10 @@ function ProjectCard({ project }) {
 		 border border-text/10 dark:border-darktext/10`}
     >
       <Image
-        width={formats.medium.width || 500}
-        height={formats.medium.height || 500}
-        src={convertRelativeUrl(formats.medium.url)}
-        alt={formats.medium.name}
+        width={formats?.medium.width || 500}
+        height={formats?.medium.height || 500}
+        src={convertRelativeUrl(formats?.medium.url)}
+        alt={formats?.medium.name}
         className="h-48 w-full object-cover lg:h-56 xl:h-60"
       />
       <div className="py-3 px-3 ">

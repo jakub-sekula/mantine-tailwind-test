@@ -1,7 +1,8 @@
-import { Layout } from "components/layout";
-import { motion } from "framer-motion";
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { Layout } from "components/layout";
 
 export default function Page({ data, instagramData }) {
   return (
@@ -26,13 +27,18 @@ export default function Page({ data, instagramData }) {
             Latest photos from my Instagram
           </h2>
           {!!instagramData &&
-            instagramData.map((item) => (
-              <img
-                className="col-span-2 rounded-sm"
-                src={item.media_url}
-                key={item.media_url}
-              />
-            ))}
+            instagramData.map((item) => {
+              return (
+                <Image
+                  src={item.media_url}
+                  key={item.media_url}
+                  alt={item.caption}
+                  width={250}
+                  height={250}
+                  className="col-span-2 rounded-sm object-cover w-full"
+                />
+              );
+            })}
         </div>
       </Layout>
     </>

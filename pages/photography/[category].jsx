@@ -1,12 +1,20 @@
-import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { IconChevronLeft } from "@tabler/icons";
 import { motion } from "framer-motion";
 
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+import {
+  markdownComponents,
+  imageLinkTransformer,
+  convertRelativeUrl,
+} from "lib/utils";
+
 import { Layout } from "components/layout";
 import { useLayoutContext, useAnimationContext } from "components/contexts";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Head from "next/head";
 
 export default function Page({ data, featured_image }) {
@@ -76,49 +84,54 @@ export default function Page({ data, featured_image }) {
                   key={`${section.title}`}
                   className="grid w-full max-w-page grid-cols-12 gap-4 py-12"
                 >
-                  {(!!section?.title || !!section?.text) && (
-                    <div className="col-span-full mx-auto grid max-w-3xl items-center justify-center py-10">
-                      {!!section?.title && (
-                        <h2 className="text-heading mb-5 text-5xl font-semibold uppercase tracking-wide">
+                  {!!section.title || !!section.text ? (
+                    <div className="col-span-full mx-auto mb-4 flex max-w-4xl flex-col gap-4">
+                      {!!section?.title ? (
+                        <h2 className="text-heading text-5xl font-semibold">
                           {section.title}
                         </h2>
-                      )}
-                      {!!section?.featured_image?.data && (
-                        <Image
-                          src={`${process.env.NEXT_PUBLIC_API_URL}${section.featured_image.data.attributes.url}`}
-                          width={960}
-                          height={400}
-                          alt={section.title}
-                          className="mb-8 rounded-md"
-                        />
-                      )}
-                      {!!section?.text && (
-                        <p className="whitespace-pre-line font-light leading-relaxed">
-                          {section.text}
-                        </p>
-                      )}
-                    </div>
-                  )}
+                      ) : null}
 
-                  {!!section?.gallery?.data && (
+                      {/* Post content in Markdown */}
+                      {!!section.text ? (
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={markdownComponents}
+                          transformImageUri={imageLinkTransformer}
+                          className="prose-pre:overflow-x-none prose  mx-auto
+                                     w-full max-w-none px-6 font-light prose-pre:m-0
+                                     prose-pre:h-min prose-pre:bg-red-600 prose-pre:p-0 
+                                     dark:prose-invert lg:px-0"
+                        >
+                          {section.text}
+                        </ReactMarkdown>
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  {!!section.gallery?.data ? (
                     <div
                       className={`${
                         !!section.text || !!section.title
                           ? "max-w-4xl"
                           : "max-w-page"
-                      } col-span-full mx-auto grid w-full grid-cols-12 gap-2`}
+                      } col-span-full mx-auto grid w-full grid-cols-12 gap-3`}
                     >
                       {section.gallery.data.map((item) => {
+                        const image = item.attributes.formats.medium;
                         return (
-                          <img
+                          <Image
                             key={`gallery-image-${item.id}`}
-                            src={`http://localhost:1337${item.attributes.formats.medium.url}`}
+                            width={image.width}
+                            height={image.height}
+                            alt={image.name}
+                            src={convertRelativeUrl(image.url)}
                             className="aspect col-span-3 aspect-square rounded-sm bg-neutral-700 object-cover"
                           />
                         );
                       })}
                     </div>
-                  )}
+                  ) : null}
                 </section>
               );
             } else if (section.__component === "album.link") {
@@ -127,31 +140,36 @@ export default function Page({ data, featured_image }) {
                   key={`links-${section.id}`}
                   className="grid w-full max-w-page grid-cols-12 gap-4 py-4"
                 >
-                  {section.albums.data.map((item) => (
-                    <Link
-                      href="/photography/[category]"
-                      as={`/photography/${item.attributes.title.toLowerCase()}`}
-                      key={`links-image-${item.id}`}
-                      className="group relative col-span-6 flex h-64 w-full flex-col items-center justify-center gap-4
+                  {section.albums.data.map((item) => {
+                    const image =
+                      item.attributes.featured_image?.data.attributes.formats;
+                    console.log(image);
+                    return (
+                      <Link
+                        href="/photography/[category]"
+                        as={`/photography/${item.attributes.title.toLowerCase()}`}
+                        key={`links-image-${item.id}`}
+                        className="group relative col-span-6 flex h-64 w-full flex-col items-center justify-center gap-4
                     overflow-hidden rounded-md border border-neutral-200 px-3 py-6 font-bold dark:border-0"
-                    >
-                      <Image
-                        width={400}
-                        height={400}
-                        src={
-                          !!item.attributes.featured_image?.data
-                            ? `${process.env.NEXT_PUBLIC_API_URL}${item.attributes.featured_image.data.attributes.url}`
-                            : "/"
-                        }
-                        alt={item.attributes.title}
-                        className="absolute -z-10 h-full w-full object-cover transition-transform group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-tr from-darkbg/50 " />
-                      <h6 className="z-10 font-heading text-2xl font-semibold uppercase text-white">
-                        {item.attributes.title}
-                      </h6>
-                    </Link>
-                  ))}
+                      >
+                        <Image
+                          width={400}
+                          height={400}
+                          src={
+                            !!item.attributes.featured_image?.data
+                              ? `${process.env.NEXT_PUBLIC_API_URL}${item.attributes.featured_image.data.attributes.url}`
+                              : "/"
+                          }
+                          alt={item.attributes.title}
+                          className="absolute -z-10 h-full w-full object-cover transition-transform group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-tr from-darkbg/50 " />
+                        <h6 className="z-10 font-heading text-2xl font-semibold uppercase text-white">
+                          {item.attributes.title}
+                        </h6>
+                      </Link>
+                    );
+                  })}
                 </section>
               );
             }

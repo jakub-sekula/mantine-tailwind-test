@@ -2,16 +2,19 @@ import Head from "next/head";
 import Image from "next/image";
 
 import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import remarkGfm from "remark-gfm";
-import slugify from "slugify";
 
 import { TableOfContents } from "components/common";
 import { Layout } from "components/layout";
 import Link from "next/link";
 
+import { markdownComponents, imageLinkTransformer } from "lib/utils";
+import { useHeadingsData } from "components/common/TableOfContents";
+
 export default function Page({ data, author, featured_image }) {
+  const { nestedHeadings } = useHeadingsData();
+  console.log(nestedHeadings);
+
   return (
     <>
       <Head>
@@ -39,12 +42,18 @@ export default function Page({ data, author, featured_image }) {
           ) : null}
 
           {/* Title block */}
-          <div className="col-span-full px-6 pt-8 pb-6 lg:col-span-10 lg:col-start-2 lg:px-0">
-            <div className="text-sm font-light opacity-75 mb-3">
-              Posted by{" "}
-              {`${author?.firstname} ${author?.lastname} on ${new Date(
-                data.createdAt
-              ).toLocaleDateString()}`}
+          <div
+            className={`px-6 pt-8 pb-6 lg:col-span-10 lg:col-start-2 lg:px-0 ${
+              nestedHeadings.length === 0
+                ? "lg:col-span-8 lg:col-start-3"
+                : "col-span-full"
+            } `}
+          >
+            <div className="mb-4 block text-sm font-light">
+              {author
+                ? `Posted by ${author.firstname} ${author.lastname} • `
+                : null}
+              {new Date(data.createdAt).toLocaleDateString("en-gb")}
             </div>
 
             <div className="mb-2 flex gap-2">
@@ -72,9 +81,14 @@ export default function Page({ data, author, featured_image }) {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={markdownComponents}
-              className="prose-pre:overflow-x-none prose col-span-full row-start-3 w-full max-w-none
-                         px-6 font-light prose-pre:m-0 prose-pre:h-min
-                       prose-pre:bg-red-600 prose-pre:p-0 dark:prose-invert lg:col-span-7 lg:col-start-2 lg:px-0 lg:pr-24"
+              className={`prose-pre:overflow-x-none prose col-span-full row-start-3
+                          w-full max-w-none px-6 font-light prose-pre:m-0 prose-pre:h-min 
+                        prose-pre:bg-red-600 prose-pre:p-0 dark:prose-invert lg:px-0 
+                       ${
+                         nestedHeadings.length === 0
+                           ? "lg:col-span-6 lg:col-start-3"
+                           : "lg:col-span-7 lg:col-start-2 lg:pr-24"
+                       } `}
               transformImageUri={imageLinkTransformer}
             >
               {data.content}
@@ -82,78 +96,24 @@ export default function Page({ data, author, featured_image }) {
           ) : null}
 
           {/* Table of contents */}
-          <aside
-            className="sticky top-36 col-span-3 col-start-9
+          {nestedHeadings.length != 0 ? (
+            <aside
+              className="sticky top-12 col-span-3 col-start-9
                        row-start-3 hidden h-min lg:block"
-          >
-            <h4 className="mb-2 font-heading text-lg font-semibold">
-              In this post:
-            </h4>
-            <ul className="font-light">
-              <TableOfContents border={false} depth={2} />
-            </ul>
-          </aside>
+            >
+              <h4 className="mb-2 font-heading text-lg font-semibold">
+                In this post:
+              </h4>
+              <ul className="font-light">
+                <TableOfContents border={false} depth={2} />
+              </ul>
+            </aside>
+          ) : null}
         </main>
       </Layout>
     </>
   );
 }
-
-// Converts relative links from Markdown to absolute for image display
-function imageLinkTransformer(src) {
-  return `${process.env.NEXT_PUBLIC_API_URL}${src}`;
-}
-
-// Components for React Markdown renderer
-const markdownComponents = {
-  a(props) {
-    return (
-      <a
-        {...props}
-        className="visited:text-purple-400 dark:visited:text-purple-600"
-      >
-        {props.children}
-      </a>
-    );
-  },
-  h2(props) {
-    return (
-      <h2 id={slugify(props.children[0].replace(/[^a-zA-Z ]/g, ""))} {...props}>
-        {props.children}
-      </h2>
-    );
-  },
-  h3(props) {
-    return (
-      <h3 id={slugify(props.children[0].replace(/[^a-zA-Z ]/g, ""))} {...props}>
-        {props.children}
-      </h3>
-    );
-  },
-  img(props) {
-    return <img className="rounded-md" {...props} />;
-  },
-  code({ node, inline, className, children, ...props }) {
-    const match = /language-(\w+)/.exec(className || "");
-    return !inline && match ? (
-      <SyntaxHighlighter
-        // children={String(children).replace(/\n$/, "")}
-        style={atomDark}
-        customStyle={{
-          margin: 0,
-        }}
-        wrapLines={true}
-        showLineNumbers
-        language={match[1]}
-        {...props}
-      />
-    ) : (
-      <code className={className} {...props}>
-        {children}
-      </code>
-    );
-  },
-};
 
 export async function getStaticProps(ctx) {
   const qs = require("qs");
@@ -204,7 +164,7 @@ export async function getStaticProps(ctx) {
   return {
     props: {
       data: resJson.data.attributes,
-      author: resJson.data.attributes.author.data.attributes,
+      author: resJson.data.attributes.author.data?.attributes || null,
       featured_image: !!resJson.data.attributes.featured_image.data
         ? `http://localhost:1337${resJson.data.attributes.featured_image.data?.attributes.url}`
         : "",
