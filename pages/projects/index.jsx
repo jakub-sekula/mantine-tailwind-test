@@ -1,9 +1,14 @@
-import { Layout } from "components/layout";
-import { motion } from "framer-motion";
+import Head from "next/head";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { Layout } from "components/layout";
 
 export default function Projects({ data }) {
   return (
+    <>
+    <Head>
+      <title>Projects</title>
+    </Head>
     <Layout>
       <motion.div className="">
         {data.map((item) => (
@@ -16,6 +21,7 @@ export default function Projects({ data }) {
         ))}
       </motion.div>
     </Layout>
+    </>
   );
 }
 export async function getStaticProps(ctx) {

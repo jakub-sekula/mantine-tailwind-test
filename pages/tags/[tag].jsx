@@ -1,31 +1,46 @@
+import Head from "next/head";
 import Link from "next/link";
 import { Layout } from "../../components/layout";
 
 export default function Tag({ data }) {
   return (
-    <Layout>
-      {data.albums.data.length != 0
-        ? data.albums.data.map((album) => (
-            <Link key={album.attributes.slug} href={`/photography/${album.attributes.slug}`}>
-              {album.attributes.title}
-            </Link>
-          ))
-        : null}
-      {data.projects.data.length != 0
-        ? data.projects.data.map((project) => (
-            <Link key={project.attributes.slug} href={`/projects/${project.attributes.slug}`}>
-              {project.attributes.title}
-            </Link>
-          ))
-        : null}
-      {data.posts.data.length != 0
-        ? data.posts.data.map((post) => (
-            <Link key={post.attributes.slug} href={`/blog/${post.attributes.slug}`}>
-              {post.attributes.title}
-            </Link>
-          ))
-        : null}
-    </Layout>
+    <>
+      <Head>
+        <title>Tags - {data.title}</title>
+      </Head>
+      <Layout>
+        {data.albums.data.length != 0
+          ? data.albums.data.map((album) => (
+              <Link
+                key={album.attributes.slug}
+                href={`/photography/${album.attributes.slug}`}
+              >
+                {album.attributes.title}
+              </Link>
+            ))
+          : null}
+        {data.projects.data.length != 0
+          ? data.projects.data.map((project) => (
+              <Link
+                key={project.attributes.slug}
+                href={`/projects/${project.attributes.slug}`}
+              >
+                {project.attributes.title}
+              </Link>
+            ))
+          : null}
+        {data.posts.data.length != 0
+          ? data.posts.data.map((post) => (
+              <Link
+                key={post.attributes.slug}
+                href={`/blog/${post.attributes.slug}`}
+              >
+                {post.attributes.title}
+              </Link>
+            ))
+          : null}
+      </Layout>
+    </>
   );
 }
 

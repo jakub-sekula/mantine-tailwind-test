@@ -22,30 +22,15 @@ export default function Page({ data, featured_image }) {
       setDark(false);
       setFixed(true);
     };
-  }, []);
-
-  const animate = !animationsDisabled
-    ? {
-        initial: "initial",
-        animate: "animate",
-        variants: {
-          initial: { scale: 0.95, opacity: 0 },
-          animate: { scale: 1, opacity: 1 },
-        },
-        transition: {
-          duration: 0.2,
-        },
-      }
-    : disabledAnimationProps;
+  }, [setDark, setFixed, setTransparent]);
 
   return (
     <>
       <Head>
-        <title>{data.title}</title>
+        <title>Photography - {data.title}</title>
       </Head>
       <Layout>
         <motion.section
-          {...animate}
           key={`hero-${data.title}`}
           className="relative -mt-24 flex max-h-[900px] w-full max-w-[1920px] justify-center px-6 xl:px-4 2xl:px-0"
         >
@@ -77,7 +62,7 @@ export default function Page({ data, featured_image }) {
             {data.showTags &&
               !!data.tags &&
               data.tags.data.map((tag) => (
-                <span key={tag.attributes.title + tag.id}>
+                <span key={`${tag.attributes.title}-${tag.id}`}>
                   {tag.attributes.title}
                 </span>
               ))}

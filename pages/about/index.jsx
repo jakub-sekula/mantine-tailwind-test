@@ -1,7 +1,9 @@
-import { Layout } from "components/layout";
-import { motion } from "framer-motion";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+
+import { Layout } from "components/layout";
 import { useAnimationContext } from "components/contexts";
 
 export default function About() {
@@ -14,6 +16,10 @@ export default function About() {
   }, []);
 
   return (
+    <>
+     <Head>
+        <title>About me</title>
+      </Head>
     <Layout
       useDefaultTransition={defaultTransition}
     >
@@ -35,5 +41,6 @@ export default function About() {
         />
       </motion.div>
     </Layout>
+    </>
   );
 }

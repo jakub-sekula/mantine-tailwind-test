@@ -1,35 +1,41 @@
 import { Layout } from "components/layout";
 import { motion } from "framer-motion";
+import Head from "next/head";
 import Link from "next/link";
 
 export default function Page({ data, instagramData }) {
   return (
-    <Layout>
-      <motion.div className="flex w-full flex-col py-36 text-center text-5xl font-bold">
-        {data.map((item) => (
-          <Link
-            key={`index-${item.attributes.title}`}
-            href="/photography/[category]"
-            as={`/photography/${item.attributes.title.toLowerCase()}`}
-          >
-            {item.attributes.title}
-          </Link>
-        ))}
-      </motion.div>
-      <div className="mx-auto grid w-full max-w-3xl grid-cols-6 gap-3">
-        <h2 className="col-span-full text-center">
-          Latest photos from my Instagram
-        </h2>
-        {!!instagramData &&
-          instagramData.map((item) => (
-            <img
-              className="col-span-2 rounded-sm"
-              src={item.media_url}
-              key={item.media_url}
-            />
+    <>
+      <Head>
+        <title>Photography</title>
+      </Head>
+      <Layout>
+        <motion.div className="flex w-full flex-col py-36 text-center text-5xl font-bold">
+          {data.map((item) => (
+            <Link
+              key={`index-${item.attributes.title}`}
+              href="/photography/[category]"
+              as={`/photography/${item.attributes.title.toLowerCase()}`}
+            >
+              {item.attributes.title}
+            </Link>
           ))}
-      </div>
-    </Layout>
+        </motion.div>
+        <div className="mx-auto grid w-full max-w-3xl grid-cols-6 gap-3">
+          <h2 className="col-span-full text-center">
+            Latest photos from my Instagram
+          </h2>
+          {!!instagramData &&
+            instagramData.map((item) => (
+              <img
+                className="col-span-2 rounded-sm"
+                src={item.media_url}
+                key={item.media_url}
+              />
+            ))}
+        </div>
+      </Layout>
+    </>
   );
 }
 

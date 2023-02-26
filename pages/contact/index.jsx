@@ -1,12 +1,18 @@
-import {Layout} from "components/layout";
+import Head from "next/head";
 import { motion } from "framer-motion";
+import { Layout } from "components/layout";
 
 export default function Blog() {
   return (
-    <Layout>
-      <motion.div className="w-full text-5xl font-bold py-36 text-center">
+    <>
+      <Head>
+        <title>Contact</title>
+      </Head>
+      <Layout>
+        <motion.div className="w-full py-36 text-center text-5xl font-bold">
           Contact
         </motion.div>
-    </Layout>
+      </Layout>
+    </>
   );
 }

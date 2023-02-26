@@ -1,9 +1,14 @@
 import { Layout } from "components/layout";
 import { motion } from "framer-motion";
+import Head from "next/head";
 import Link from "next/link";
 
 export default function Tags({ data }) {
   return (
+    <>
+    <Head>
+      <title>Tags</title>
+    </Head>
     <Layout>
       <motion.div className="">
         {data.map((item) => (
@@ -16,6 +21,7 @@ export default function Tags({ data }) {
         ))}
       </motion.div>
     </Layout>
+    </>
   );
 }
 export async function getStaticProps(ctx) {

@@ -1,11 +1,15 @@
+import Head from "next/head";
 import Link from "next/link";
 import { Layout } from "../../components/layout";
 
-export default function Tag({ data }) {
+export default function Project({ data }) {
   return (
-    <Layout>
-      {data.title}
-    </Layout>
+    <>
+      <Head>
+        <title>Project - {data.title}</title>
+      </Head>
+      <Layout>{data.title}</Layout>
+    </>
   );
 }
 
