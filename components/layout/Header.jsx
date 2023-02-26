@@ -9,7 +9,7 @@ export default function Header({ fixed, transparent, dark }) {
   
   return (
     <motion.header
-      className={`${fixed === true ? "fixed" : "absolute"}
+      className={`${fixed === true ? "lg:fixed absolute" : "absolute"}
       ${
         transparent === true
           ? "border-transparent bg-gradient-to-b from-darkbg/40 pb-px"
@@ -17,9 +17,9 @@ export default function Header({ fixed, transparent, dark }) {
       }
       ${dark === true ? "text-darktext" : ""}
       top-0 z-50 flex h-24 w-full items-center justify-center
-      transition-colors duration-200 `}
+      transition-colors duration-200 px-6 xl:px-4 2xl:px-0`}
     >
-      <div className="flex w-screen  max-w-[1400px]">
+      <div className="flex w-screen max-w-page">
         <Link
           scroll={false}
           href="/"

@@ -6,7 +6,7 @@ const LayoutContext = createContext();
 export const LayoutProvider = ({ children }) => {
   const [transparent, setTransparent] = useState(false);
   const [dark, setDark] = useState(false);
-  const [fixed, setFixed] = useState(true);
+  const [fixed, setFixed] = useState(false);
   const [menuLinks, setMenuLinks] = useState({});
 
   useEffect(() => {
