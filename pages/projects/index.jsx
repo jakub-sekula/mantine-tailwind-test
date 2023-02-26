@@ -1,12 +1,40 @@
-import {Layout} from "components/layout";
+import { Layout } from "components/layout";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
-export default function Page() {
+export default function Projects({ data }) {
   return (
     <Layout>
-      <motion.div className="w-full text-5xl font-bold py-36 text-center">
-          Projects home
-        </motion.div>
+      <motion.div className="">
+        {data.map((item) => (
+          <Link
+            key={item.attributes.slug}
+            href={`projects/${item.attributes.slug}`}
+          >
+            {item.attributes.title}
+          </Link>
+        ))}
+      </motion.div>
     </Layout>
   );
+}
+export async function getStaticProps(ctx) {
+  const qs = require("qs");
+  const headers = new Headers({
+    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+  });
+
+  const query = qs.stringify({});
+
+  const res = await fetch(`http://localhost:1337/api/projects?${query}`, {
+    headers,
+  });
+
+  const resJson = await res.json();
+
+  return {
+    props: {
+      data: resJson.data,
+    },
+  };
 }

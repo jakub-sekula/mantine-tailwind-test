@@ -1,10 +1,15 @@
-import { Layout } from "components/layout";
-import Image from "next/image";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import { TableOfContents } from "components/common";
-import slugify from "slugify";
 import Head from "next/head";
+import Image from "next/image";
+
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import remarkGfm from "remark-gfm";
+import slugify from "slugify";
+
+import { TableOfContents } from "components/common";
+import { Layout } from "components/layout";
+import Link from "next/link";
 
 export default function Page({ data, author, featured_image }) {
   return (
@@ -14,110 +19,77 @@ export default function Page({ data, author, featured_image }) {
       </Head>
       <Layout>
         <main className="mx-auto grid w-full max-w-page grid-cols-12">
-          <div
-            key={`featured-image-${data.title}`}
-            className="relative col-span-full mx-auto mt-8 aspect-video
-                     max-h-[480px] w-full overflow-hidden rounded-xl
-                     lg:col-span-10 lg:col-start-2"
-          >
-            <Image
-              width={960}
-              height={1667}
-              alt={data.title}
-              src={featured_image}
-              priority={true}
-              className="absolute h-full w-full object-cover"
-            />
-            <div className="absolute top-6 left-6 flex gap-4">
+          {/* Hero image */}
+          {!!featured_image ? (
+            <div
+              key={`featured-image-${data.title}`}
+              className="relative col-span-full mx-auto aspect-video max-h-[480px]
+                     w-full overflow-hidden rounded-b-xl lg:col-span-10 lg:col-start-2
+                     lg:mt-8 lg:rounded-xl"
+            >
+              <Image
+                width={960}
+                height={1667}
+                alt={data.title}
+                src={featured_image}
+                priority={true}
+                className="absolute h-full w-full object-cover"
+              />
+            </div>
+          ) : null}
+
+          {/* Title block */}
+          <div className="col-span-full px-6 pt-8 pb-6 lg:col-span-10 lg:col-start-2 lg:px-0">
+            <div className="text-sm font-light opacity-75 mb-3">
+              Posted by{" "}
+              {`${author?.firstname} ${author?.lastname} on ${new Date(
+                data.createdAt
+              ).toLocaleDateString()}`}
+            </div>
+
+            <div className="mb-2 flex gap-2">
               {!!data.tags
                 ? data.tags.data.map((tag) => (
-                    <span
-                      className="z-50 rounded-full bg-lightbg/90 dark:bg-darkbg/90
-                  py-1 px-3 backdrop-blur-lg"
-                      key={tag.attributes.title + tag.id}
+                    <Link
+                      href={`/tags/${tag.attributes.slug}`}
+                      className="rounded-sm bg-darkbg px-2 py-0.5 text-xs
+                      text-darktext dark:bg-darktext dark:text-text"
+                      key={`${tag.attributes.title}-${tag.id}`}
                     >
                       {tag.attributes.title}
-                    </span>
+                    </Link>
                   ))
                 : null}
             </div>
-          </div>
-          <div className="col-span-10 col-start-2 pt-8 pb-6">
-            <h1 className="mb-2 font-heading text-3xl font-semibold tracking-tight">
+
+            <h1 className="-mb-3 font-heading text-3xl font-semibold tracking-tight ">
               {data.title}
             </h1>
-            <span className="text-sm font-light opacity-75">
-              Posted by{" "}
-              {`${author.firstname} ${author.lastname} on ${new Date(
-                data.createdAt
-              ).toLocaleDateString()}`}
-            </span>
           </div>
-          {!!data.sections &&
-            data.sections.map((section) => {
-              return (
-                <ReactMarkdown
-                  key={`${section.id}-section`}
-                  remarkPlugins={[remarkGfm]}
-                  className="prose  col-span-full row-start-3 w-full max-w-none pr-24
-                           font-light dark:prose-invert lg:col-span-7 lg:col-start-2"
-                  transformImageUri={(src) =>
-                    `${process.env.NEXT_PUBLIC_API_URL}${src}`
-                  }
-                  components={{
-                    a(props) {
-                      return (
-                        <a
-                          {...props}
-                          className="visited:text-purple-400 dark:visited:text-purple-600"
-                        >
-                          {props.children}
-                        </a>
-                      );
-                    },
-                    h2(props) {
-                      console.log(props);
-                      return (
-                        <h2
-                          id={slugify(
-                            props.children[0].replace(/[^a-zA-Z ]/g, "")
-                          )}
-                          {...props}
-                        >
-                          {props.children}
-                        </h2>
-                      );
-                    },
-                    h3(props) {
-                      console.log(props);
-                      return (
-                        <h3
-                          id={slugify(
-                            props.children[0].replace(/[^a-zA-Z ]/g, "")
-                          )}
-                          {...props}
-                        >
-                          {props.children}
-                        </h3>
-                      );
-                    },
-                    img(props) {
-                      return <img className="rounded-md" {...props} />;
-                    },
-                  }}
-                >
-                  {section.text}
-                </ReactMarkdown>
-              );
-            })}
+
+          {/* Post content in Markdown */}
+          {data.content ? (
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={markdownComponents}
+              className="prose-pre:overflow-x-none prose col-span-full row-start-3 w-full max-w-none
+                         px-6 font-light prose-pre:m-0 prose-pre:h-min
+                       prose-pre:bg-red-600 prose-pre:p-0 dark:prose-invert lg:col-span-7 lg:col-start-2 lg:px-0 lg:pr-24"
+              transformImageUri={imageLinkTransformer}
+            >
+              {data.content}
+            </ReactMarkdown>
+          ) : null}
+
+          {/* Table of contents */}
           <aside
             className="sticky top-36 col-span-3 col-start-9
-        row-start-3 h-min"
+                       row-start-3 hidden h-min lg:block"
           >
             <h4 className="mb-2 font-heading text-lg font-semibold">
               In this post:
             </h4>
-            <ul>
+            <ul className="font-light">
               <TableOfContents border={false} depth={2} />
             </ul>
           </aside>
@@ -126,6 +98,62 @@ export default function Page({ data, author, featured_image }) {
     </>
   );
 }
+
+// Converts relative links from Markdown to absolute for image display
+function imageLinkTransformer(src) {
+  return `${process.env.NEXT_PUBLIC_API_URL}${src}`;
+}
+
+// Components for React Markdown renderer
+const markdownComponents = {
+  a(props) {
+    return (
+      <a
+        {...props}
+        className="visited:text-purple-400 dark:visited:text-purple-600"
+      >
+        {props.children}
+      </a>
+    );
+  },
+  h2(props) {
+    return (
+      <h2 id={slugify(props.children[0].replace(/[^a-zA-Z ]/g, ""))} {...props}>
+        {props.children}
+      </h2>
+    );
+  },
+  h3(props) {
+    return (
+      <h3 id={slugify(props.children[0].replace(/[^a-zA-Z ]/g, ""))} {...props}>
+        {props.children}
+      </h3>
+    );
+  },
+  img(props) {
+    return <img className="rounded-md" {...props} />;
+  },
+  code({ node, inline, className, children, ...props }) {
+    const match = /language-(\w+)/.exec(className || "");
+    return !inline && match ? (
+      <SyntaxHighlighter
+        // children={String(children).replace(/\n$/, "")}
+        style={atomDark}
+        customStyle={{
+          margin: 0,
+        }}
+        wrapLines={true}
+        showLineNumbers
+        language={match[1]}
+        {...props}
+      />
+    ) : (
+      <code className={className} {...props}>
+        {children}
+      </code>
+    );
+  },
+};
 
 export async function getStaticProps(ctx) {
   const qs = require("qs");

@@ -45,9 +45,9 @@ export default function Page({ data, featured_image }) {
       </Head>
       <Layout>
         <motion.section
-          // {...animate}
+          {...animate}
           key={`hero-${data.title}`}
-          className="relative -mt-24 flex max-h-[900px] w-full max-w-[1920px] justify-center"
+          className="relative -mt-24 flex max-h-[900px] w-full max-w-[1920px] justify-center px-6 xl:px-4 2xl:px-0"
         >
           <div className="absolute inset-0 z-10 h-full bg-gradient-to-tr from-darkbg/90" />
           <Image
@@ -68,8 +68,8 @@ export default function Page({ data, featured_image }) {
               Back to albums
             </Link>
             <h1
-              className="mb-3 font-heading
-            text-[7rem] font-bold uppercase leading-none tracking-tight"
+              className="mb-3 break-words font-heading text-6xl font-bold
+            uppercase leading-none tracking-tight xl:text-7xl 2xl:text-[6rem]"
             >
               {data.title}
             </h1>
@@ -85,7 +85,6 @@ export default function Page({ data, featured_image }) {
         </motion.section>
         {!!data.sections &&
           data.sections.map((section) => {
-            console.log(section);
             if (section.__component === "album.sections") {
               return (
                 <section
@@ -119,7 +118,9 @@ export default function Page({ data, featured_image }) {
                   {!!section?.gallery?.data && (
                     <div
                       className={`${
-                        (!!section.text || !!section.title) ? "max-w-4xl" : "max-w-page"
+                        !!section.text || !!section.title
+                          ? "max-w-4xl"
+                          : "max-w-page"
                       } col-span-full mx-auto grid w-full grid-cols-12 gap-2`}
                     >
                       {section.gallery.data.map((item) => {

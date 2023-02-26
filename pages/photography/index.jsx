@@ -25,7 +25,7 @@ export default function Page({ data, instagramData }) {
             <img
               className="col-span-2 rounded-sm"
               src={item.media_url}
-              key={item.hash}
+              key={item.media_url}
             />
           ))}
       </div>
