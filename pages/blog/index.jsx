@@ -13,7 +13,7 @@ export default function Blog({ data }) {
       </Head>
       <Layout>
         <main className="mx-auto mt-12 grid w-full max-w-5xl grid-cols-12 gap-3">
-          <h1 className="col-span-full text-center font-heading text-5xl font-bold mb-8">
+          <h1 className="col-span-full mb-8 text-center font-heading text-5xl font-bold">
             Blog
           </h1>
           <div className="relative col-span-full mb-4 flex flex-col items-center">
@@ -21,16 +21,17 @@ export default function Blog({ data }) {
               src={convertRelativeUrl(latest_image.url)}
               width={latest_image.width}
               height={latest_image.height}
+              alt={latest_image.name}
               className="inset-0 aspect-video h-80 w-full rounded-md object-cover"
             />
             <div
               className="-bottom-6 -mt-24 flex w-11/12 flex-col gap-2
                          rounded-md border border-text/10 bg-white p-6
-                         shadow-md dark:border-darktext/5 dark:bg-darkbg
-                       shadow-text/5 dark:shadow-darktext/[1%]"
+                         shadow-md shadow-text/5 dark:border-darktext/5
+                       dark:bg-darkbg dark:shadow-darktext/[1%]"
             >
               <div className="block text-sm font-light">
-                {latest_author?.data ? `${latest_author} • ` : null}
+                {latest.author?.data ? `${latest_author} • ` : null}
                 {new Date(latest.createdAt).toLocaleDateString("en-gb")}
               </div>
               <Link
@@ -54,6 +55,7 @@ export default function Blog({ data }) {
                 <ul className="mt-2 flex gap-2">
                   {latest.tags.data?.map((tag) => (
                     <Link
+                      scroll={false}
                       href={`/tags/${tag.attributes.slug}`}
                       key={`${tag.attributes.title}-${tag.id}`}
                       className="rounded-sm bg-darkbg px-2 py-0.5 text-xs
@@ -66,7 +68,7 @@ export default function Blog({ data }) {
               ) : null}
             </div>
           </div>
-          <h4 className="col-span-full text-center font-heading text-xl font-semibold mb-4">
+          <h4 className="col-span-full mb-4 text-center font-heading text-xl font-semibold">
             Older posts:
           </h4>
           {data.slice(1, data.length).map((item) => (
@@ -111,7 +113,7 @@ export function BlogPostCard({ project }) {
       />
       <div className="py-3 px-3 ">
         <div className="flex justify-between">
-          <h3 className="font-heading font-semibold line-clamp-2 group-hover:underline">
+          <h3 className="font-heading font-semibold line-clamp-3 group-hover:underline">
             {project.attributes.title}
           </h3>
           <span
@@ -127,9 +129,10 @@ export function BlogPostCard({ project }) {
         ) : null}
         {/* Tags display */}
         {!!project.attributes.tags?.data ? (
-          <ul className="mt-2 flex flex-wrap gap-2">
+          <ul className="mt-4 flex flex-wrap gap-2">
             {project.attributes.tags.data?.slice(0, 3).map((tag) => (
               <Link
+                scroll={false}
                 href={`/tags/${tag.attributes.slug}`}
                 key={`${tag.attributes.title}-${tag.id}`}
                 className="rounded-sm bg-darkbg px-2 py-0.5 text-xs

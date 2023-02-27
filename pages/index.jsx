@@ -11,7 +11,7 @@ import {
   PhotographySection,
 } from "components/home";
 
-export default function Home({ projects, tools }) {
+export default function Home({ projects, tools, posts }) {
   // If linked to specific section, (hash in url) scroll there on page load
   useEffect(() => {
     if (window !== "undefined") {
@@ -57,7 +57,7 @@ export default function Home({ projects, tools }) {
         />
         <AboutSection title="About me" />
         <ToolsSection title="Tools and Skills" tools={tools} />
-        <BlogSection title="Recent blog posts" />
+        <BlogSection title="Recent blog posts" posts={posts}/>
       </Layout>
     </>
   );
@@ -93,10 +93,28 @@ export async function getStaticProps() {
 
   let projectsJson = await projects.json();
 
+  query = qs.stringify({
+    populate: ["featured_image", "tags", "author"],
+    sort: {
+      createdAt: "desc",
+    },
+    pagination: {
+      start: 0,
+      limit: 5,
+    },
+  });
+
+  const posts = await fetch(`http://localhost:1337/api/posts?${query}`, {
+    headers,
+  });
+
+  const postsJson = await posts.json();
+
   return {
     props: {
       tools: toolsJson.data,
       projects: projectsJson.data,
+      posts: postsJson.data,
     },
   };
 }

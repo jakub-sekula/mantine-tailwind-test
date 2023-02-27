@@ -24,13 +24,11 @@ export default function Page({ data, featured_image }) {
   useEffect(() => {
     setTransparent(true);
     setDark(true);
-    setFixed(false);
     return () => {
       setTransparent(false);
       setDark(false);
-      setFixed(true);
     };
-  }, [setDark, setFixed, setTransparent]);
+  }, [setDark, setTransparent]);
 
   return (
     <>

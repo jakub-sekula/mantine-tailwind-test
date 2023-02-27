@@ -108,7 +108,9 @@ export function ProjectCard({ project }) {
       layoutId={`project-card-${project.id}`}
       whileTap={{ scale: 0.95 }}
       onClick={() => {
-        router.push(`/projects/${project.attributes.slug}`);
+        router.push(`/projects/${project.attributes.slug}`, undefined, {
+          scroll: false,
+        });
       }}
       className={`relative flex w-full flex-col overflow-hidden rounded-md
 		 border border-text/10 dark:border-darktext/10`}
