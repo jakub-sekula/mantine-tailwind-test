@@ -18,8 +18,6 @@ import { useEffect } from "react";
 import Head from "next/head";
 
 export default function Page({ data, featured_image }) {
-  const { disabledAnimationProps, animationsDisabled } = useAnimationContext();
-
   const { setTransparent, setFixed, setDark } = useLayoutContext();
   useEffect(() => {
     setTransparent(true);
@@ -49,7 +47,7 @@ export default function Page({ data, featured_image }) {
             priority={true}
             className="absolute inset-0 z-0 mx-auto h-full w-full object-cover"
           />
-          <div className="z-20 mt-20 w-full max-w-page pt-40 pb-32 text-white ">
+          <div className="z-20 mt-20 flex w-full max-w-page flex-col items-center pt-40 pb-32 text-white ">
             <Link
               scroll={false}
               href="/photography"
@@ -59,12 +57,14 @@ export default function Page({ data, featured_image }) {
               Back to albums
             </Link>
             <h1
-              className="mb-3 break-words font-heading text-6xl font-bold
-            uppercase leading-none tracking-tight xl:text-7xl 2xl:text-[6rem]"
+              className="mb-3 break-words font-heading text-[4.5rem] font-bold
+                uppercase leading-none tracking-tight xl:text-[5.5rem] 2xl:text-[6rem]"
             >
               {data.title}
             </h1>
-            <p className="w-3/5 text-lg font-light">{data.description}</p>
+            <p className="max-w-[75ch] text-center text-lg font-light">
+              {data.description}
+            </p>
             {data.showTags &&
               !!data.tags &&
               data.tags.data.map((tag) => (
@@ -74,6 +74,7 @@ export default function Page({ data, featured_image }) {
               ))}
           </div>
         </motion.section>
+
         {!!data.sections &&
           data.sections.map((section) => {
             if (section.__component === "album.sections") {
@@ -83,9 +84,9 @@ export default function Page({ data, featured_image }) {
                   className="grid w-full max-w-page grid-cols-12 gap-4 py-12"
                 >
                   {!!section.title || !!section.text ? (
-                    <div className="col-span-full mx-auto mb-4 flex max-w-4xl flex-col gap-4">
+                    <div className="col-span-full mx-auto mb-4 flex max-w-[75ch] flex-col gap-4">
                       {!!section?.title ? (
-                        <h2 className="text-heading text-5xl font-semibold">
+                        <h2 className="text-heading text-center text-5xl font-semibold">
                           {section.title}
                         </h2>
                       ) : null}
@@ -97,8 +98,8 @@ export default function Page({ data, featured_image }) {
                           components={markdownComponents}
                           transformImageUri={imageLinkTransformer}
                           className="prose-pre:overflow-x-none prose  mx-auto
-                                     w-full max-w-none px-6 font-light prose-pre:m-0
-                                     prose-pre:h-min prose-pre:bg-red-600 prose-pre:p-0 
+                                       w-full max-w-none px-6 font-light prose-pre:m-0
+                                       prose-pre:h-min prose-pre:bg-red-600 prose-pre:p-0 
                                      dark:prose-invert lg:px-0"
                         >
                           {section.text}
@@ -148,7 +149,7 @@ export default function Page({ data, featured_image }) {
                         as={`/photography/${item.attributes.title.toLowerCase()}`}
                         key={`links-image-${item.id}`}
                         className="group relative col-span-6 flex h-64 w-full flex-col items-center justify-center gap-4
-                    overflow-hidden rounded-md border border-neutral-200 px-3 py-6 font-bold dark:border-0"
+                      overflow-hidden rounded-md border border-neutral-200 px-3 py-6 font-bold dark:border-0"
                       >
                         <Image
                           width={400}

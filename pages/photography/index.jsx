@@ -85,7 +85,7 @@ export async function getStaticProps(ctx) {
   return {
     props: {
       data: strapiResJson.data,
-      instagramData: !!instagramResJson && instagramResJson.data.slice(0, 6),
+      instagramData: !!instagramResJson && instagramResJson.data.slice(0, 24),
     },
   };
 }

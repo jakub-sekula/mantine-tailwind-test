@@ -43,9 +43,9 @@ export default function Page({ data, author, featured_image }) {
 
           {/* Title block */}
           <div
-            className={`px-6 pt-8 pb-6 lg:col-span-10 lg:col-start-2 lg:px-0 ${
+            className={`col-span-full px-6 pt-8 pb-6 md:col-span-8 md:col-start-3 lg:col-span-10 lg:col-start-2 lg:px-0 ${
               nestedHeadings.length === 0
-                ? "lg:col-span-8 lg:col-start-3"
+                ? "lg:col-span-6 lg:col-start-4"
                 : "col-span-full"
             } `}
           >
@@ -81,12 +81,12 @@ export default function Page({ data, author, featured_image }) {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={markdownComponents}
-              className={`prose-pre:overflow-x-none prose col-span-full row-start-3
+              className={`prose-pre:overflow-x-none prose col-span-full md:col-span-8 md:col-start-3 row-start-3
                           w-full max-w-none px-6 font-light prose-pre:m-0 prose-pre:h-min 
                         prose-pre:bg-red-600 prose-pre:p-0 dark:prose-invert lg:px-0 
                        ${
                          nestedHeadings.length === 0
-                           ? "lg:col-span-6 lg:col-start-3"
+                           ? "lg:col-span-6 lg:col-start-4"
                            : "lg:col-span-7 lg:col-start-2 lg:pr-24"
                        } `}
               transformImageUri={imageLinkTransformer}
@@ -137,7 +137,13 @@ export async function getStaticProps(ctx) {
   });
   const idJson = await idRes.json();
 
-  const id = idJson.data[0].id;
+  const id = idJson?.data[0]?.id;
+
+  if (!id) {
+    return {
+      notFound: true,
+    };
+  }
 
   query = qs.stringify({
     populate: {
@@ -169,6 +175,7 @@ export async function getStaticProps(ctx) {
         ? `http://localhost:1337${resJson.data.attributes.featured_image.data?.attributes.url}`
         : "",
     },
+    revalidate: 5,
   };
 }
 
@@ -189,6 +196,6 @@ export async function getStaticPaths() {
 
   return {
     paths: paths,
-    fallback: true,
+    fallback: "blocking",
   };
 }

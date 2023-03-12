@@ -116,5 +116,6 @@ export async function getStaticProps() {
       projects: projectsJson.data,
       posts: postsJson.data,
     },
+    revalidate: 5
   };
 }
