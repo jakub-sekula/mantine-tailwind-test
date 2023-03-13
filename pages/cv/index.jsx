@@ -3,23 +3,26 @@ import Head from "next/head";
 import slugify from "slugify";
 import { motion } from "framer-motion";
 import { IconDownload } from "@tabler/icons";
+import { FaLinkedin } from "react-icons/fa";
 
 import { Layout } from "components/layout";
 import { SectionHeading, TableOfContents } from "components/common";
 import { ExperienceLine, BulletsOnly, InlineList } from "components/cv";
+import Link from "next/link";
 
 export default function Cv({ data }) {
+  console.log(data);
   return (
     <>
-     <Head>
-        <title>CV</title>
+      <Head>
+        <title>CV - Jakub Sekula</title>
       </Head>
       <Layout>
         <motion.section
           id="cv"
-          className="relative mx-auto grid w-full max-w-page grid-cols-12 px-6 pt-8 xl:px-2 2xl:px-0 "
+          className="relative mx-auto grid w-full max-w-5xl grid-cols-12 px-6 pt-8 xl:px-2 2xl:px-0 "
         >
-          <h1 className="col-span-full row-start-1 font-heading text-2xl font-bold md:text-4xl">
+          <h1 className="md:texxt-center col-span-full font-heading text-3xl font-bold md:mb-6 md:text-4xl lg:text-5xl">
             Curriculum Vitae
           </h1>
           <a
@@ -35,10 +38,10 @@ export default function Cv({ data }) {
             Download PDF
           </a>
           <aside
-            className="row-[span_7_/_span_7] row-start-2 mt-4 hidden w-full flex-col pt-4 text-right text-sm
+            className="row-[span_7_/_span_7] row-start-2 hidden w-full flex-col text-right text-sm
         font-light lg:col-span-3 lg:col-start-10 lg:block "
           >
-            <nav aria-label="Table of contents" className="sticky top-36">
+            <nav aria-label="Table of contents" className="sticky top-16">
               <ul className="flex flex-col">
                 <TableOfContents />
                 <li>
@@ -55,6 +58,18 @@ export default function Cv({ data }) {
                     Download PDF
                   </a>
                 </li>
+                <li>
+                  <Link
+                    className=" ml-auto mt-4 flex h-min w-max cursor-pointer select-none items-center
+                    justify-center gap-2 rounded-md 
+                    text-center text-xs transition-all duration-200 hover:-translate-y-[2px]
+                  "
+                    href="https://www.linkedin.com/in/jakub-sekula/"
+                  >
+                    View on LinkedIn
+                    <FaLinkedin size={24} />
+                  </Link>
+                </li>
               </ul>
             </nav>
           </aside>
@@ -64,12 +79,12 @@ export default function Cv({ data }) {
               <section
                 key={`${section.title}-${section.id}-main`}
                 id={slugify(section.title).toLowerCase()}
-                className="col-span-full flex flex-col lg:col-span-9 lg:col-start-1"
+                className="col-span-full mb-4 flex flex-col rounded-lg lg:col-span-9 lg:col-start-1"
               >
                 <SectionHeading
                   color={section.color}
                   title={section.title}
-                  className=" top-24 w-full bg-white/95 py-4  backdrop-blur dark:bg-darkbg"
+                  className="top-24 w-full py-4"
                 />
                 <div className="flex flex-col gap-5">
                   {section.entries.map((entry) => {

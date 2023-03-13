@@ -1,6 +1,6 @@
 import SectionContainer from "./SectionContainer";
 import Image from "next/image";
-import { convertRelativeUrl } from "../../lib/utils";
+import { convertRelativeUrl } from "lib/utils";
 import Link from "next/link";
 import { IconArrowRight } from "@tabler/icons";
 
