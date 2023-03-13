@@ -27,7 +27,7 @@ export default function Layout({
       <motion.div
         {...transitionProps}
         key="layout"
-        className={`relative mt-24 flex h-full w-full flex-col mx-auto
+        className={`relative flex h-full w-full flex-col mx-auto
       items-center ${className && className} ${mode === "blog" ? "max-w-3xl" : ""}`}
       >
         {children}
