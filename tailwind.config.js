@@ -32,7 +32,7 @@ module.exports = {
         "js-blue": "#59B8DF",
         "js-yellow": "#FED557",
         darkbg: "hsl(190, 14%, 6%)",
-        lightbg: "hsl(42, 100%, 99%)",
+        lightbg: "hsl(36, 30%, 99%)",
         text: "#2b2a2a",
         darktext: "hsl(195, 32%, 90%)",
       },
