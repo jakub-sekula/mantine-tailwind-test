@@ -11,7 +11,7 @@ import {
   PhotographySection,
 } from "components/home";
 
-export default function Home({ projects, tools, posts }) {
+export default function Home({ projects, tools, posts, cv }) {
   // If linked to specific section, (hash in url) scroll there on page load
   useEffect(() => {
     if (window !== "undefined") {
@@ -55,9 +55,9 @@ export default function Home({ projects, tools, posts }) {
             (project) => project.attributes.type === "Engineering"
           )}
         />
-        <AboutSection title="About me" />
+        <AboutSection title="About me" cv={cv} />
         <ToolsSection title="Tools and Skills" tools={tools} />
-        <BlogSection title="Recent blog posts" posts={posts}/>
+        <BlogSection title="Recent blog posts" posts={posts} />
       </Layout>
     </>
   );
@@ -110,12 +110,31 @@ export async function getStaticProps() {
 
   const postsJson = await posts.json();
 
+  query = qs.stringify({
+    populate: {
+      sections: {
+        populate: {
+          entries: {
+            populate: "image",
+          },
+        },
+      },
+    },
+  });
+
+  const cv = await fetch(`http://localhost:1337/api/cv?${query}`, {
+    headers,
+  });
+
+  const cvJson = await cv.json();
+
   return {
     props: {
       tools: toolsJson.data,
       projects: projectsJson.data,
       posts: postsJson.data,
+      cv: cvJson.data,
     },
-    revalidate: 5
+    revalidate: 5,
   };
 }

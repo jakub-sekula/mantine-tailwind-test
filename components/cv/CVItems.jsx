@@ -1,15 +1,15 @@
 import { convertRelativeUrl } from "lib/utils";
 import Image from "next/image";
 
-export function ExperienceLine({ entry }) {
+export function ExperienceLine({ entry, summaryView = false }) {
   return (
     <article className="flex items-start gap-4">
-      {!!entry.image.data ? (
+      {!!entry.image?.data ? (
         <Image
           src={convertRelativeUrl(entry.image.data.attributes.url)}
           width={100}
           height={100}
-          className="w-10 h-10 rounded-sm object-contain"
+          className="h-10 w-10 rounded-sm object-contain"
         />
       ) : (
         <div className="h-10 w-10 rounded-sm bg-neutral-500" />
@@ -23,15 +23,17 @@ export function ExperienceLine({ entry }) {
           <div className="flex flex-col">
             <h3>{entry.title}</h3>
             <h4 className="font-sans text-sm font-light">
-            {entry.years} ∙ {entry.place} 
+              {entry.years} ∙ {entry.place}
             </h4>
           </div>
         </div>
 
-        <CVBullets
-          bullets={entry.bullets ? entry.bullets : null}
-          type={entry.type}
-        />
+        {!summaryView ? (
+          <CVBullets
+            bullets={entry.bullets ? entry.bullets : null}
+            type={entry.type}
+          />
+        ) : null}
       </div>
     </article>
   );
@@ -56,7 +58,9 @@ export function InlineList({ entry }) {
           <h3>{entry.title}</h3>
         </div>
       </div>
-      <div className="mt-1 font-light text-sm 2xl:text-base leading-relaxed">{entry.bullets}</div>
+      <div className="mt-1 text-sm font-light leading-relaxed 2xl:text-base">
+        {entry.bullets}
+      </div>
     </article>
   );
 }
@@ -66,7 +70,9 @@ import slugify from "slugify";
 export function CVBullets({ bullets }) {
   if (!bullets) return;
   return (
-    <ul className={`mt-2 flex flex-col font-light text-sm 2xl:text-base leading-relaxed`}>
+    <ul
+      className={`mt-2 flex flex-col text-sm font-light leading-relaxed 2xl:text-base`}
+    >
       {bullets.split("\n").map((bullet) => (
         <li key={`${slugify(bullet)}`}>∙ {bullet}</li>
       ))}

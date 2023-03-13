@@ -23,8 +23,17 @@ export default function ProjectsSection({ title, reverse, projects }) {
                 className="col-span-full  grid grid-rows-1 gap-6 md:grid-cols-2 
         md:gap-12 lg:col-span-10 lg:col-start-2"
               >
+                <Image
+                  src={convertRelativeUrl(featured.formats.large.url)}
+                  alt={featured.name}
+                  height={featured.formats.large.height}
+                  width={featured.formats.large.width}
+                  className={`h-80 w-full rounded-md object-cover bg-js-yellow ${
+                    reverse ? "md:col-start-1" : "md:col-start-2"
+                  }`}
+                />
                 <div
-                  className={`mb-6 flex h-min flex-col gap-4 md:row-start-1 ${
+                  className={`mb-12 flex h-min flex-col gap-4 md:row-start-1 ${
                     reverse ? "md:col-start-2" : "md:col-start-1"
                   }`}
                 >
@@ -59,16 +68,6 @@ export default function ProjectsSection({ title, reverse, projects }) {
                     className="text-sm"
                   />
                 </div>
-
-                <Image
-                  src={convertRelativeUrl(featured.formats.large.url)}
-                  alt={featured.name}
-                  height={featured.formats.large.height}
-                  width={featured.formats.large.width}
-                  className={`h-80 w-full rounded-md bg-js-yellow ${
-                    reverse ? "md:col-start-1" : "md:col-start-2"
-                  }`}
-                />
               </div>
             );
           })}
