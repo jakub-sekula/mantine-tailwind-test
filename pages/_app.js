@@ -1,27 +1,27 @@
 import "/styles/globals.css";
-import { AnimatePresence } from "framer-motion";
 import { ThemeProvider } from "next-themes";
-import { AnimationContext } from "components/contexts";
-import { Header, Footer } from "components/layout";
+import { LayoutProvider } from "components/contexts";
+import { ParallaxProvider } from "react-scroll-parallax";
+import { useEffect } from "react";
+import { reveal } from "lib/utils";
 
 export default function App({ Component, pageProps, router }) {
+  useEffect(() => {
+    window.addEventListener("scroll", reveal);
+
+    // To check the scroll position on page load
+    reveal();
+    return () => {
+      window.removeEventListener("scroll", reveal);
+    };
+  }, []);
   return (
-    <AnimationContext>
-      <ThemeProvider attribute="class">
-        <AnimatePresence>
-          <Header />
-        </AnimatePresence>
-        <AnimatePresence
-          mode="wait"
-          initial={false}
-          onExitComplete={() => {
-            window.scrollTo(0, 0);
-          }}
-        >
-          <Component {...pageProps} key={router.pathname} />
-        </AnimatePresence>
-        <Footer />
-      </ThemeProvider>
-    </AnimationContext>
+    <ThemeProvider attribute="class" disableTransitionOnChange>
+      <LayoutProvider>
+        <ParallaxProvider>
+          <Component {...pageProps} key={router.asPath} />
+        </ParallaxProvider>
+      </LayoutProvider>
+    </ThemeProvider>
   );
 }

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
@@ -6,10 +5,10 @@ export default function Footer() {
     <footer
       className="mt-24 flex w-full flex-col items-center justify-center
      border-t border-zinc-300 bg-neutral-50 font-light dark:border-0
-    dark:bg-black/80"
+    dark:bg-black/20"
     >
       <div className="flex w-full flex-col gap-6 py-10 items-center text-center">
-        <h4 className=" font-poppins text-4xl font-bold">Let&apos;s talk!</h4>
+        <h4 className=" font-heading text-4xl font-bold">Let&apos;s talk!</h4>
         <div className="flex flex-col gap-2">
           <p>I&apos;m open to remote freelance opportunities.</p>
           <p className="">

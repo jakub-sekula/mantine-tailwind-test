@@ -1,56 +1,52 @@
-import { useRouter } from "next/router";
-import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 
+import SectionContainer from "./SectionContainer";
 import { Hyperlink } from "components/common";
-import { useAnimationContext } from "components/contexts";
+import { convertRelativeUrl } from "lib/utils";
 
-export default function PhotographySection({ title }) {
-  const { sectionEntryAnimation } = useAnimationContext();
-
+export default function PhotographySection({ photos }) {
   return (
-    <motion.section
-      {...sectionEntryAnimation}
-      id="photography-section"
-      className="mx-auto flex w-full max-w-page flex-col items-center gap-12"
-    >
-      <h2 id={title} className="font-poppins text-4xl font-bold text-js-yellow">
-        {title}
-      </h2>
-      <div className="relative grid w-full grid-cols-12 gap-4">
-        <PhotoCard img="images/travel.jpg" title="travel" />
-        <PhotoCard img="images/architecture.jpg" title="architecture" />
-        <PhotoCard img="images/analogue.jpg" title="analogue" />
-        <PhotoCard img="images/monochrome.jpg" title="monochrome" />
-        <PhotoCard img="images/portraits.jpg" title="portraits" />
-        <PhotoCard img="images/experiments.jpg" title="experiments" />
+    <SectionContainer title="Photography">
+      <div
+        className="relative grid w-full grid-cols-12 gap-4"
+      >
+        {photos.map((item, index) => {
+          const image = item.attributes.featured_image.data.attributes.formats;
+          return (
+            <PhotoCard
+              key={item.attributes.title}
+              image={image}
+              title={item.attributes.title}
+              href={`/photography/${item.attributes.title.toLowerCase()}`}
+            />
+          );
+        })}
       </div>
       <Hyperlink title="Go to photography page" href="/photography" />
-    </motion.section>
+    </SectionContainer>
   );
 }
-
-function PhotoCard({ title = "Photo", img = "IMG_1933.jpg" }) {
-  const { cardEntryAnimation } = useAnimationContext();
-  const router = useRouter();
-
+export function PhotoCard({ title, image, delay = 0, href }) {
   return (
-    <motion.div
-      {...cardEntryAnimation}
-      onClick={() => {
-        router.push(`/photography/${title}`), undefined, { scroll: false };
-      }}
-      className="relative col-span-4 flex h-56 w-full flex-col items-center justify-center gap-4 overflow-hidden
-    rounded-md border border-neutral-200 px-3 py-6 font-bold"
+    <Link
+      href={href}
+      className=" group relative col-span-4 flex h-64 w-full flex-col items-center
+    justify-center gap-4 overflow-hidden rounded-md border border-text/10 px-3 py-6 font-bold dark:border-0"
+      style={{ animationDelay: `${delay}ms`, transitionDelay: `${delay}ms` }}
       key={`photocard-${title}`}
     >
-      <img
-        src={img}
-        alt={title}
-        className="absolute inset-0 -z-10 h-full w-full"
+      <Image
+        src={convertRelativeUrl(image.medium.url)}
+        alt={image.medium.name}
+        width={image.medium.width}
+        height={image.medium.height}
+        className="absolute -z-10 h-full w-full object-cover transition-all group-hover:scale-105"
       />
-      <h6 className="z-10 font-poppins text-4xl font-bold text-white">
-        {title.toUpperCase()}
+      <div className="absolute inset-0 bg-gradient-to-tr from-darkbg/50" />
+      <h6 className="z-10 font-heading text-2xl font-semibold uppercase text-white">
+        {title}
       </h6>
-    </motion.div>
+    </Link>
   );
 }

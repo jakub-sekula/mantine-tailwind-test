@@ -1,69 +1,55 @@
-import { motion } from "framer-motion";
-import { SectionHeading, ExperienceLine } from "components/common";
-import { useAnimationContext } from "components/contexts";
+import Image from "next/image";
 
+import { SectionHeading } from "components/common";
+import { ExperienceLine } from "components/cv";
+import SectionContainer from "./SectionContainer";
 
-export default function AboutSection({ title }) {
-  const { sectionEntryAnimation } = useAnimationContext()
+export default function AboutSection({ cv }) {
+  const {
+    attributes: { sections },
+  } = cv;
 
   return (
-    <motion.section 
-    {...sectionEntryAnimation}
-    id="about-section"
-    className="mx-auto flex w-full max-w-page flex-col items-center gap-12">
-      <h2 id="webdev" className="font-poppins text-4xl font-bold text-js-red">
-        {title}
-      </h2>
-      <div className="relative grid w-full grid-cols-12 gap-12  ">
-        <p className="col-span-full text-center  font-light leading-6">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </p>
-        <div className="col-span-5 flex flex-col gap-4">
-          <SectionHeading title="Education" color="yellow" />
-          <div className="flex flex-col gap-2">
-            <img src="UoB.svg" alt="University of Birmingham logo" className=" w-36 select-none" />
-            <div className="flex justify-between border-b border-neutral-200 pb-1">
-              <h5>University of Birmingham</h5>
-              <h6>2017 - 2022</h6>
-            </div>
-            <div className="  text-sm">
-              <p>Master of Engineering, First Class Honours</p>
-              <p className="font-light">
-                Mechanical Engineering with Industrial Year
-              </p>
-            </div>
-            <div className="text-sm  font-light">
-              <p>
-                <strong>Dissertation title:</strong> Development of a low-cost
-                PIV/PTV software system for in-process tracking of graphene
-                production
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-span-7 flex flex-col gap-4 ">
+    <SectionContainer title="Experience">
+      <div className="relative grid w-full grid-cols-12 gap-4 md:gap-12  ">
+        <div
+          className="reveal fade-bottom col-span-full flex flex-col  gap-4 md:col-span-6"
+          style={{
+            animationDelay: `250ms`,
+            transitionDelay: `250ms`,
+          }}
+        >
           <SectionHeading title="Professional Experience" color="green" />
+          {sections
+            .filter((section) => section.title === "Professional Experience")[0]
+            .entries.slice(0, 3)
+            .map((entry) => {
+              return (
+                <ExperienceLine
+                  summaryView={true}
+                  key={entry.title}
+                  entry={entry}
+                />
+              );
+            })}
+        </div>
+        <div
+          className="reveal fade-bottom col-span-full flex flex-col gap-4 md:col-span-6"
+          style={{
+            animationDelay: `450ms`,
+            transitionDelay: `450ms`,
+          }}
+        >
+          <SectionHeading title="Education" color="yellow" />
           <ExperienceLine
-            top="Crux Product Design"
-            bottom="Mechanical Engineer"
-            years="2022 - current"
-          />
-          <ExperienceLine
-            top="Baba Ali"
-            bottom="Web Designer & Web Developer"
-            years="2021 - 2022"
-          />
-          <ExperienceLine
-            top="Aston Martin F1 Team"
-            bottom="Research & Development Engineer (Placement)"
-            years="2020 - 2021"
+            key={"education"}
+            entry={
+              sections.filter((section) => section.title === "Education")[0]
+                .entries[0]
+            }
           />
         </div>
       </div>
-    </motion.section>
+    </SectionContainer>
   );
 }
-

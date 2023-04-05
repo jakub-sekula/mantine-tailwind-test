@@ -1,29 +1,25 @@
-import { motion } from "framer-motion";
-import { useAnimationContext } from "components/contexts";
+
+import { Header, Footer } from "components/layout";
+import { useLayoutContext } from "components/contexts";
 
 export default function Layout({
   children,
-  useDefaultTransition = true,
-  alternateTransition = {},
   className,
 }) {
-  const { defaultPageTransition } = useAnimationContext();
+  const { transparent, dark, fixed } = useLayoutContext();
 
-  let transitionProps = {};
-
-  if (useDefaultTransition) {
-    transitionProps = { ...defaultPageTransition };
-  } else {
-    transitionProps = { ...alternateTransition };
-  }
 
   return (
-    <motion.main
-      {...transitionProps}
-      className={`relative mt-20 flex h-full w-full flex-col
-      items-center gap-36 ${className && className}`}
-    >
-      {children}
-    </motion.main>
+    <>
+      <Header transparent={transparent} fixed={fixed} dark={dark} />
+      <div
+        key="layout"
+        className={`relative flex h-full w-full flex-col mx-auto
+      items-center ${className && className}`}
+      >
+        {children}
+      </div>
+      <Footer />
+    </>
   );
 }

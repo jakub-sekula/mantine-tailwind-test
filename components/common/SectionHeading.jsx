@@ -1,3 +1,5 @@
+import slugify from "slugify";
+
 export default function SectionHeading({ title, color, className }) {
 	const colors = {
 	  red: "bg-js-red ",
@@ -6,9 +8,9 @@ export default function SectionHeading({ title, color, className }) {
 	  yellow: "bg-js-yellow ",
 	};
 	return (
-	  <div className={`flex flex-col mb-5 ${className}`}>
-		<h3 className=" text-2xl font-poppins font-bold">{title}</h3>
-		<span className={`w-16 h-1 ${colors[color] || "bg-js-yellow"}`} />
+	  <div className={`flex flex-col ${className}`}>
+		<h2 className="text-xl font-heading font-semibold" id={slugify(title)}>{title}</h2>
+		<span className={`w-16 h-0.5 ${colors[color] || "bg-js-yellow"}`} />
 	  </div>
 	);
   }

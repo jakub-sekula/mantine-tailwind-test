@@ -1,167 +1,86 @@
 import { useEffect } from "react";
-import { useRouter } from "next/router";
-import { motion, AnimatePresence } from "framer-motion";
-import { useAnimationContext } from "components/contexts";
-import { heroBlockIds } from "siteConfig";
+import Image from "next/image";
+import Link from "next/link";
+import { useTheme } from "next-themes";
+import lightBg from "/public/triangles.jpg";
+import darkBg from "/public/galaxy.jpg";
 
 export default function Hero() {
-  const {
-    heroFinished,
-    setHeroFinished,
-    animationsDisabled,
-    heroTextContainerAnimation,
-    heroGridAnimation,
-    heroTextAnimation,
-  } = useAnimationContext();
-
-  useEffect(() => {
-    if (animationsDisabled) {
-      setHeroFinished(true);
-    }
-  }, [animationsDisabled, setHeroFinished]);
+  const { theme } = useTheme();
+  const dark = theme === "dark";
 
   return (
-    <AnimatePresence initial={!heroFinished && !animationsDisabled}>
-      <motion.section
-        id="hero-section"
-        key="hero-section"
-        className="flex w-full justify-center pt-32 dark:bg-transparent"
+    <section
+      id="hero-section"
+      key="hero-section"
+      className="relative mb-16 grid w-full grid-cols-12 gap-4 overflow-hidden px-10 py-24 md:px-8 xl:h-[calc(100vh-4rem)]"
+    >
+      <Image
+        className={`absolute inset-0 h-full w-full object-cover  ${
+          dark ? "opacity-50 mix-blend-hard-light" : "opacity-30"
+        } fade-mask`}
+        src={dark ? darkBg : lightBg}
+        placeholder="blur"
+      />
+      <div
+        className="z-10 col-span-full flex flex-col items-center justify-center text-center
+          text-xl font-light"
       >
-        <div className="flex w-full  max-w-page flex-col items-center justify-center gap-8">
-          <div className="flex w-full flex-col">
-            {/* Hero text container */}
-            <motion.div
-              {...heroTextContainerAnimation}
-              className="flex flex-col items-center justify-center"
-            >
-              <motion.h1
-                {...heroTextAnimation}
-                className="mb-8 font-poppins text-5xl font-bold"
-              >
-                Hi, my name is{" "}
-                <span
-                  className="relative after:absolute after:left-0
-                  after:bottom-1 after:-z-10 after:h-2 after:w-full
-                  after:animate-underline after:bg-js-yellow"
-                >
-                  Jakub Sekula
-                </span>{" "}
-                👋🏻
-              </motion.h1>
-              <motion.h2
-                {...heroTextAnimation}
-                className=" text-2xl font-light "
-              >
-                I’m an <span className="font-bold text-js-green">engineer</span>
-                , <span className="font-bold text-js-yellow">developer</span>,{" "}
-                <span className="font-bold text-js-blue">photographer</span>,
-                and <span className="font-bold text-js-red">maker</span>.
-              </motion.h2>
-              <motion.h2
-                {...heroTextAnimation}
-                className="mb-24 text-2xl font-light"
-              >
-                Welcome to my little corner of the Internet.
-              </motion.h2>
-            </motion.div>
-            {/* Hero grid */}
-            <motion.div
-              {...heroGridAnimation}
-              onAnimationComplete={() => {
-                setHeroFinished(true);
-              }}
-              className="grid w-full grid-cols-12 gap-5"
-            >
-              <HeroCard
-                className="col-span-8"
-                title="WEB DEVELOPMENT"
-                color="yellow"
-                href="/projects/web"
-                layoutId={heroBlockIds[0]}
-              />
-              <HeroCard
-                className="col-span-4"
-                title="ENGINEERING"
-                color="green"
-                href="/projects/engineering"
-                layoutId={heroBlockIds[1]}
-              />
-              <HeroCard
-                // layoutId={10}
-                href="/work"
-                className="col-span-4"
-                title="TOOLS"
-                color="red"
-                layoutId={heroBlockIds[2]}
-              />
-              <HeroCard
-                className="col-span-8"
-                title="PHOTOGRAPHY"
-                href="/photography"
-                color="blue"
-                layoutId={heroBlockIds[3]}
-              />
-              <HeroCard
-                className="col-span-8"
-                title="ABOUT"
-                color="green"
-                href="/about"
-                layoutId={heroBlockIds[4]}
-              />
-              <HeroCard
-                className="col-span-4"
-                title="CONTACT"
-                color="yellow"
-                href="/contact"
-                layoutId={heroBlockIds[5]}
-              />
-              <HeroCard
-                className="col-span-4"
-                title="CV"
-                color="yellow"
-                href="/cv"
-                layoutId={heroBlockIds[6]}
-              />
-              <HeroCard
-                className="col-span-8"
-                title="BLOG"
-                color="red"
-                href="/blog"
-                layoutId={heroBlockIds[7]}
-              />
-            </motion.div>
-          </div>
-        </div>
-      </motion.section>
-    </AnimatePresence>
+        <Image
+          priority
+          src="/me.png"
+          width={600}
+          height={600}
+          alt="Hero image"
+          className="mb-8 h-56 w-56 shrink-0 rounded-full bg-js-yellow sm:h-64 sm:w-64 md:h-72 md:w-72"
+        />
+
+        <h1
+          className="mb-2 bg-clip-text font-heading text-2xl
+          font-semibold dark:bg-gradient-to-br dark:from-rose-50 dark:to-yellow-50 
+          dark:text-transparent sm:mb-4 sm:text-3xl lg:text-4xl "
+        >
+          Hi, my name is Jakub Sekula <span className="text-white">👋🏻</span>
+        </h1>
+        <p className="mb-4 text-base sm:mb-8 md:text-lg md:leading-normal lg:text-xl">
+          I’m a <span className="font-bold text-js-yellow">developer</span>,{" "}
+          <span className="font-bold text-js-green">engineer</span>,{" "}
+          <span className="font-bold text-js-blue">photographer</span>, and{" "}
+          <span className="font-bold text-js-red">maker</span>.
+          <br />
+          Welcome to my little corner of the Internet.
+        </p>
+      </div>
+      <div
+        onAnimationComplete={() => {
+          setHeroFinished(true);
+        }}
+        className="col-span-10 col-start-2 flex h-min w-full flex-col justify-center gap-3 md:flex-row md:gap-5"
+      >
+        <HeroCard title="SOFTWARE" color="yellow" href="/tags/web" />
+        <HeroCard title="ENGINEERING" color="green" href="/tags/engineering" />
+        <HeroCard title="PHOTOGRAPHY" href="/photography" color="blue" />
+      </div>
+    </section>
   );
 }
 
-function HeroCard({ title, color, className, href, layoutId }) {
-  const router = useRouter();
-  const {cardEntryAnimation} = useAnimationContext()
+function HeroCard({ title, color, className, href }) {
   const colors = {
-    red: "dark:border-js-red dark:text-js-red dark:bg-transparent bg-js-red text-white",
-    green:
-      "dark:border-js-green dark:text-js-green dark:bg-transparent bg-js-green text-white",
-    blue: "dark:border-js-blue dark:text-js-blue dark:bg-transparent bg-js-blue text-white",
-    yellow:
-      "dark:border-js-yellow dark:text-js-yellow dark:bg-transparent bg-js-yellow text-white",
+    red: "border-js-red text-js-red hover:bg-js-red/5",
+    green: "border-js-green text-js-green hover:bg-js-green/5",
+    blue: "border-js-blue text-js-blue hover:bg-js-blue/5",
+    yellow: "border-js-yellow text-js-yellow hover:bg-js-yellow/5",
   };
 
   return (
-    <motion.div
-    {...cardEntryAnimation}
-      key={layoutId}
-      layoutId={layoutId}
-      onClick={() => {
-        router.push(href, undefined, {scroll:false});
-      }}
-      className={`${className} ${colors[color]}
-	flex h-24 cursor-pointer select-none items-center justify-center rounded-md
-	font-poppins text-4xl font-bold dark:border-2`}
+    <Link
+      href={href}
+      className={`${className} ${colors[color] || "border-text/5"}
+    flex w-56 cursor-pointer select-none items-center justify-center rounded-md border
+    py-2 px-6 text-center font-heading text-sm font-semibold transition-all duration-200 hover:-translate-y-[2px] md:text-lg`}
     >
       {title}
-    </motion.div>
+    </Link>
   );
 }
