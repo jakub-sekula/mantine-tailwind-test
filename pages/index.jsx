@@ -11,7 +11,7 @@ import {
   PhotographySection,
 } from "components/home";
 
-export default function Home({ projects, tools, posts, cv }) {
+export default function Home({ projects, toolCollections, posts, cv , photos}) {
   // If linked to specific section, (hash in url) scroll there on page load
   useEffect(() => {
     if (window !== "undefined") {
@@ -41,9 +41,9 @@ export default function Home({ projects, tools, posts, cv }) {
       </Head>
       <Layout>
         <Hero />
-        <PhotographySection title="Photography" />
+        <PhotographySection title="Photography" photos={photos}/>
         <ProjectsSection
-          title="Software"
+          title="Web development"
           projects={projects.filter(
             (project) => project.attributes.type === "Software"
           )}
@@ -55,8 +55,8 @@ export default function Home({ projects, tools, posts, cv }) {
             (project) => project.attributes.type === "Engineering"
           )}
         />
+        <ToolsSection title="Tools and Skills" toolCollections={toolCollections} />
         <AboutSection title="About me" cv={cv} />
-        <ToolsSection title="Tools and Skills" tools={tools} />
         <BlogSection title="Recent blog posts" posts={posts} />
       </Layout>
     </>
@@ -77,11 +77,11 @@ export async function getStaticProps() {
     },
   });
 
-  let tools = await fetch(`http://localhost:1337/api/tools?${query}`, {
+  let toolCollections = await fetch(`http://localhost:1337/api/tool-collections?${query}`, {
     headers,
   });
 
-  let toolsJson = await tools.json();
+  let toolCollectionsJson = await toolCollections.json();
 
   query = qs.stringify({
     populate: ["featured_image", "tags"],
@@ -128,10 +128,27 @@ export async function getStaticProps() {
 
   const cvJson = await cv.json();
 
+  query = qs.stringify({
+    populate: ["featured_image"],
+    filters: {
+      showAsCategory: {
+        $eq: true,
+      },
+    },
+  });
+
+  let photosRes = await fetch(
+    `http://localhost:1337/api/albums?${query}`,
+    { headers: headers }
+  );
+
+  let photosResJson = await photosRes.json()
+
   return {
     props: {
-      tools: toolsJson.data,
+      toolCollections: toolCollectionsJson.data,
       projects: projectsJson.data,
+      photos: photosResJson.data,
       posts: postsJson.data,
       cv: cvJson.data,
     },

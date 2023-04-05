@@ -13,8 +13,6 @@ import { useHeadingsData } from "components/common/TableOfContents";
 
 export default function Page({ data, author, featured_image }) {
   const { nestedHeadings } = useHeadingsData();
-  console.log(nestedHeadings);
-
   return (
     <>
       <Head>
@@ -81,9 +79,9 @@ export default function Page({ data, author, featured_image }) {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={markdownComponents}
-              className={`prose-pre:overflow-x-none prose col-span-full md:col-span-8 md:col-start-3 row-start-3
-                          w-full max-w-none px-6 font-light prose-pre:m-0 prose-pre:h-min 
-                        prose-pre:bg-red-600 prose-pre:p-0 dark:prose-invert lg:px-0 
+              className={`prose-pre:overflow-x-none prose col-span-full row-start-3 w-full max-w-none
+                          px-6 font-light prose-pre:m-0 prose-pre:h-min prose-pre:bg-red-600 prose-pre:p-0 
+                        dark:prose-invert md:col-span-8 md:col-start-3 lg:px-0 
                        ${
                          nestedHeadings.length === 0
                            ? "lg:col-span-6 lg:col-start-4"

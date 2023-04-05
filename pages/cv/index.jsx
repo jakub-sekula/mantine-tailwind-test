@@ -1,30 +1,22 @@
 import Head from "next/head";
-
-import slugify from "slugify";
-import { motion } from "framer-motion";
-import { IconDownload } from "@tabler/icons";
-import { FaLinkedin } from "react-icons/fa";
-
-import { Layout } from "components/layout";
-import { SectionHeading, TableOfContents } from "components/common";
-import { ExperienceLine, BulletsOnly, InlineList } from "components/cv";
 import Link from "next/link";
 
+import slugify from "slugify";
+import { FaLinkedin } from "react-icons/fa";
+import { IconDownload } from "@tabler/icons";
+
+import { Layout, PageWrapper } from "components/layout";
+import { SectionHeading, TableOfContents } from "components/common";
+import { ExperienceLine, BulletsOnly, InlineList } from "components/cv";
+
 export default function Cv({ data }) {
-  console.log(data);
   return (
     <>
       <Head>
         <title>CV - Jakub Sekula</title>
       </Head>
       <Layout>
-        <motion.section
-          id="cv"
-          className="relative mx-auto grid w-full max-w-5xl grid-cols-12 px-6 pt-8 xl:px-2 2xl:px-0 "
-        >
-          <h1 className="md:texxt-center col-span-full font-heading text-3xl font-bold md:mb-6 md:text-4xl lg:text-5xl">
-            Curriculum Vitae
-          </h1>
+        <PageWrapper title="Curriculum Vitae">
           <a
             href={`${process.env.NEXT_PUBLIC_API_URL}${data.cv_pdf.data.attributes.url}`}
             target="_blank"
@@ -118,7 +110,7 @@ export default function Cv({ data }) {
               </section>
             );
           })}
-        </motion.section>
+        </PageWrapper>
       </Layout>
     </>
   );

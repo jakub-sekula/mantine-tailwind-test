@@ -1,46 +1,17 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-
-import { Layout } from "components/layout";
-import { useAnimationContext } from "components/contexts";
+import { Layout, PageWrapper } from "components/layout";
 
 export default function About() {
-  const router = useRouter();
-  const [defaultTransition, setDefaultTransition] = useState(false);
-  const { activeCardAnimation, otherCardAnimation } = useAnimationContext();
-
-  useEffect(() => {
-    setDefaultTransition(true);
-  }, []);
-
   return (
     <>
-     <Head>
-        <title>About me</title>
-      </Head>
-    <Layout
-      useDefaultTransition={defaultTransition}
-    >
-      <motion.div className=" flex items-center justify-center gap-12">
-        <motion.div
-          {...activeCardAnimation}
-          onClick={() => {
-            setDefaultTransition(false);
-            router.push("/work", undefined, {scroll:false});
-          }}
-          className=" flex h-96 w-96 items-center justify-center rounded-md bg-js-blue text-center text-5xl font-bold"
-        >
-          <motion.h1 {...otherCardAnimation}>World</motion.h1>
-        </motion.div>
-
-        <motion.div
-          {...otherCardAnimation}
-          className="flex h-96 w-96 items-center justify-center rounded-md bg-js-green text-center text-5xl font-bold"
-        />
-      </motion.div>
-    </Layout>
+      <>
+        <Head>
+          <title>About me - Jakub Sekula</title>
+        </Head>
+        <Layout>
+          <PageWrapper title="About me"></PageWrapper>
+        </Layout>
+      </>
     </>
   );
 }

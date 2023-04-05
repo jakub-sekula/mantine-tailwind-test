@@ -8,11 +8,14 @@ export default function BlogSection({ posts }) {
   const latest = posts[0].attributes;
   const latest_image = latest.featured_image?.data?.attributes;
   const latest_author = `${latest.author.data?.attributes.firstname} ${latest.author.data?.attributes.lastname}`;
-  
+
   return (
     <SectionContainer title="Blog">
-      <div className="relative grid w-full grid-cols-12 gap-12">
-        <div className="col-span-6 flex flex-col gap-4">
+      <div className="relative grid w-full grid-cols-12 gap-4 md:gap-12 reveal fade-bottom" style={{
+            animationDelay: `250ms`,
+            transitionDelay: `250ms`,
+          }}>
+        <div className="col-span-full flex flex-col gap-4 md:col-span-6">
           <div className="flex flex-col gap-2">
             {!!latest_image ? (
               <Image
@@ -49,7 +52,6 @@ export default function BlogSection({ posts }) {
               <ul className="mt-2 flex gap-2">
                 {latest.tags?.data.map((tag) => (
                   <Link
-                    scroll={false}
                     href={`/tags/${tag.attributes.slug}`}
                     key={`${tag.attributes.title}-${tag.id}`}
                     className="rounded-sm bg-darkbg px-2 py-0.5 text-xs
@@ -62,9 +64,21 @@ export default function BlogSection({ posts }) {
             ) : null}
           </div>
         </div>
-        <div className="col-span-6 flex flex-col gap-4">
-          {posts.slice(1, posts.length).map((post) => {
-            return <BlogLink post={post} key={`blog-link-${post.id}`} />;
+        <div
+          className="col-span-full flex flex-col gap-4 md:col-span-6 reveal fade-bottom"
+          style={{
+            animationDelay: `450ms`,
+            transitionDelay: `450ms`,
+          }}
+        >
+          {posts.slice(1, posts.length).map((post, index) => {
+            return (
+              <BlogLink
+                post={post}
+                key={`blog-link-${post.id}`}
+                delay={50 * index}
+              />
+            );
           })}
         </div>
       </div>
@@ -72,15 +86,19 @@ export default function BlogSection({ posts }) {
   );
 }
 
-function BlogLink({ post }) {
+function BlogLink({ post, delay }) {
   const image = post.attributes.featured_image?.data?.attributes;
 
   return (
     <Link
       key={`project-card-${post.id}`}
       href={`/blog/${post.attributes.slug}`}
-      className="flex items-center overflow-hidden rounded-md border group
+      className="group flex items-center overflow-hidden rounded-md border
                  border-text/10 dark:border-darktext/10 dark:hover:bg-darktext/[1%]"
+      style={{
+        animationDelay: `${delay}ms`,
+        transitionDelay: `${delay}ms`,
+      }}
     >
       {!!image ? (
         <Image

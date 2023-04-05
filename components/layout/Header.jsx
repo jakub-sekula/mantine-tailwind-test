@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { motion } from "framer-motion";
+
 import { ColorSchemeToggle, DotsLogo } from "components/common";
 import { useRouter } from "next/router";
 import { useLayoutContext } from "components/contexts";
@@ -10,24 +10,24 @@ export default function Header({ fixed, transparent, dark }) {
   const scrollDirection = useScrollDirection();
 
   return (
-    <motion.header
+    <header
       className={`${fixed === true ? "sticky lg:fixed" : "sticky"}
       ${
         transparent === true
           ? "border-transparent bg-gradient-to-b from-darkbg/40 pb-px"
-          : "border-b border-neutral-100 bg-lightbg/90 px-4 backdrop-blur-lg dark:border-darktext/5 dark:bg-darkbg/90"
+          : "border-b border-neutral-100 bg-lightbg/60 px-4 backdrop-blur-lg dark:border-darktext/5 dark:bg-darkbg/90"
       }
       ${dark === true ? "text-darktext" : ""}
-       ${ scrollDirection === "down" ? "-top-24" : "top-0"} z-50 flex h-24 w-full
+       ${ scrollDirection === "down" ? "-top-16" : "top-0"} z-50 flex h-16 w-full
       items-center justify-center px-6 transition-all duration-200 xl:px-4 2xl:px-0 `}
     >
       <div className="flex w-screen max-w-page">
         <Link
-          scroll={false}
+          
           href="/"
-          className="mx-auto flex flex-col items-center gap-2 font-mono text-lg md:mx-0 md:mr-auto md:flex-row md:text-lg"
+          className="mx-auto flex flex-col items-center gap-2 font-mono md:mx-0 md:mr-auto md:flex-row"
         >
-          <DotsLogo />
+          {/* <DotsLogo /> */}
           <span className="font-bold">
             <span className="text-js-yellow">
               jakubsekula<span className="text-js-blue">@personal</span>:
@@ -50,17 +50,16 @@ export default function Header({ fixed, transparent, dark }) {
             })
           ) : (
             <>
-              <NavLink label="My work" href="/work" color="blue" />
+              <NavLink label="My work" href="/projects" color="blue" />
               <NavLink label="About" href="/about" color="green" />
               <NavLink label="CV" href="/cv" color="yellow" />
               <NavLink label="Blog" href="/blog" color="red" />
             </>
           )}
-
           <ColorSchemeToggle />
         </nav>
       </div>
-    </motion.header>
+    </header>
   );
 }
 
@@ -70,9 +69,9 @@ function NavLink({ label, href, color = "red", ...props }) {
   return (
     <Link
       {...props}
-      scroll={false}
-      className={`relative font-sans  after:absolute after:left-0 after:-bottom-1
-            after:-z-10 after:h-[3px] after:w-full
+      
+      className={`relative font-headings text-sm  after:absolute after:left-0 after:-bottom-1
+            after:-z-10 after:h-[2px] after:w-full
            after:opacity-0 after:transition-all after:duration-300
            hover:after:opacity-100 ${selected ? "after:opacity-100" : null} ${
         COLORS?.[color]

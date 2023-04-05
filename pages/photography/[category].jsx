@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { IconChevronLeft } from "@tabler/icons";
-import { motion } from "framer-motion";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -13,11 +12,11 @@ import {
 } from "lib/utils";
 
 import { Layout } from "components/layout";
-import { useLayoutContext, useAnimationContext } from "components/contexts";
+import { useLayoutContext } from "components/contexts";
 import { useEffect } from "react";
 import Head from "next/head";
 
-export default function Page({ data, featured_image }) {
+export default function Page({ data }) {
   const { setTransparent, setFixed, setDark } = useLayoutContext();
   useEffect(() => {
     setTransparent(true);
@@ -34,22 +33,23 @@ export default function Page({ data, featured_image }) {
         <title>Photography - {data.title}</title>
       </Head>
       <Layout>
-        <motion.section
+        <section
           key={`hero-${data.title}`}
           className="relative -mt-24 flex max-h-[900px] w-full max-w-[1920px] justify-center px-6 xl:px-4 2xl:px-0"
         >
           <div className="absolute inset-0 z-10 h-full bg-gradient-to-tr from-darkbg/90" />
           <Image
-            width={1500}
-            height={1667}
+            width={data.featured_image.data.attributes.formats.xlarge.width}
+            height={data.featured_image.data.attributes.formats.xlarge.height}
             alt={data.title}
-            src={featured_image}
+            src={convertRelativeUrl(
+              data.featured_image.data.attributes.formats.xlarge.url
+            )}
             priority={true}
             className="absolute inset-0 z-0 mx-auto h-full w-full object-cover"
           />
           <div className="z-20 mt-20 flex w-full max-w-page flex-col items-center pt-40 pb-32 text-white ">
             <Link
-              scroll={false}
               href="/photography"
               className="mb-4 flex items-center gap-1 text-sm font-light"
             >
@@ -73,7 +73,7 @@ export default function Page({ data, featured_image }) {
                 </span>
               ))}
           </div>
-        </motion.section>
+        </section>
 
         {!!data.sections &&
           data.sections.map((section) => {
@@ -142,7 +142,6 @@ export default function Page({ data, featured_image }) {
                   {section.albums.data.map((item) => {
                     const image =
                       item.attributes.featured_image?.data.attributes.formats;
-                    console.log(image);
                     return (
                       <Link
                         href="/photography/[category]"
@@ -231,9 +230,6 @@ export async function getStaticProps(ctx) {
   return {
     props: {
       data: resJson.data.attributes,
-      featured_image: !!resJson.data.attributes.featured_image.data
-        ? `http://localhost:1337${resJson.data.attributes.featured_image.data?.attributes.url}`
-        : "",
     },
   };
 }

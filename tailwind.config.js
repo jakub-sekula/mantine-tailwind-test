@@ -16,6 +16,8 @@ module.exports = {
       },
       backgroundImage: {
         stars: "url('/stars.png')",
+        light: "url('/light.jpg')",
+        galaxy: "url('/galaxy.jpg')",
       },
       fontSize: {
         xl: "1.375rem", // 22px
@@ -43,7 +45,7 @@ module.exports = {
         },
       },
       animation: {
-        underline: "underline 1s 7.5s backwards ease-in-out",
+        // underline: "underline 1s 7.5s backwards ease-in-out",
       },
       maxWidth: {
         page: "1350px",

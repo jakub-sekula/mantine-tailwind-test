@@ -1,12 +1,7 @@
 import Image from "next/image";
-import { motion } from "framer-motion";
-
-import { Hyperlink } from "components/common";
-
+import { Hyperlink, Tag, ProjectCard } from "components/common";
 import SectionContainer from "./SectionContainer";
 import { convertRelativeUrl } from "lib/utils";
-import Link from "next/link";
-import { useRouter } from "next/router";
 
 export default function ProjectsSection({ title, reverse, projects }) {
   return (
@@ -21,44 +16,37 @@ export default function ProjectsSection({ title, reverse, projects }) {
               <div
                 key={`featured-project-${project.id}`}
                 className="col-span-full  grid grid-rows-1 gap-6 md:grid-cols-2 
-        md:gap-12 lg:col-span-10 lg:col-start-2"
+                           md:gap-12 xl:col-span-10 xl:col-start-2"
               >
                 <Image
                   src={convertRelativeUrl(featured.formats.large.url)}
                   alt={featured.name}
                   height={featured.formats.large.height}
                   width={featured.formats.large.width}
-                  className={`h-80 w-full rounded-md object-cover bg-js-yellow ${
-                    reverse ? "md:col-start-1" : "md:col-start-2"
-                  }`}
+                  className={`w-full rounded-sm bg-js-yellow object-cover md:aspect-square ${
+                    reverse ? "md:col-start-1" : "md:col-start-2 "
+                  } `}
                 />
                 <div
-                  className={`mb-12 flex h-min flex-col gap-4 md:row-start-1 ${
+                  className={`mb-12 flex h-min flex-col gap-4 md:row-start-1 md:pt-12 ${
                     reverse ? "md:col-start-2" : "md:col-start-1"
-                  }`}
+                  } `}
                 >
                   <h3 className="mb-1 font-heading text-2xl font-semibold leading-none sm:text-3xl">
                     {project.attributes.title}
                   </h3>
 
                   {/* Tags display */}
-                  {!!project.attributes.tags.data ? (
-                    <ul className="flex gap-2">
+                  {project.attributes.tags.data.length ? (
+                    <ul className="flex flex-wrap gap-2">
                       {project.attributes.tags.data?.map((tag) => (
-                        <Link
-                          href={`/tags/${tag.attributes.slug}`}
-                          key={`${tag.attributes.title}-${tag.id}`}
-                          className="rounded-sm bg-darkbg px-2 py-0.5 text-xs
-                               text-darktext dark:bg-darktext dark:text-text"
-                        >
-                          {tag.attributes.title}
-                        </Link>
+                       <Tag key={tag.attributes.name} tag={tag} />
                       ))}
                     </ul>
                   ) : null}
 
                   {!!project.attributes.description ? (
-                    <p className="font-light leading-normal md:text-lg md:leading-snug">
+                    <p className="font-light leading-normal md:leading-snug">
                       {project.attributes.description}
                     </p>
                   ) : null}
@@ -86,58 +74,12 @@ export default function ProjectsSection({ title, reverse, projects }) {
             })}
         </div>
       </div>
+      <Hyperlink
+        title="All projects"
+        href="/projects"
+        className="reveal fade-bottom"
+      />
     </SectionContainer>
   );
 }
 
-const colors = {
-  red: " bg-js-red border-js-red",
-  green: " bg-js-green border-js-green",
-  blue: "  bg-js-blue border-js-blue",
-  yellow: " bg-js-yellow border-js-yellowŚ",
-};
-
-export function ProjectCard({ project }) {
-  const formats = project.attributes.featured_image?.data?.attributes.formats;
-  const router = useRouter();
-
-  return (
-    <motion.div
-      key={`project-card-${project.id}`}
-      layoutId={`project-card-${project.id}`}
-      whileTap={{ scale: 0.95 }}
-      onClick={() => {
-        router.push(`/projects/${project.attributes.slug}`, undefined, {
-          scroll: false,
-        });
-      }}
-      className={`relative flex w-full flex-col overflow-hidden rounded-md
-		 border border-text/10 dark:border-darktext/10`}
-    >
-      <Image
-        width={formats?.medium.width || 500}
-        height={formats?.medium.height || 500}
-        src={convertRelativeUrl(formats?.medium.url)}
-        alt={formats?.medium.name}
-        className="h-48 w-full object-cover lg:h-56 xl:h-60"
-      />
-      <div className="py-3 px-3 ">
-        <div className="flex justify-between">
-          <h4 className="font-heading text-lg font-semibold">
-            {project.attributes.title}
-          </h4>
-          <span
-            className={`${
-              colors[project.attributes.color]
-            } mt-2 inline-block h-3 w-3 shrink-0 rounded-full`}
-          />
-        </div>
-        {!!project.attributes.description ? (
-          <p className="text-sm font-light line-clamp-3">
-            {project.attributes.description}
-          </p>
-        ) : null}
-      </div>
-    </motion.div>
-  );
-}

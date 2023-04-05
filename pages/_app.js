@@ -1,34 +1,27 @@
 import "/styles/globals.css";
-import { AnimatePresence } from "framer-motion";
 import { ThemeProvider } from "next-themes";
-import { AnimationContext } from "components/contexts";
 import { LayoutProvider } from "components/contexts";
-import { useState, useEffect } from "react";
+import { ParallaxProvider } from "react-scroll-parallax";
+import { useEffect } from "react";
+import { reveal } from "lib/utils";
 
 export default function App({ Component, pageProps, router }) {
-  const [reduced, setReduced] = useState(false)
+  useEffect(() => {
+    window.addEventListener("scroll", reveal);
 
-  useEffect(()=>{
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mediaQuery)
-  },[])
-
+    // To check the scroll position on page load
+    reveal();
+    return () => {
+      window.removeEventListener("scroll", reveal);
+    };
+  }, []);
   return (
-    <AnimationContext>
-      <ThemeProvider attribute="class" disableTransitionOnChange>
-        <LayoutProvider>
-          <AnimatePresence
-            mode="wait"
-            initial={false}
-            onExitComplete={() => {
-              if(!reduced || reduced.matches) return
-              window.scrollTo(0, 0);
-            }}
-          >
-            <Component {...pageProps} key={router.asPath} />
-          </AnimatePresence>
-        </LayoutProvider>
-      </ThemeProvider>
-    </AnimationContext>
+    <ThemeProvider attribute="class" disableTransitionOnChange>
+      <LayoutProvider>
+        <ParallaxProvider>
+          <Component {...pageProps} key={router.asPath} />
+        </ParallaxProvider>
+      </LayoutProvider>
+    </ThemeProvider>
   );
 }

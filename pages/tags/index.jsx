@@ -1,5 +1,5 @@
 import { Layout } from "components/layout";
-import { motion } from "framer-motion";
+
 import Head from "next/head";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ export default function Tags({ data }) {
       <title>Tags</title>
     </Head>
     <Layout>
-      <motion.div className="">
+      <div className="">
         {data.map((item) => (
           <Link
             key={item.attributes.slug}
@@ -19,7 +19,7 @@ export default function Tags({ data }) {
             {item.attributes.title}
           </Link>
         ))}
-      </motion.div>
+      </div>
     </Layout>
     </>
   );

@@ -17,8 +17,8 @@ export function ExperienceLine({ entry, summaryView = false }) {
       <div className="w-full">
         <div
           className="flex flex-col-reverse justify-between border-b
-        border-neutral-200 pb-1 font-heading text-sm font-light
-        dark:border-darktext/5 md:flex-row md:text-base"
+         pb-1 font-heading text-sm font-light
+         border-text/10 dark:border-darktext/10 md:flex-row md:text-base"
         >
           <div className="flex flex-col">
             <h3>{entry.title}</h3>
