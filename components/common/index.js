@@ -6,6 +6,7 @@ import TableOfContents from "./TableOfContents/TableOfContents";
 import Tag from "./Tag";
 import ToolCard from "./ToolCard";
 import ProjectCard from "./ProjectCard";
+import NextJsImage from "./NextJsImage";
 
 export {
   ColorSchemeToggle,
@@ -15,5 +16,6 @@ export {
   TableOfContents,
   Tag,
   ToolCard,
-  ProjectCard
+  ProjectCard,
+  NextJsImage,
 };
