@@ -13,18 +13,12 @@ export default function Hero() {
     <section
       id="hero-section"
       key="hero-section"
-      className="relative mb-16 grid w-full grid-cols-12 gap-4 overflow-hidden px-10 py-24 md:px-8 xl:h-[calc(100vh-4rem)]"
+      className="relative mb-16 grid w-full grid-cols-12 gap-4 overflow-hidden px-10 py-24 md:px-8 xl:min-h-[70vh]"
     >
-      <Image
-        className={`absolute inset-0 h-full w-full object-cover  ${
-          dark ? "opacity-50 mix-blend-hard-light" : "opacity-30"
-        } fade-mask`}
-        src={dark ? darkBg : lightBg}
-        placeholder="blur"
-      />
+      <div className="absolute inset-0 patterned"/>
       <div
-        className="z-10 col-span-full flex flex-col items-center justify-center text-center
-          text-xl font-light"
+        className="z-10 col-span-full flex flex-col md:flex-row text-center md:text-left items-center justify-center
+          text-xl font-light md:gap-8"
       >
         <Image
           priority
@@ -32,35 +26,27 @@ export default function Hero() {
           width={600}
           height={600}
           alt="Hero image"
-          className="mb-8 h-56 w-56 shrink-0 rounded-full bg-js-yellow sm:h-64 sm:w-64 md:h-72 md:w-72"
+          className="mb-8 md:mb-0 h-48 w-48 shrink-0 rounded-full bg-js-yellow md:h-56 md:w-56"
         />
-
-        <h1
-          className="mb-2 bg-clip-text font-heading text-2xl
-          font-semibold dark:bg-gradient-to-br dark:from-rose-50 dark:to-yellow-50 
-          dark:text-transparent sm:mb-4 sm:text-3xl lg:text-4xl "
-        >
-          Hi, my name is Jakub Sekula <span className="text-white">👋🏻</span>
-        </h1>
-        <p className="mb-4 text-base sm:mb-8 md:text-lg md:leading-normal lg:text-xl">
-          I’m a <span className="font-bold text-js-yellow">developer</span>,{" "}
-          <span className="font-bold text-js-green">engineer</span>,{" "}
-          <span className="font-bold text-js-blue">photographer</span>, and{" "}
-          <span className="font-bold text-js-red">maker</span>.
-          <br />
-          Welcome to my little corner of the Internet.
-        </p>
+        <div className="flex flex-col md:block">
+          <h1
+            className="font-heading text-2xl font-semibold tracking-tight dark:bg-gradient-to-br md:text-4xl lg:text-6xl">
+            Hi there, I&apos;m Jakub <span className="text-white">👋🏻</span>
+          </h1>
+          <p className="mb-4 md:mb-0 text-base md:text-xl md:leading-snug lg:text-2xl">
+            I am a <span className="font-bold text-js-blue">web developer</span>,{" "}
+            <span className="font-bold text-js-green">mechanical engineer</span>, and a{" "}
+            <span className="font-bold text-js-red">photography enthusiast</span>.
+          </p>
+        </div>
       </div>
-      <div
-        onAnimationComplete={() => {
-          setHeroFinished(true);
-        }}
+      {/* <div
         className="col-span-10 col-start-2 flex h-min w-full flex-col justify-center gap-3 md:flex-row md:gap-5"
       >
         <HeroCard title="SOFTWARE" color="yellow" href="/tags/web" />
         <HeroCard title="ENGINEERING" color="green" href="/tags/engineering" />
         <HeroCard title="PHOTOGRAPHY" href="/photography" color="blue" />
-      </div>
+      </div> */}
     </section>
   );
 }

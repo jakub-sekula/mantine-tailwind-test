@@ -105,5 +105,16 @@ h2 {
 }
 
 .rounded-card {
-  @apply rounded-md border border-text/10 dark:border-darktext/5
+  @apply rounded-md border border-text/10 dark:border-darktext/10;
+}
+
+.patterned {
+  background-image: url("/patterns/plus.svg");
+  opacity: 0.1;
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+}
+
+.dark .patterned {
+  background-image: url("/patterns/plus-dark.svg");
+  opacity: 0.1;
 }
