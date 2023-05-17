@@ -1,3 +1,4 @@
 import BlogPostCard from "./BlogPostCard";
+import BlogLink from "./BlogLink";
 
-export { BlogPostCard };
+export { BlogPostCard, BlogLink };

@@ -8,10 +8,7 @@ export default function BlogPostCard({ post }) {
     <Link
       key={`post-card-${post.id}`}
       href={`/blog/${post.attributes.slug}`}
-      className={`duration-250 group relative col-span-full flex w-full flex-col hover-group
-				  overflow-hidden rounded-md border border-text/10 transition-all
-				  hover:-translate-y-1 hover:bg-text/[2%] dark:border-darktext/10
-				  dark:hover:bg-darktext/[1%] md:col-span-6 lg:col-span-4`}
+      className={`duration-250 hover-group group relative col-span-full flex w-full flex-col overflow-hidden  transition-all hover:-translate-y-1 md:col-span-6 lg:col-span-4 rounded-card`}
     >
       {!!formats ? (
         <Image
@@ -27,8 +24,8 @@ export default function BlogPostCard({ post }) {
 
       <div className="flex flex-col p-3">
         <h3
-          className="font-heading text-lg font-semibold line-clamp-3
-					 animate-underline w-fit"
+          className="animate-underline w-fit font-heading text-lg
+					 font-semibold line-clamp-3"
         >
           {post.attributes.title}
         </h3>
