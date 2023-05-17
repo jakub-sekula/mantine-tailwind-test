@@ -11,7 +11,7 @@ export default function PhotographySection({ photos }) {
       <div
         className="relative grid w-full grid-cols-12 gap-4"
       >
-        {photos.map((item, index) => {
+        {photos.map((item) => {
           const image = item.attributes.featured_image.data.attributes.formats;
           return (
             <PhotoCard
@@ -41,7 +41,7 @@ export function PhotoCard({ title, image, delay = 0, href }) {
         alt={image.medium.name}
         width={image.medium.width}
         height={image.medium.height}
-        className="absolute -z-10 h-full w-full object-cover transition-all group-hover:scale-105"
+        className="absolute -z-10 h-full w-full object-cover transition-all group-hover:scale-105 duration-500 ease-out"
       />
       <div className="absolute inset-0 bg-gradient-to-tr from-darkbg/50" />
       <h6 className="z-10 font-heading text-2xl font-semibold uppercase text-white">
