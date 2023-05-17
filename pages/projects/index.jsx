@@ -28,6 +28,7 @@ export default function Projects({ data }) {
             {filterList.map((item) => {
               return (
                 <button
+                  key={`${item}-button`}
                   className={`rounded-card w-36  px-4 py-2 text-sm transition-all  ease-out hover:-translate-y-px ${
                     filter === item ? "outline outline-js-yellow" : ""
                   }`}
@@ -54,11 +55,11 @@ export default function Projects({ data }) {
                 router.push(`projects/${item.attributes.slug}`);
               }}
               key={item.attributes.slug}
-              className="rounded-card hover-group group relative col-span-full flex w-full
+              className="rounded-card hover-group group relative col-span-full flex w-full cursor-pointer
               flex-col overflow-hidden p-3 transition-all ease-in-out hover:-translate-y-1 md:col-span-4"
             >
               <Image
-              priority
+                priority
                 src={convertRelativeUrl(
                   item.attributes.featured_image.data.attributes.formats.medium
                     .url
@@ -74,19 +75,23 @@ export default function Projects({ data }) {
                 alt={item.attributes.featured_image.data.attributes.name}
                 className="aspect-video w-full rounded-sm object-cover"
               />
-              <Link href={`projects/${item.attributes.slug}`} className="animate-underline mb-2 mt-3 w-fit font-heading text-xl font-semibold">
+              <Link
+                href={`projects/${item.attributes.slug}`}
+                className="animate-underline mb-2 mt-3 w-fit font-heading text-xl font-semibold"
+              >
                 {item.attributes.title}
               </Link>
 
               <p className="mb-4 text-sm font-light">
                 {item.attributes.excerpt}
               </p>
-              <div className="flex w-full flex-wrap gap-2">
+              <div className="flex w-full flex-wrap gap-2 mt-auto">
                 {item.attributes.tools.data.map((tool) => {
                   return (
                     <Tag
                       key={item.attributes.title + tool.attributes.name}
                       tag={tool}
+                      noLink
                     />
                   );
                 })}

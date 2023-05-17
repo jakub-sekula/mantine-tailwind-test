@@ -21,16 +21,19 @@ export default function Project({ data }) {
               <IconChevronLeft size={16} />
               Back to projects
             </Link>
-            <h1 className="mb-3 font-heading text-3xl font-bold leading-none md:text-4xl lg:text-6xl">
+            <h1 className="font-heading text-3xl font-bold leading-none md:text-4xl lg:text-6xl">
               {data.title}
             </h1>
-            <ul className="col-span-full flex gap-4">
-              {data.tags.data.map((tag) => (
-                <Tag key={tag.attributes.title} tag={tag} />
-              ))}
-            </ul>
+            <p className="text-sm font-light">{data.excerpt}</p>
+            {!!data.tags.data.length ? (
+              <ul className="col-span-full flex gap-4">
+                {data.tags.data.map((tag) => (
+                  <Tag key={tag.attributes.title} tag={tag} />
+                ))}
+              </ul>
+            ) : null}
           </div>
-          <div className="col-span-full mx-auto my-6 flex gap-4">
+          <div className="col-span-full mx-auto mb-6 mt-3 flex gap-4">
             <Link
               href="#"
               className="group flex w-max items-center gap-2 hover:underline"
@@ -46,7 +49,9 @@ export default function Project({ data }) {
           </div>
 
           <Image
-            src={convertRelativeUrl(data.featured_image.data.attributes.formats.xlarge.url)}
+            src={convertRelativeUrl(
+              data.featured_image.data.attributes.formats.xlarge.url
+            )}
             width={data.featured_image.data.attributes.formats.xlarge.width}
             height={data.featured_image.data.attributes.formats.xlarge.height}
             alt={data.featured_image.data.attributes.name}

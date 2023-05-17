@@ -2,22 +2,17 @@ import { useRouter } from "next/router";
 import { convertRelativeUrl } from "lib/utils";
 import Image from "next/image";
 
-export default function ProjectCard({ project, delay = 0 }) {
+export default function ProjectCard({ project, delay = 0, ...props }) {
   const formats = project.attributes.featured_image?.data?.attributes.formats;
   const router = useRouter();
 
   return (
     <div
-      key={`project-card-${project.id}`}
-      layoutId={`project-card-${project.id}`}
-      whileTap={{ scale: 0.95 }}
       onClick={() => {
-        router.push(`/projects/${project.attributes.slug}`, undefined, {
-          scroll: false,
-        });
+        router.push(`/projects/${project.attributes.slug}`);
       }}
-      className={`reveal fade-bottom hover-group group relative flex w-full flex-col overflow-hidden
-		   rounded-md border border-text/10 hover:-translate-y-1 dark:border-darktext/10 dark:hover:bg-darktext/[1%]`}
+      className={`reveal fade-bottom hover-group group relative flex w-full flex-col overflow-hidden 
+		   rounded-card hover:-translate-y-1  ${props.className}`}
       style={{ animationDelay: `${delay}ms`, transitionDelay: `${delay}ms` }}
     >
       <div className="h-48 w-full overflow-hidden lg:h-56 xl:h-60">
@@ -26,7 +21,7 @@ export default function ProjectCard({ project, delay = 0 }) {
           height={formats?.medium.height || 500}
           src={convertRelativeUrl(formats?.medium.url)}
           alt={formats?.medium.name}
-          className="h-full w-full object-cover transition-all ease-in-out group-hover:scale-105"
+          className="h-full w-full object-cover transition-all ease-out group-hover:scale-105 duration-500"
         />
       </div>
       <div className="py-3 px-3 ">

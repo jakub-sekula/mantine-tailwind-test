@@ -23,7 +23,7 @@ export default function ProjectsSection({ title, reverse, projects }) {
                   alt={featured.name}
                   height={featured.formats.large.height}
                   width={featured.formats.large.width}
-                  className={`w-full rounded-sm bg-js-yellow object-cover md:aspect-square ${
+                  className={`w-full rounded-md bg-js-yellow object-cover md:aspect-square ${
                     reverse ? "md:col-start-1" : "md:col-start-2 "
                   } `}
                 />
@@ -40,14 +40,14 @@ export default function ProjectsSection({ title, reverse, projects }) {
                   {project.attributes.tags.data.length ? (
                     <ul className="flex flex-wrap gap-2">
                       {project.attributes.tags.data?.map((tag) => (
-                       <Tag key={tag.attributes.name} tag={tag} />
+                        <Tag key={tag.attributes.name} tag={tag} />
                       ))}
                     </ul>
                   ) : null}
 
-                  {!!project.attributes.description ? (
+                  {!!project.attributes.excerpt ? (
                     <p className="font-light leading-normal md:leading-snug">
-                      {project.attributes.description}
+                      {project.attributes.excerpt}
                     </p>
                   ) : null}
 
@@ -64,11 +64,18 @@ export default function ProjectsSection({ title, reverse, projects }) {
         <div className="col-span-full grid grid-cols-1 items-stretch gap-4 md:grid-cols-3 lg:grid-cols-5">
           {projects
             .filter((project) => !project.attributes.highlighted)
-            .map((project) => {
+            .map((project, index) => {
               return (
                 <ProjectCard
                   key={`${project.title}-${project.id}`}
                   project={project}
+                  className={
+                    projects.filter(
+                      (project) => !project.attributes.highlighted
+                    ).length === 3 && index === 0
+                      ? "lg:col-start-2"
+                      : ""
+                  }
                 />
               );
             })}
@@ -82,4 +89,3 @@ export default function ProjectsSection({ title, reverse, projects }) {
     </SectionContainer>
   );
 }
-
