@@ -21,7 +21,7 @@ export default function Page({ data, instagramData }) {
                   key={`index-${item.attributes.title}`}
                   href="/photography/[category]"
                   as={`/photography/${item.attributes.title.toLowerCase()}`}
-                  className="group relative col-span-2 flex aspect-[3/2] w-full items-center justify-center overflow-hidden  object-cover"
+                  className="group relative col-span-2 flex aspect-[3/2] w-full items-center justify-center overflow-hidden rounded-md"
                 >
                   <div className="absolute inset-0 bg-black/[15%] opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100" />
                   <Image
@@ -46,7 +46,7 @@ export default function Page({ data, instagramData }) {
             {!!instagramData &&
               instagramData.map((item) => {
                 return (
-                  <Image
+                  <img
                     src={item.media_url}
                     key={item.media_url}
                     alt={item.caption}

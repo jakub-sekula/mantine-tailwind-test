@@ -17,7 +17,7 @@ export default function Blog({ data }) {
         <title>Blog home</title>
       </Head>
       <Layout>
-        <PageWrapper title="Blog">
+        <PageWrapper title="Blog" className="max-w-5xl">
           <div className="hover-group relative col-span-full mb-4 flex flex-col items-center">
             {/* Latest post image */}
             {!!latest_image ? (
@@ -88,7 +88,7 @@ export default function Blog({ data }) {
   );
 }
 
-export async function getStaticProps(ctx) {
+export async function getStaticProps() {
   const qs = require("qs");
   const headers = new Headers({
     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
