@@ -1,21 +1,13 @@
-
 import { Header, Footer } from "components/layout";
-import { useLayoutContext } from "components/contexts";
 
-export default function Layout({
-  children,
-  className,
-}) {
-  const { transparent, dark, fixed } = useLayoutContext();
-
-
+export default function Layout({ children, className, dark = false }) {
   return (
     <>
-      <Header transparent={transparent} fixed={fixed} dark={dark} />
+      <Header dark={dark} />
       <div
         key="layout"
-        className={`relative flex h-full w-full flex-col mx-auto
-      items-center ${className && className}`}
+        className={`relative mx-auto flex h-full w-full flex-col
+      items-center ${className ? className : ""}`}
       >
         {children}
       </div>
