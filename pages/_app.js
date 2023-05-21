@@ -1,6 +1,6 @@
-import "/styles/globals.css";
+import "@/styles/globals.css";
 import { ThemeProvider } from "next-themes";
-import { LayoutProvider } from "components/contexts";
+import { LayoutProvider } from "@/components/contexts";
 import { useEffect } from "react";
 import { reveal } from "lib/utils";
 
