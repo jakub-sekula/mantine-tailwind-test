@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { Layout, PageWrapper } from "@components/layout";
 import { Tag } from "@components/common";
-import { convertRelativeUrl } from "lib/utils";
+import { convertRelativeUrl } from "@lib/utils";
 // import { useRouter } from "next/navigation";
 
 export default async function Projects() {
@@ -116,8 +116,6 @@ async function getData() {
   });
 
   const resJson = await res.json();
-
-  console.log(resJson.data[0].attributes);
 
   return {
     data: resJson.data,

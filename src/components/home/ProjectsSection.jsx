@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Hyperlink, Tag, ProjectCard } from "@components/common";
 import SectionContainer from "./SectionContainer";
-import { convertRelativeUrl } from "lib/utils";
+import { convertRelativeUrl } from "@lib/utils";
 
 export default function ProjectsSection({ title, reverse, projects }) {
   return (
@@ -84,7 +84,7 @@ export default function ProjectsSection({ title, reverse, projects }) {
       <Hyperlink
         title="All projects"
         href="/projects"
-        className="reveal-later fade-bottom"
+        className="reveal fade-bottom"
       />
     </SectionContainer>
   );

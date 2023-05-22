@@ -1,7 +1,7 @@
 "use client";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { imageLinkTransformer } from "lib/utils";
+import { imageLinkTransformer } from "@lib/utils";
 
 export default function MarkdownRenderer({ children }) {
   return (

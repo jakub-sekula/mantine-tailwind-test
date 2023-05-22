@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import SectionContainer from "./SectionContainer";
 import { Hyperlink } from "@components/common";
-import { convertRelativeUrl } from "lib/utils";
+import { convertRelativeUrl } from "@lib/utils";
 
 export default function PhotographySection({ photos }) {
   return (

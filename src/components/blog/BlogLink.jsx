@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Tag } from "@components/common";
-import { convertRelativeUrl } from "lib/utils";
+import { convertRelativeUrl } from "@lib/utils";
 
 export default function BlogLink({ post, delay }) {
   const image = post.attributes.featured_image?.data?.attributes;
@@ -42,7 +42,7 @@ export default function BlogLink({ post, delay }) {
         {!!post.attributes.tags?.data.length ? (
           <ul className="mt-1 flex flex-wrap gap-2">
             {post.attributes.tags.data?.slice(0, 4).map((tag) => (
-              <Tag tag={tag} key={tag.name}/>
+              <Tag tag={tag} key={tag.name} noLink={true}/>
             ))}
           </ul>
         ) : null}

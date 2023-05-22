@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import { convertRelativeUrl } from "lib/utils";
+import { convertRelativeUrl } from "@lib/utils";
 import Image from "next/image";
 
 export default function ProjectCard({ project, delay = 0, ...props }) {
@@ -13,7 +13,7 @@ export default function ProjectCard({ project, delay = 0, ...props }) {
       onClick={() => {
         router.push(`/projects/${project.attributes.slug}`);
       }}
-      className={`active reveal-later fade-bottom hover-group group relative flex w-full flex-col overflow-hidden 
+      className={`reveal fade-bottom hover-group group relative flex w-full flex-col overflow-hidden 
 		   rounded-card hover:-translate-y-1  ${props.className}`}
       style={{ animationDelay: `${delay}ms`, transitionDelay: `${delay}ms` }}
     >

@@ -1,4 +1,4 @@
-import { convertRelativeUrl } from "lib/utils";
+import { convertRelativeUrl } from "@lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 

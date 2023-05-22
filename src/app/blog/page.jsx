@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Layout, PageWrapper } from "@components/layout";
 import { BlogPostCard } from "@components/blog";
-import { convertRelativeUrl } from "lib/utils";
+import { convertRelativeUrl } from "@lib/utils";
 import Link from "next/link";
 import { IconArrowRight } from "@tabler/icons";
 import Image from "next/image";

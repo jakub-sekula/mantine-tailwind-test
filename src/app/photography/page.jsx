@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PageWrapper } from "@components/layout";
-import { convertRelativeUrl } from "lib/utils";
+import { convertRelativeUrl } from "@lib/utils";
 
 export default async function Page() {
   const { data, instagramData } = await getData();

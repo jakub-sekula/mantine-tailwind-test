@@ -1,4 +1,4 @@
-import { convertRelativeUrl } from "lib/utils";
+import { convertRelativeUrl } from "@lib/utils";
 import Image from "next/image";
 import { BlogPostCard } from "@components/blog";
 import { Tag, ToolCard, SectionHeading } from "@components/common";
@@ -47,7 +47,7 @@ export default async function Project({ params }) {
           {" "}
           <FaPlayCircle size={18} /> Live demo{" "}
         </Link>{" "}
-      </div>{" "}
+      </div>
       <Image
         src={convertRelativeUrl(
           data.featured_image.data.attributes.formats.xlarge.url

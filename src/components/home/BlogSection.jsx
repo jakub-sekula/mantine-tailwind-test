@@ -1,7 +1,6 @@
-'use client'
 import SectionContainer from "./SectionContainer";
 import Image from "next/image";
-import { convertRelativeUrl } from "lib/utils";
+import { convertRelativeUrl } from "@lib/utils";
 import { BlogLink } from "@components/blog";
 import { Hyperlink } from "@components/common";
 import Link from "next/link";
@@ -15,7 +14,7 @@ export default function BlogSection({ posts }) {
   return (
     <SectionContainer title="Blog">
       <div
-        className="active reveal-later fade-bottom relative grid w-full grid-cols-12 gap-4 md:gap-12"
+        className="reveal fade-bottom relative grid w-full grid-cols-12 gap-4 md:gap-12"
         style={{
           animationDelay: `250ms`,
           transitionDelay: `250ms`,
@@ -71,7 +70,7 @@ export default function BlogSection({ posts }) {
           </div>
         </div>
         <div
-          className="reveal-later fade-bottom col-span-full flex flex-col gap-4 md:col-span-6"
+          className="reveal fade-bottom col-span-full flex flex-col gap-4 md:col-span-6"
           style={{
             animationDelay: `450ms`,
             transitionDelay: `450ms`,
@@ -88,7 +87,7 @@ export default function BlogSection({ posts }) {
           })}
         </div>
       </div>
-        <Hyperlink href={`/blog`} className="reveal-later text-sm" />
+        <Hyperlink href={`/blog`} className="reveal text-sm" />
     </SectionContainer>
   );
 }

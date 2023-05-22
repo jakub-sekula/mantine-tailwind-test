@@ -7,7 +7,7 @@ import { LightboxWrapper, MarkdownRenderer } from "@components/common";
 
 import {
   convertRelativeUrl,
-} from "lib/utils";
+} from "@lib/utils";
 
 
 

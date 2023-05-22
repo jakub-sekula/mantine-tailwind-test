@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import { ThemeProvider } from "next-themes";
 import { LayoutProvider } from "@/components/contexts";
 import { useEffect } from "react";
-import { reveal } from "lib/utils";
+import { reveal } from "@lib/utils";
 
 export default function App({ Component, pageProps, router }) {
   useEffect(() => {
