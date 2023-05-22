@@ -16,27 +16,27 @@ export default async function Home() {
   return (
     <>
         <Hero />
-        <PhotographySection title="Photography" photos={data.photos} />
+        <AboutSection title="About me" cv={data.cv} />
+        <ToolsSection
+          title="Skills"
+          toolCollections={data.toolCollections}
+        />
         <ProjectsSection
           reverse={false}
           title="Web & Software Projects"
           projects={data.projects.filter(
             (project) => project.attributes.type === "Software"
-          )}
+            )}
         />
         <ProjectsSection
           reverse
           title="Engineering & DIY projects"
           projects={data.projects.filter(
             (project) => project.attributes.type === "Engineering"
-          )}
+            )}
         />
-        <ToolsSection
-          title="Tools and Skills"
-          toolCollections={data.toolCollections}
-        />
-        <AboutSection title="About me" cv={data.cv} />
-        {/* <BlogSection title="Recent blog posts" posts={data.posts} /> */}
+            <PhotographySection title="Photography" photos={data.photos} />
+        <BlogSection title="Recent blog posts" posts={data.posts} />
     </>
   );
 }
