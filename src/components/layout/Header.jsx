@@ -2,26 +2,37 @@
 
 import Link from "next/link";
 import { ColorSchemeToggle } from "@components/common";
-import { useRouter } from "next/navigation";
-import { useScrollDirection } from ".";
+import { useRouter, usePathname } from "next/navigation";
+import { useScrollDirection, useScrollPosition } from ".";
+import { useEffect, useState } from "react";
+import { reveal } from "@lib/utils";
 
-export default function Header({
-  fixed = false,
-  transparent = false,
-  dark = false,
-  menuLinks = [],
-}) {
-  const scrollDirection = useScrollDirection();
+export default function Header({ menuLinks = [] }) {
+  const { scrollDirection } = useScrollDirection();
+  const { scrollPosition } = useScrollPosition();
+  const [heroHeight, setHeroHeight] = useState(0);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname === "/") {
+      setHeroHeight(document.getElementById("hero-section").clientHeight);
+    }
+
+    reveal();
+  }, [heroHeight, pathname]);
+
+  console.log(heroHeight - scrollPosition);
 
   return (
     <header
-      className={`${fixed === true ? "sticky lg:fixed" : "sticky"}
+      className={`sticky border-transparent pb-px text-darktext backdrop-blur-lg
+
+      ${pathname === "/" ? "text-darktext" : "text-text"}
       ${
-        transparent === true
-          ? "border-transparent bg-gradient-to-b from-darkbg/40 pb-px"
-          : "border-b border-neutral-100 bg-lightbg/60 px-4 backdrop-blur-lg dark:border-darktext/5 dark:bg-darkbg/90"
+        scrollPosition < heroHeight && pathname === "/"
+          ? "text-darktext"
+          : "bg-white/90 text-text dark:bg-darkbg/70 dark:text-darktext"
       }
-      ${dark === true ? "border-darktext/5 bg-darkbg/50 text-darktext" : ""}
       ${
         scrollDirection === "down" ? "-top-16" : "top-0"
       } z-50 flex h-16 w-full items-center justify-center px-6 transition-all duration-200 xl:px-4 2xl:px-0 `}
@@ -73,7 +84,7 @@ function NavLink({ label, href, color = "red", ...props }) {
   return (
     <Link
       {...props}
-      className={`font-headings relative text-sm  after:absolute after:left-0 after:-bottom-1 after:-z-10 after:h-[2px] after:w-full after:opacity-0 after:transition-all after:duration-300 hover:after:opacity-100 ${
+      className={`font-headings relative text-sm  after:absolute after:-bottom-1 after:left-0 after:-z-10 after:h-[2px] after:w-full after:opacity-0 after:transition-all after:duration-300 hover:after:opacity-100 ${
         selected ? "after:opacity-100" : null
       } ${COLORS?.[color]}`}
       href={href}
