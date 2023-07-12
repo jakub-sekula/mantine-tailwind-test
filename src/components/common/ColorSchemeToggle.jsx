@@ -1,9 +1,10 @@
 'use client'
 import { IconSun, IconMoonStars } from "@tabler/icons";
+import clsx from "clsx";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 
-export default function ColorSchemeToggle() {
+export default function ColorSchemeToggle({className = ""}) {
   const { theme, systemTheme, resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -18,11 +19,11 @@ export default function ColorSchemeToggle() {
 
   return (
       <button
-        className="w-[18px] h-[18px]"
+        className={clsx("w-[18px] h-[18px]", className)}
         onClick={() => toggleColorScheme()}
         key={resolvedTheme === "dark" ? "dark-icon" : "light-icon"}
       >
-        {resolvedTheme === "dark" ? (
+        {mounted && resolvedTheme === "dark" ? (
           <IconMoonStars size={18} />
         ) : (
           <IconSun size={18} />

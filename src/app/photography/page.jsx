@@ -8,8 +8,8 @@ export default async function Page() {
 
   return (
     <>
-      <PageWrapper title="Photography">
-        <div className="col-span-full mx-auto grid w-full grid-cols-6 gap-3">
+      {/* <PageWrapper> */}
+        <div className="col-span-full mx-auto grid w-full grid-cols-6 mt-6">
           {data.map((item) => {
             const image =
               item.attributes.featured_image.data.attributes.formats;
@@ -17,8 +17,8 @@ export default async function Page() {
               <Link
                 key={`index-${item.attributes.title}`}
                 href="/photography/[category]"
-                as={`/photography/${item.attributes.title.toLowerCase()}`}
-                className="group relative col-span-2 flex aspect-[3/2] w-full items-center justify-center overflow-hidden rounded-md"
+                as={`/photography/${item.attributes.slug}`}
+                className="group relative col-span-3 flex aspect-[3/2] w-full items-center justify-center overflow-hidden"
               >
                 <div className="absolute inset-0 bg-black/[15%] opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100" />
                 <Image
@@ -55,7 +55,7 @@ export default async function Page() {
               );
             })}
         </div>
-      </PageWrapper>
+      {/* </PageWrapper> */}
     </>
   );
 }

@@ -8,7 +8,6 @@ import { Zoom, Captions } from "yet-another-react-lightbox/plugins";
 
 import { useState } from "react";
 import Image from "next/image";
-import { IconChevronLeft } from "@tabler/icons";
 import Link from "next/link";
 import { PageWrapper } from "../layout";
 import MarkdownRenderer from "./MarkdownRenderer";
@@ -31,48 +30,6 @@ export default function LightboxWrapper({imageLinks=[], data}) {
       slides={imageLinks}
     />
 
-           {/* Hero section */}
-           <section
-          key={`hero-${data.title}`}
-          className="relative -mt-24 flex max-h-[900px] w-full max-w-[1920px] justify-center px-6 xl:px-4 2xl:px-0"
-        >
-          <div className="absolute inset-0 z-10 h-full bg-gradient-to-tr from-darkbg/90" />
-          <Image
-            width={data.featured_image.data.attributes.formats.xlarge.width}
-            height={data.featured_image.data.attributes.formats.xlarge.height}
-            alt={data.title}
-            src={convertRelativeUrl(
-              data.featured_image.data.attributes.formats.xlarge.url
-            )}
-            priority={true}
-            className="absolute inset-0 z-0 mx-auto h-full w-full object-cover"
-          />
-          <div className="z-20 mt-20 flex w-full max-w-page flex-col items-center py-24 text-white md:pt-40 md:pb-32 ">
-            <Link
-              href="/photography"
-              className="mb-4 flex items-center gap-1 text-sm font-light"
-            >
-              <IconChevronLeft size={16} />
-              Back to albums
-            </Link>
-            <h1
-              className="mb-3 break-words font-heading text-[3.5rem] font-bold
-                uppercase leading-none tracking-tight xl:text-[5.5rem] 2xl:text-[6rem]"
-            >
-              {data.title}
-            </h1>
-            <p className="max-w-[75ch] text-center text-sm font-light md:text-lg">
-              {data.description}
-            </p>
-            {data.showTags &&
-              !!data.tags &&
-              data.tags.data.map((tag) => (
-                <span key={`${tag.attributes.title}-${tag.id}`}>
-                  {tag.attributes.title}
-                </span>
-              ))}
-          </div>
-        </section>
 
         <PageWrapper>
           {!!data.sections &&

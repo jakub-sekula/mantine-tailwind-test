@@ -6,12 +6,15 @@ import {
   BlogSection,
   PhotographySection,
 } from "@/components/home";
+import { Footer, Header } from "@/components/layout";
 
 export default async function Home() {
   const data = await getData();
+  const menuItems = await getMenuItems();
 
   return (
     <>
+    <Header menuItems={menuItems}/>
       <Hero />
       <AboutSection title="About me" cv={data.cv} />
       <ToolsSection title="Skills" toolCollections={data.toolCollections} />
@@ -31,6 +34,7 @@ export default async function Home() {
       />
       <PhotographySection title="Photography" photos={data.photos} />
       <BlogSection title="Recent blog posts" posts={data.posts} />
+      <Footer />
     </>
   );
 }
@@ -132,4 +136,27 @@ async function getData() {
     posts: postsJson.data,
     cv: cvJson.data,
   };
+}
+
+async function getMenuItems() {
+  const qs = require("qs");
+
+  let menuQuery = qs.stringify({
+    populate: "links",
+    filters: {
+      name: {
+        $eq: "Header",
+      },
+    },
+  });
+
+  let menu = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/menus?${menuQuery}`
+  );
+
+  const menuJson = await menu.json();
+
+  console.log(menuJson.data[0].attributes.links);
+
+  return menuJson.data[0].attributes.links;
 }
