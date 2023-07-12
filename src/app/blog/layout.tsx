@@ -1,10 +1,10 @@
 import { Metadata } from "next";
+import { Footer, Header } from "@components/layout";
 import "@/styles/globals.css";
-import ThemeWrapper from "@components/contexts/ThemeWrapper";
 
 export const metadata: Metadata = {
-  title: "Jakub Sekula - Homepage",
-  description: "Welcome to my personal portfolio and blog.",
+  title: "Home",
+  description: "Welcome to Next.js",
 };
 
 export default async function RootLayout({
@@ -12,14 +12,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const menuItems = await getMenuItems();
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="bg-lightbg font-sans text-text dark:bg-darkbg dark:text-darktext">
-        <ThemeWrapper>
-          {children}
-          </ThemeWrapper>
-      </body>
-    </html>
+    <>
+      <Header menuItems={menuItems} />
+      {children}
+      <Footer />
+    </>
   );
 }
 
@@ -41,7 +40,7 @@ async function getMenuItems() {
 
   const menuJson = await menu.json();
 
-  console.log(menuJson.data[0].attributes.links)
+  console.log(menuJson.data[0].attributes.links);
 
   return menuJson.data[0].attributes.links;
 }
