@@ -8,6 +8,7 @@ import { IconChevronLeft } from "@tabler/icons";
 
 export default async function Project({ params }) {
   const { data } = await getData(params);
+  console.log(data)
   return (
     <main className="mx-auto mt-6 grid w-full max-w-6xl grid-cols-12 gap-2 px-6 md:mt-6 lg:mt-12 xl:px-4 2xl:px-0">
       {" "}
@@ -33,20 +34,22 @@ export default async function Project({ params }) {
       </div>{" "}
       <div className="col-span-full mx-auto mb-6 mt-3 flex gap-4">
         {" "}
-        <Link
-          href="#"
+        {!!data.github_url ? <Link
+          href={data.github_url}
           className="group flex w-max items-center gap-2 hover:underline"
         >
           {" "}
           <FaGithub size={18} /> Github link{" "}
-        </Link>{" "}
-        <Link
-          href="#"
+        </Link> : null}
+        {" "}
+        {!!data.demo_url ? <Link
+          href={data.demo_url}
           className="group flex w-max items-center gap-2 hover:underline"
         >
           {" "}
           <FaPlayCircle size={18} /> Live demo{" "}
-        </Link>{" "}
+        </Link> : null}
+        {" "}
       </div>
       <Image
         src={convertRelativeUrl(
@@ -105,7 +108,7 @@ async function getData(params) {
     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
   });
   query = qs.stringify({ filters: { slug: { $eq: project } } });
-  const idRes = await fetch(`http://localhost:1337/api/projects?${query}`, {
+  const idRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`, {
     headers,
   });
   const idJson = await idRes.json();
@@ -118,7 +121,7 @@ async function getData(params) {
       posts: { populate: { featured_image: "*" } },
     },
   });
-  const res = await fetch(`http://localhost:1337/api/projects/${id}?${query}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects/${id}?${query}`, {
     headers,
   });
   const resJson = await res.json();
@@ -130,7 +133,7 @@ export async function generateStaticParams() {
     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
   });
   const posts = await fetch(
-    "http://localhost:1337/api/projects?pagination[pageSize]=50",
+    `${process.env.NEXT_PUBLIC_API_URL}/api/projects?pagination[pageSize]=50`,
     { headers }
   )
     .then((res) => res.json())

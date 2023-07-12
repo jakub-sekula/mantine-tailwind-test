@@ -2,34 +2,45 @@
 
 import Link from "next/link";
 import { ColorSchemeToggle } from "@components/common";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useScrollDirection, useScrollPosition } from ".";
 import { useEffect, useState } from "react";
 import { reveal } from "@lib/utils";
 
-export default function Header({ menuLinks = [] }) {
+interface menuItem {
+  id: number;
+  title: string;
+  url: string;
+  color: string;
+}
+
+const COLORS: Record<string, string> = {
+  red: "after:bg-js-red",
+  green: "after:bg-js-green",
+  blue: "after:bg-js-blue",
+  yellow: "after:bg-js-yellow",
+};
+
+export default function Header({ menuItems }: { menuItems: menuItem[] }) {
   const { scrollDirection } = useScrollDirection();
   const { scrollPosition } = useScrollPosition();
-  const [heroHeight, setHeroHeight] = useState(0);
+  const [heroHeight, setHeroHeight] = useState<number | undefined>(0);
   const pathname = usePathname();
 
   useEffect(() => {
     if (pathname === "/") {
-      setHeroHeight(document.getElementById("hero-section").clientHeight);
+      const heroSection = document?.getElementById("hero-section");
+      setHeroHeight(heroSection?.clientHeight);
     }
-
     reveal();
   }, [heroHeight, pathname]);
 
-  console.log(heroHeight - scrollPosition);
-
   return (
     <header
-      className={`sticky border-transparent pb-px text-darktext backdrop-blur-lg
-
+      className={`sticky border-transparent pb-px backdrop-blur-lg
       ${pathname === "/" ? "text-darktext" : "text-text"}
       ${
-        scrollPosition < heroHeight && pathname === "/"
+        heroHeight && scrollPosition < heroHeight && pathname === "/"
           ? "text-darktext"
           : "bg-white/90 text-text dark:bg-darkbg/70 dark:text-darktext"
       }
@@ -52,11 +63,11 @@ export default function Header({ menuLinks = [] }) {
           </span>
         </Link>
         <nav className="hidden flex-row items-center gap-14 md:flex ">
-          {!!menuLinks?.length ? (
-            menuLinks.map((link) => {
+          {!!menuItems?.length ? (
+            menuItems.map((link) => {
               return (
                 <NavLink
-                  key={link.title}
+                  key={link?.title}
                   label={link.title}
                   href={link.url}
                   color={link?.color}
@@ -78,9 +89,9 @@ export default function Header({ menuLinks = [] }) {
   );
 }
 
-function NavLink({ label, href, color = "red", ...props }) {
-  const router = useRouter();
-  const selected = router.pathname === href;
+function NavLink({ label, href, color = "red", ...props }: any) {
+  const path = usePathname();
+  const selected = path === href;
   return (
     <Link
       {...props}
@@ -93,10 +104,3 @@ function NavLink({ label, href, color = "red", ...props }) {
     </Link>
   );
 }
-
-const COLORS = {
-  red: "after:bg-js-red",
-  green: "after:bg-js-green",
-  blue: "after:bg-js-blue",
-  yellow: "after:bg-js-yellow",
-};

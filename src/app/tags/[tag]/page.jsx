@@ -1,12 +1,14 @@
-import Head from "next/head";
 import Link from "next/link";
-import { Layout } from "@components/layout";
-
+import { notFound } from 'next/navigation';
 export default async function Tag({ params }) {
   const { data } = await getData(params);
   return (
     <>
-      {data.albums.data.length != 0
+      
+    <div>
+    <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+      {data?.albums.data.length != 0
         ? data.albums.data.map((album) => (
             <Link
               key={album.attributes.slug}
@@ -16,7 +18,7 @@ export default async function Tag({ params }) {
             </Link>
           ))
         : null}
-      {data.projects.data.length != 0
+      {data?.projects.data.length != 0
         ? data.projects.data.map((project) => (
             <Link
               key={project.attributes.slug}
@@ -26,7 +28,7 @@ export default async function Tag({ params }) {
             </Link>
           ))
         : null}
-      {data.posts.data.length != 0
+      {data?.posts.data.length != 0
         ? data.posts.data.map((post) => (
             <Link
               key={post.attributes.slug}
@@ -55,28 +57,26 @@ async function getData(params) {
         $eq: tag,
       },
     },
+    populate: "*"
   });
 
-  const idRes = await fetch(`http://localhost:1337/api/tags?${query}`, {
-    headers,
-  });
-  const idJson = await idRes.json();
 
-  const id = idJson.data[0].id;
-
-  query = qs.stringify({
-    populate: "*",
-  });
-
-  const res = await fetch(`http://localhost:1337/api/tags/${id}?${query}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tags?${query}`, {
     headers,
   });
 
-  const resJson = await res.json();
+  const json = await res.json();
 
-  return {
-    data: resJson.data.attributes,
-  };
+  if(json.data.length) {
+    return {
+      data: json.data[0].attributes,
+    };
+
+  } else {
+    notFound()
+  }
+
+
 }
 
 export async function generateStaticParams() {
@@ -84,7 +84,7 @@ export async function generateStaticParams() {
     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
   });
   const tags = await fetch(
-    "http://localhost:1337/api/tags?pagination[pageSize]=50",
+    `${process.env.NEXT_PUBLIC_API_URL}/api/tags?pagination[pageSize]=50`,
     { headers }
   )
     .then((res) => res.json())

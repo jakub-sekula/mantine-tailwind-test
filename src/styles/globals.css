@@ -118,3 +118,7 @@ h2 {
   background-image: url("/patterns/plus-dark.svg");
   opacity: 0.1;
 } */
+
+.glow {
+  box-shadow: 0 100px 200px 150px #63849f33;
+}

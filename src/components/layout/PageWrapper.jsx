@@ -9,7 +9,7 @@ export default function PageWrapper({ children, title, ...props }) {
       <main
         className={`mx-auto  grid w-full ${
           props.className ? props.className : "max-w-page"
-        } grid-cols-12 gap-6 px-6 lg:mt-12 xl:px-4 2xl:px-0`}
+        } grid-cols-12 gap-6 px-6 mt-6 xl:px-4 2xl:px-0`}
       >
         {children}
       </main>

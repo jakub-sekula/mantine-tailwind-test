@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { TableOfContents, MarkdownRenderer } from "@components/common";
+import { convertRelativeUrl } from "@/lib/utils";
 
 export default async function Page({ params }) {
   const { data, author, featured_image } = await getData(params);
@@ -98,7 +99,7 @@ async function getData(params) {
     },
   });
 
-  const idRes = await fetch(`http://localhost:1337/api/posts?${query}`, {
+  const idRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`, {
     headers,
   });
   const idJson = await idRes.json();
@@ -127,7 +128,7 @@ async function getData(params) {
     },
   });
 
-  const res = await fetch(`http://localhost:1337/api/posts/${id}?${query}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}?${query}`, {
     headers,
   });
 
@@ -137,7 +138,7 @@ async function getData(params) {
     data: resJson.data.attributes,
     author: resJson.data.attributes.author.data?.attributes || null,
     featured_image: !!resJson.data.attributes.featured_image.data
-      ? `http://localhost:1337${resJson.data.attributes.featured_image.data?.attributes.url}`
+      ? convertRelativeUrl(resJson.data.attributes.featured_image.data?.attributes.url)
       : "",
   };
 }
@@ -147,7 +148,7 @@ export async function generateStaticParams() {
     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
   });
   const posts = await fetch(
-    "http://localhost:1337/api/posts?pagination[pageSize]=50",
+    `${process.env.NEXT_PUBLIC_API_URL}/api/posts?pagination[pageSize]=50`,
     { headers }
   )
     .then((res) => res.json())

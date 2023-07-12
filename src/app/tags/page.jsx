@@ -20,7 +20,7 @@ async function getData() {
 
   const query = qs.stringify({});
 
-  const res = await fetch(`http://localhost:1337/api/tags?${query}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tags?${query}`, {
     headers,
   });
 

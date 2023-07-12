@@ -43,6 +43,7 @@ export default async function Page() {
           {!!instagramData &&
             instagramData.map((item) => {
               return (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={item.media_url}
                   key={item.media_url}
@@ -76,7 +77,7 @@ async function getData() {
   });
 
   let strapiRes = await fetch(
-    `http://localhost:1337/api/albums?${strapiQuery}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${strapiQuery}`,
     { headers: strapiHeaders }
   );
 

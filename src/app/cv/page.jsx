@@ -18,7 +18,7 @@ export default async function Cv() {
         target="_blank"
         rel="noreferrer"
         className="ml-auto mt-4 flex h-min w-max cursor-pointer select-none items-center justify-center
-          gap-2 rounded-md border border-text py-2 px-4 text-center
+          gap-2 rounded-md border border-text px-4 py-2 text-center
           text-xs transition-all duration-200 hover:-translate-y-[2px] dark:border-darktext
         lg:hidden"
       >
@@ -38,7 +38,7 @@ export default async function Cv() {
                 target="_blank"
                 rel="noreferrer"
                 className=" ml-auto mt-4 flex h-min w-max cursor-pointer select-none items-center
-          justify-center gap-2 rounded-md border border-text py-2 px-4
+          justify-center gap-2 rounded-md border border-text px-4 py-2
           text-center text-xs transition-all duration-200 hover:-translate-y-[2px]
         dark:border-darktext"
               >
@@ -76,6 +76,7 @@ export default async function Cv() {
             />
             <div className="flex flex-col gap-5">
               {section.entries.map((entry) => {
+                if(!entry.show_on_website) return
                 switch (entry.type) {
                   case "Experience":
                     return (
@@ -129,9 +130,18 @@ async function getData() {
       },
       cv_pdf: "*",
     },
+    filter: {
+      sections: {
+        entries: {
+          show_on_website: {
+            $eq: false,
+          },
+        },
+      },
+    },
   });
 
-  const res = await fetch(`http://localhost:1337/api/cv?${query}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cv?${query}`, {
     headers,
   });
 

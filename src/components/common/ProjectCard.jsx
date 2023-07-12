@@ -17,7 +17,7 @@ export default function ProjectCard({ project, delay = 0, ...props }) {
 		   rounded-card hover:-translate-y-1  ${props.className}`}
       style={{ animationDelay: `${delay}ms`, transitionDelay: `${delay}ms` }}
     >
-      <div className="h-48 w-full overflow-hidden lg:h-56 xl:h-60">
+      <div className="h-48 w-full overflow-hidden lg:h-56 xl:h-60" >
         <Image
           width={formats?.medium.width || 500}
           height={formats?.medium.height || 500}

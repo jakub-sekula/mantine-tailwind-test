@@ -1,5 +1,3 @@
-
-
 import {
   Hero,
   ProjectsSection,
@@ -10,38 +8,34 @@ import {
 } from "@/components/home";
 
 export default async function Home() {
-  
-  const data = await getData()
+  const data = await getData();
 
   return (
     <>
-        <Hero />
-        <AboutSection title="About me" cv={data.cv} />
-        <ToolsSection
-          title="Skills"
-          toolCollections={data.toolCollections}
-        />
-        <ProjectsSection
-          reverse={false}
-          title="Web & Software Projects"
-          projects={data.projects.filter(
-            (project) => project.attributes.type === "Software"
-            )}
-        />
-        <ProjectsSection
-          reverse
-          title="Engineering & DIY projects"
-          projects={data.projects.filter(
-            (project) => project.attributes.type === "Engineering"
-            )}
-        />
-            <PhotographySection title="Photography" photos={data.photos} />
-        <BlogSection title="Recent blog posts" posts={data.posts} />
+      <Hero />
+      <AboutSection title="About me" cv={data.cv} />
+      <ToolsSection title="Skills" toolCollections={data.toolCollections} />
+      <ProjectsSection
+        reverse={false}
+        title="Web & Software Projects"
+        projects={data.projects.filter(
+          (project) => project.attributes.type === "Software"
+        )}
+      />
+      <ProjectsSection
+        reverse
+        title="Engineering & DIY projects"
+        projects={data.projects.filter(
+          (project) => project.attributes.type === "Engineering"
+        )}
+      />
+      <PhotographySection title="Photography" photos={data.photos} />
+      <BlogSection title="Recent blog posts" posts={data.posts} />
     </>
   );
 }
 
-async function getData(){
+async function getData() {
   const qs = require("qs");
   const headers = new Headers({
     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
@@ -55,9 +49,12 @@ async function getData(){
     },
   });
 
-  let toolCollections = await fetch(`http://localhost:1337/api/tool-collections?${query}`, {
-    headers,
-  });
+  let toolCollections = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/tool-collections?${query}`,
+    {
+      headers,
+    }
+  );
 
   let toolCollectionsJson = await toolCollections.json();
 
@@ -65,9 +62,12 @@ async function getData(){
     populate: ["featured_image", "tags"],
   });
 
-  let projects = await fetch(`http://localhost:1337/api/projects?${query}`, {
-    headers,
-  });
+  let projects = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
+    {
+      headers,
+    }
+  );
 
   let projectsJson = await projects.json();
 
@@ -82,9 +82,12 @@ async function getData(){
     },
   });
 
-  const posts = await fetch(`http://localhost:1337/api/posts?${query}`, {
-    headers,
-  });
+  const posts = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`,
+    {
+      headers,
+    }
+  );
 
   const postsJson = await posts.json();
 
@@ -100,7 +103,7 @@ async function getData(){
     },
   });
 
-  const cv = await fetch(`http://localhost:1337/api/cv?${query}`, {
+  const cv = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cv?${query}`, {
     headers,
   });
 
@@ -116,17 +119,17 @@ async function getData(){
   });
 
   let photosRes = await fetch(
-    `http://localhost:1337/api/albums?${query}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${query}`,
     { headers: headers }
   );
 
-  let photosResJson = await photosRes.json()
+  let photosResJson = await photosRes.json();
 
   return {
-      toolCollections: toolCollectionsJson.data,
-      projects: projectsJson.data,
-      photos: photosResJson.data,
-      posts: postsJson.data,
-      cv: cvJson.data,
+    toolCollections: toolCollectionsJson.data,
+    projects: projectsJson.data,
+    photos: photosResJson.data,
+    posts: postsJson.data,
+    cv: cvJson.data,
   };
 }

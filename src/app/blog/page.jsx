@@ -101,7 +101,7 @@ async function getData() {
     },
   });
 
-  const res = await fetch(`http://localhost:1337/api/posts?${query}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`, {
     headers,
   });
 
