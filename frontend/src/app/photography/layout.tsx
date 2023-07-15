@@ -14,9 +14,9 @@ export default async function RootLayout({
 }) {
   const data = await getData();
   return (
-    <div className="flex h-full min-h-screen">
+    <div className="flex h-full min-h-screen mx-auto max-w-[1920px]">
       <SidebarNavigation data={data} />
-      <main className="flex h-full w-full md:max-w-[80%] flex-col ">
+      <main className="flex h-full w-full md:max-w-[80%] flex-col md:pr-6 ">
         {children}
       </main>
     </div>

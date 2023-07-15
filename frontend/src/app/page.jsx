@@ -14,10 +14,10 @@ export default async function Home() {
 
   return (
     <>
-    <Header menuItems={menuItems}/>
+      <Header menuItems={menuItems} />
       <Hero />
       <AboutSection title="About me" cv={data.cv} />
-      <ToolsSection title="Skills" toolCollections={data.toolCollections} />
+      <ToolsSection title="Skills" tools={data.tools} />
       <ProjectsSection
         reverse={false}
         title="Web & Software Projects"
@@ -46,21 +46,22 @@ async function getData() {
   });
 
   let query = qs.stringify({
-    populate: {
-      tools: {
-        populate: "*",
+    populate: "*",
+    filters: {
+      show_on_homepage: {
+        $eq: true,
       },
     },
   });
 
-  let toolCollections = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/tool-collections?${query}`,
+  let tools = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/tools?${query}`,
     {
       headers,
     }
   );
 
-  let toolCollectionsJson = await toolCollections.json();
+  let toolsJson = await tools.json();
 
   query = qs.stringify({
     populate: ["featured_image", "tags"],
@@ -116,7 +117,7 @@ async function getData() {
   query = qs.stringify({
     populate: ["featured_image"],
     filters: {
-      showAsCategory: {
+      show_on_homepage: {
         $eq: true,
       },
     },
@@ -130,7 +131,7 @@ async function getData() {
   let photosResJson = await photosRes.json();
 
   return {
-    toolCollections: toolCollectionsJson.data,
+    tools: toolsJson.data,
     projects: projectsJson.data,
     photos: photosResJson.data,
     posts: postsJson.data,

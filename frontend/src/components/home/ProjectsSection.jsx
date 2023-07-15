@@ -24,7 +24,7 @@ export default function ProjectsSection({ title, reverse, projects }) {
                     reverse ? "md:col-start-1" : "md:col-start-2"
                   } `}
                 >
-                  <div className="glow absolute h-0 w-full z-0" />
+                  <div className=" absolute h-0 w-full z-0" />
                   <Image
                     src={convertRelativeUrl(featured.formats.large.url)}
                     alt={featured.name}

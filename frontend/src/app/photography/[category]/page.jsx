@@ -15,7 +15,7 @@ export default async function Page({ params }) {
       {/* Hero section */}
       <section
         key={`hero-${data.title}`}
-        className="relative -mt-24 flex max-h-[900px] w-full max-w-[1920px] justify-center px-6 xl:px-4 2xl:px-0"
+        className="relative flex max-h-[400px] h-screen rounded-sm overflow-hidden mt-6 max-w-[1920px] justify-center items-center"
       >
         <div className="absolute inset-0 z-10 h-full bg-gradient-to-tr from-darkbg/90" />
         <Image
@@ -28,7 +28,7 @@ export default async function Page({ params }) {
           priority={true}
           className="absolute inset-0 z-0 mx-auto h-full w-full object-cover"
         />
-        <div className="z-20 mt-20 flex w-full max-w-page flex-col items-center py-24 text-white md:pb-32 md:pt-40 ">
+        <div className="z-20 flex w-full max-w-page flex-col items-center text-white ">
           <Link
             href="/photography"
             className="mb-4 flex items-center gap-1 text-sm font-light"
@@ -45,7 +45,7 @@ export default async function Page({ params }) {
           <p className="max-w-[75ch] text-center text-sm font-light md:text-lg">
             {data.description}
           </p>
-          {data.showTags &&
+          {data?.showTags &&
             !!data.tags &&
             data.tags.data.map((tag) => (
               <span key={`${tag.attributes.title}-${tag.id}`}>
@@ -85,6 +85,8 @@ async function getData(params) {
     }
   );
   const idJson = await idRes.json();
+
+  console.log(idJson)
 
   const id = idJson?.data[0]?.id;
 
@@ -138,9 +140,9 @@ async function getData(params) {
 
           imageLinks.push({
             id: item.id,
-            src: convertRelativeUrl(item.attributes.formats.large.url),
-            width: item.attributes.formats.large.width,
-            height: item.attributes.formats.large.height,
+            src: convertRelativeUrl(item.attributes.formats.xlarge.url),
+            width: item.attributes.formats.xlarge.width,
+            height: item.attributes.formats.xlarge.height,
             srcSet: sizes,
             description: item.attributes.caption,
           });
