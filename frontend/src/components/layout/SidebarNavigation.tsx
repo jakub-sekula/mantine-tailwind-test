@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { ColorSchemeToggle } from "@components/common";
 import { usePathname } from "next/navigation";
-import { IconChevronLeft } from "@tabler/icons";
+import { IconChevronLeft, IconChevronUp, IconChevronDown } from "@tabler/icons";
 import clsx from "clsx";
 
 import { cleanPhotosData } from "@/lib/cleanPhotosData";
+import { useState } from "react";
 
 export default function SidebarNavigation({ data }: { data: any }) {
-  const filtered = cleanPhotosData(data.data)
+  const filtered = cleanPhotosData(data.data);
 
   return (
     <header
@@ -69,21 +70,42 @@ function NavLink({ label, href, color = "red", className }: any) {
 }
 
 function NestedNavLinks({ title, slug, links }: any) {
+  const [expanded, setExpanded] = useState<boolean>(true);
+
   return (
     <div className="flex flex-col">
-      <NavLink label={title} href={`/photography/${slug}`} />
-
-      {links.map((link: any) => {
-        return (
-          <NavLink
-            className={"ml-2 mt-3 text-xs"}
-            key={`${link.slug}-menuLink`}
-            label={link.title}
-            href={`/photography/${link.slug}`}
-          />
-        );
-      })}
+      <div className="flex items-center">
+        <NavLink label={title} href={`/photography/${slug}`} />
+        <button
+        className="p-1 pl-2 w-full"
+          onClick={() => {
+            setExpanded((prev) => !prev);
+          }}
+        >
+          {expanded ? (
+            <IconChevronUp size={14} />
+          ) : (
+            <IconChevronDown size={14} />
+          )}
+        </button>
+      </div>
+      <div
+        className={clsx(
+          "flex flex-col transition-all origin-top duration-500 ease overflow-hidden"
+        )}
+        style={expanded ? {maxHeight: `${(links.length+1) * 28}px`} : {maxHeight: "0"}}
+      >
+        {links.map((link: any) => {
+          return (
+            <NavLink
+              className={"ml-2 mt-3 text-xs"}
+              key={`${link.slug}-menuLink`}
+              label={link.title}
+              href={`/photography/${link.slug}`}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
-
