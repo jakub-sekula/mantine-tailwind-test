@@ -7,7 +7,7 @@ import { IconChevronLeft, IconChevronUp, IconChevronDown } from "@tabler/icons";
 import clsx from "clsx";
 
 import { cleanPhotosData } from "@/lib/cleanPhotosData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SidebarNavigation({ data }: { data: any }) {
   const filtered = cleanPhotosData(data.data);
@@ -70,14 +70,25 @@ function NavLink({ label, href, color = "red", className }: any) {
 }
 
 function NestedNavLinks({ title, slug, links }: any) {
-  const [expanded, setExpanded] = useState<boolean>(true);
+  let path = usePathname();
+  path = path.split("/")[path.split("/").length - 1];
+
+  // Dropdown opens automaticaly if navigating to top level category page
+  const [expanded, setExpanded] = useState<boolean>(
+    path.toLowerCase() === title.toLowerCase()
+  );
+
+  // Open dropdown when top level category is selected
+  useEffect(() => {
+    if(path.toLowerCase() === title.toLowerCase())  setExpanded(true);
+  }, [path]);
 
   return (
     <div className="flex flex-col">
       <div className="flex items-center">
         <NavLink label={title} href={`/photography/${slug}`} />
         <button
-        className="p-1 pl-2 w-full"
+          className="w-full p-1 pl-2"
           onClick={() => {
             setExpanded((prev) => !prev);
           }}
@@ -91,9 +102,13 @@ function NestedNavLinks({ title, slug, links }: any) {
       </div>
       <div
         className={clsx(
-          "flex flex-col transition-all origin-top duration-500 ease overflow-hidden"
+          "ease flex origin-top flex-col overflow-hidden transition-all duration-500"
         )}
-        style={expanded ? {maxHeight: `${(links.length+1) * 28}px`} : {maxHeight: "0"}}
+        style={
+          expanded
+            ? { maxHeight: `${(links.length + 1) * 28}px` }
+            : { maxHeight: "0" }
+        }
       >
         {links.map((link: any) => {
           return (

@@ -35,7 +35,6 @@ export default function LightboxWrapper({ imageLinks = [], data }) {
 
       {!!data.sections &&
         data.sections.map((section) => {
-          console.log(section?.gallery?.data.slice(4));
           if (section.__component === "album.sections") {
             return (
               <section
@@ -75,7 +74,7 @@ export default function LightboxWrapper({ imageLinks = [], data }) {
                         >
                           {image.height >= image.width ? (
                             <Image
-                              key={`gallery-image-${item.id}`}
+                              key={`gallery-image-backdrop-${item.id}`}
                               onClick={() => {
                                 setOpen(true);
                                 setIndex(

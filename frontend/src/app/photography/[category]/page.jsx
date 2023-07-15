@@ -86,8 +86,6 @@ async function getData(params) {
   );
   const idJson = await idRes.json();
 
-  console.log(idJson)
-
   const id = idJson?.data[0]?.id;
 
   query = qs.stringify({
