@@ -1,23 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PageWrapper } from "@components/layout";
 import { convertRelativeUrl } from "@lib/utils";
+import { cleanPhotosData } from "@/lib/cleanPhotosData";
 
 export default async function Page() {
   const { data, instagramData } = await getData();
 
+  const filtered = cleanPhotosData(data);
+
   return (
     <>
-      {/* <PageWrapper> */}
-        <div className="col-span-full mx-auto grid w-full grid-cols-6 mt-6">
-          {data.map((item) => {
+      <div className="col-span-full mx-auto mt-6 grid w-full grid-cols-6">
+        {Object.keys(filtered).map((item) => {
+          if (filtered[item].length != 1) return null;
+          return filtered[item].map((category) => {
             const image =
-              item.attributes.featured_image.data.attributes.formats;
+              category.featured_image.data.attributes.formats;
             return (
               <Link
-                key={`index-${item.attributes.title}`}
+                key={`index-${category.title}`}
                 href="/photography/[category]"
-                as={`/photography/${item.attributes.slug}`}
+                as={`/photography/${category.slug}`}
                 className="group relative col-span-3 flex aspect-[3/2] w-full items-center justify-center overflow-hidden"
               >
                 <div className="absolute inset-0 bg-black/[15%] opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100" />
@@ -29,33 +32,33 @@ export default async function Page() {
                   className="absolute -z-10 h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
                 />
                 <h3 className="z-10 translate-y-2 font-heading text-5xl font-semibold uppercase text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                  {item.attributes.title}
+                  {category.title}
                 </h3>
               </Link>
             );
-          })}
-        </div>
+          });
+        })}
+      </div>
 
-        <div className="col-span-full mx-auto grid w-full max-w-3xl grid-cols-6 gap-3">
-          <h2 className="col-span-full text-center">
-            Latest photos from my Instagram
-          </h2>
-          {!!instagramData &&
-            instagramData.map((item) => {
-              return (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={item.media_url}
-                  key={item.media_url}
-                  alt={item.caption}
-                  width={250}
-                  height={250}
-                  className="col-span-2 w-full rounded-sm object-cover"
-                />
-              );
-            })}
-        </div>
-      {/* </PageWrapper> */}
+      <div className="col-span-full mx-auto grid w-full max-w-3xl grid-cols-6 gap-3">
+        <h2 className="col-span-full text-center">
+          Latest photos from my Instagram
+        </h2>
+        {!!instagramData &&
+          instagramData.map((item) => {
+            return (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={item.media_url}
+                key={item.media_url}
+                alt={item.caption}
+                width={250}
+                height={250}
+                className="col-span-2 w-full rounded-sm object-cover"
+              />
+            );
+          })}
+      </div>
     </>
   );
 }

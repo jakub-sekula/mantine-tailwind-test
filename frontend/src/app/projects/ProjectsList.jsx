@@ -24,7 +24,6 @@ export default function ProjectsList({ data }) {
                 filter === item ? "outline outline-js-yellow" : ""
               }`}
               onClick={() => {
-				console.log("c")
                 setFilter(item);
                 setFilteredData(
                   data.filter((entry) =>

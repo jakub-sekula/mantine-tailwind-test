@@ -8,7 +8,6 @@ import { IconChevronLeft } from "@tabler/icons";
 
 export default async function Project({ params }) {
   const { data } = await getData(params);
-  console.log(data)
   return (
     <main className="mx-auto mt-6 grid w-full max-w-6xl grid-cols-12 gap-2 px-6 md:mt-6 lg:mt-12 xl:px-4 2xl:px-0">
       {" "}

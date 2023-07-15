@@ -129,6 +129,7 @@ async function getData(params) {
           const sizes = Object.keys(item.attributes.formats).map((key) => {
             const format = item.attributes.formats[key];
             return {
+              size:key,
               src: convertRelativeUrl(format.url),
               width: format.width,
               height: format.height,
@@ -137,9 +138,9 @@ async function getData(params) {
 
           imageLinks.push({
             id: item.id,
-            src: convertRelativeUrl(item.attributes.formats.xlarge.url),
-            width: item.attributes.formats.xlarge.width,
-            height: item.attributes.formats.xlarge.height,
+            src: convertRelativeUrl(item.attributes.formats.large.url),
+            width: item.attributes.formats.large.width,
+            height: item.attributes.formats.large.height,
             srcSet: sizes,
             description: item.attributes.caption,
           });
