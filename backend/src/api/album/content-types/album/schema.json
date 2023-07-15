@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "albums",
+  "info": {
+    "singularName": "album",
+    "pluralName": "albums",
+    "displayName": "Albums",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "description": {
+      "type": "richtext",
+      "maxLength": 500
+    },
+    "featured_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "inversedBy": "albums"
+    },
+    "showTags": {
+      "type": "boolean"
+    },
+    "sections": {
+      "type": "dynamiczone",
+      "components": [
+        "album.sections",
+        "album.link"
+      ]
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "album",
+        "category"
+      ],
+      "required": true,
+      "default": "album"
+    },
+    "showAsCategory": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "category": {
+      "type": "string",
+      "required": true
+    },
+    "stick_to_top": {
+      "type": "boolean",
+      "default": false
+    },
+    "show_on_homepage": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}
