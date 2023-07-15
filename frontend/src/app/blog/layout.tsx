@@ -40,7 +40,5 @@ async function getMenuItems() {
 
   const menuJson = await menu.json();
 
-  console.log(menuJson.data[0].attributes.links);
-
   return menuJson.data[0].attributes.links;
 }
