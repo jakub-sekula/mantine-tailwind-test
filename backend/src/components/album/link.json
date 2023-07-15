@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_album_links",
+  "info": {
+    "displayName": "links",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "albums": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::album.album"
+    }
+  }
+}
