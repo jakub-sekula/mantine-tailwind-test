@@ -1,0 +1,43 @@
+#1 [personal-backend internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [personal-backend internal] load build definition from Dockerfile
+#2 transferring dockerfile: 654B 0.1s done
+#2 DONE 0.1s
+
+#3 [personal-backend internal] load metadata for docker.io/library/node:16-alpine
+#3 DONE 0.7s
+
+#4 [personal-backend 1/8] FROM docker.io/library/node:16-alpine@sha256:6c381d5dc2a11dcdb693f0301e8587e43f440c90cdb8933eaaaabb905d44cdb9
+#4 DONE 0.0s
+
+#5 [personal-backend internal] load build context
+#5 transferring context: 5.03kB 0.1s done
+#5 DONE 0.2s
+
+#6 [personal-backend 2/8] RUN mkdir -p /home/app/
+#6 CACHED
+
+#7 [personal-backend 3/8] WORKDIR /home/app
+#7 CACHED
+
+#8 [personal-backend 4/8] RUN npm install --global pm2
+#8 CACHED
+
+#9 [personal-backend 5/8] COPY ./package*.json ./
+#9 CACHED
+
+#10 [personal-backend 6/8] RUN npm install --frozen-lockfile
+#10 CACHED
+
+#11 [personal-backend 7/8] COPY ./ ./
+#11 DONE 0.1s
+
+#12 [personal-backend 8/8] RUN npm run build
+#12 2.025 
+#12 2.025 > strapi@0.1.0 build
+#12 2.025 > strapi build
+#12 2.025 
+#12 8.990 Building your admin UI with production configuration...
+#12 12.01 ℹ Compiling Webpack

@@ -25,6 +25,7 @@ export default async function Page() {
               >
                 <div className="absolute inset-0 bg-black/[15%] opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100" />
                 <Image
+                  priority={true}
                   src={convertRelativeUrl(image.large.url)}
                   alt={image.large.name}
                   width={image.large.width}
