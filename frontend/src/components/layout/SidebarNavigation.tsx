@@ -19,7 +19,7 @@ export default function SidebarNavigation({ data }: { data: any }) {
       )}
     >
       <Link
-        href="/"
+        href="/#Photography-section"
         className="mb-4 flex items-center gap-1 text-sm font-light"
       >
         <IconChevronLeft size={16} />

@@ -29,7 +29,7 @@ export function PhotoCard({ title, image, delay = 0, href }) {
   return (
     <Link
       href={href}
-      className=" group relative col-span-4 flex h-64 w-full flex-col items-center
+      className=" group relative aspect-[2.5] md:aspect-[3/2] col-span-full md:col-span-6 lg:col-span-4 flex w-full flex-col items-center
     justify-center gap-4 overflow-hidden rounded-md border border-text/10 px-3 py-6 font-bold dark:border-0"
       style={{ animationDelay: `${delay}ms`, transitionDelay: `${delay}ms` }}
       key={`photocard-${title}`}
@@ -42,9 +42,9 @@ export function PhotoCard({ title, image, delay = 0, href }) {
         className="absolute -z-10 h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-tr from-darkbg/50" />
-      <h6 className="z-10 font-heading text-2xl font-semibold uppercase text-white">
+      <h4 className="z-10 font-heading text-2xl font-semibold uppercase text-white">
         {title}
-      </h6>
+      </h4>
     </Link>
   );
 }

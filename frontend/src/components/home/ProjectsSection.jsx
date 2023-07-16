@@ -3,6 +3,7 @@ import { Hyperlink, Tag, ProjectCard } from "@components/common";
 import SectionContainer from "./SectionContainer";
 import { convertRelativeUrl } from "@lib/utils";
 import clsx from "clsx";
+import Link from "next/link";
 
 export default function ProjectsSection({ title, reverse, projects }) {
   return (
@@ -16,31 +17,38 @@ export default function ProjectsSection({ title, reverse, projects }) {
             return (
               <div
                 key={`featured-project-${project.id}`}
-                className="col-span-full  grid grid-rows-1 gap-6 md:grid-cols-2 
+                className="col-span-full grid grid-rows-1 gap-6 md:grid-cols-2 
                            md:gap-12 xl:col-span-10 xl:col-start-2"
               >
                 <div
-                  className={`w-full rounded-md bg-js-yellow object-cover md:aspect-[3/2] relative ${
+                  className={`relative w-full rounded-md bg-js-yellow object-cover group md:aspect-[3/2] overflow-hidden ${
                     reverse ? "md:col-start-1" : "md:col-start-2"
                   } `}
                 >
-                  <div className=" absolute h-0 w-full z-0" />
-                  <Image
-                    src={convertRelativeUrl(featured.formats.large.url)}
-                    alt={featured.name}
-                    height={featured.formats.large.height}
-                    width={featured.formats.large.width}
-                    className={`h-full w-full rounded-md object-cover z-50`}
-                  />
+                  <div className=" absolute z-0 h-0 w-full" />
+                  <Link href={`/projects/${project.attributes.slug}`}>
+                    <Image
+                      src={convertRelativeUrl(featured.formats.large.url)}
+                      alt={featured.name}
+                      height={featured.formats.large.height}
+                      width={featured.formats.large.width}
+                      className={`z-50 h-full w-full rounded-md object-cover transition-all ease-out group-hover:scale-105 duration-500`}
+                    />
+                  </Link>
                 </div>
                 <div
                   className={`mb-12 flex h-min flex-col gap-4 md:row-start-1 md:pt-12 ${
                     reverse ? "md:col-start-2" : "md:col-start-1"
                   } `}
                 >
-                  <h3 className="mb-1 font-heading text-2xl font-semibold leading-none sm:text-3xl">
-                    {project.attributes.title}
-                  </h3>
+                  <Link
+                    href={`/projects/${project.attributes.slug}`}
+                    className="hover-group w-fit"
+                  >
+                    <h3 className="animate-underline mb-1 font-heading text-2xl font-semibold leading-none sm:text-3xl">
+                      {project.attributes.title}
+                    </h3>
+                  </Link>
 
                   {/* Tags display */}
                   {project.attributes.tags.data.length ? (
