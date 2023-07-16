@@ -106,20 +106,13 @@ async function getData(params) {
   try {
     const qs = require("qs");
     const { project } = params;
-    let query;
+
     const headers = new Headers({
       Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
     });
-    query = qs.stringify({ filters: { slug: { $eq: project } } });
-    const idRes = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
-      {
-        headers,
-      }
-    );
-    const idJson = await idRes.json();
-    const id = idJson.data[0].id;
-    query = qs.stringify({
+
+    let query = qs.stringify({
+      filters: { slug: { $eq: project } },
       populate: {
         featured_image: "*",
         tags: "*",
@@ -127,15 +120,17 @@ async function getData(params) {
         posts: { populate: { featured_image: "*" } },
       },
     });
+
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${id}?${query}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
       {
         headers,
         next: { revalidate: 10 },
       }
     );
-    const resJson = await res.json();
-    return { data: resJson.data.attributes };
+    const json = await res.json();
+
+    return { data: json.data[0].attributes };
   } catch (err) {
     notFound();
   }
