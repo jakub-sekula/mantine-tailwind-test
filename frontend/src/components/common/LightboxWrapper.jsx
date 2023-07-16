@@ -9,7 +9,6 @@ import { Zoom, Captions } from "yet-another-react-lightbox/plugins";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PageWrapper } from "../layout";
 import MarkdownRenderer from "./MarkdownRenderer";
 import { convertRelativeUrl } from "@/lib/utils";
 import clsx from "clsx";
@@ -62,9 +61,7 @@ export default function LightboxWrapper({ imageLinks = [], data }) {
                   >
                     {section.gallery.data.map((item) => {
                       const image =
-                        item.attributes.formats?.xlarge ||
-                        item.attributes.formats?.large ||
-                        item.attributes.formats?.medium ||
+                        // item.attributes.formats?.medium ||
                         item.attributes.formats?.small ||
                         item.attributes.formats?.thumbnail;
                       return (
@@ -74,6 +71,7 @@ export default function LightboxWrapper({ imageLinks = [], data }) {
                         >
                           {image.height >= image.width ? (
                             <Image
+                            priority={true}
                               key={`gallery-image-backdrop-${item.id}`}
                               onClick={() => {
                                 setOpen(true);
@@ -92,6 +90,7 @@ export default function LightboxWrapper({ imageLinks = [], data }) {
                           ) : null}
 
                           <Image
+                          priority={true}
                             key={`gallery-image-${item.id}`}
                             onClick={() => {
                               setOpen(true);

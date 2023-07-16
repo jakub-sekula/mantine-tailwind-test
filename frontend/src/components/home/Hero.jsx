@@ -17,8 +17,8 @@ export default function Hero() {
         <Image
           priority
           src="/me.png"
-          width={600}
-          height={600}
+          width={300}
+          height={300}
           alt="Hero image"
           className="mb-8 h-48 w-48 shrink-0 rounded-full bg-gradient-to-tr from-amber-200 to-amber-600 shadow-xl shadow-slate-950 md:mb-0 md:h-72 md:w-72"
         />

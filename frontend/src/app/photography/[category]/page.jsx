@@ -19,11 +19,11 @@ export default async function Page({ params }) {
       >
         <div className="absolute inset-0 z-10 h-full bg-gradient-to-tr from-darkbg/90" />
         <Image
-          width={data.featured_image.data.attributes.formats.xlarge.width}
-          height={data.featured_image.data.attributes.formats.xlarge.height}
+          width={data.featured_image.data.attributes.formats.large.width}
+          height={data.featured_image.data.attributes.formats.large.height}
           alt={data.title}
           src={convertRelativeUrl(
-            data.featured_image.data.attributes.formats.xlarge.url
+            data.featured_image.data.attributes.formats.large.url
           )}
           priority={true}
           className="absolute inset-0 z-0 mx-auto h-full w-full object-cover"
@@ -81,7 +81,7 @@ async function getData(params) {
   const idRes = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${query}`,
     {
-      headers,
+      headers, next: { revalidate: 10 } 
     }
   );
   const idJson = await idRes.json();
@@ -111,7 +111,7 @@ async function getData(params) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/albums/${id}?${query}`,
     {
-      headers,
+      headers,  next: { revalidate: 10 } 
     }
   );
 

@@ -142,7 +142,7 @@ async function getData() {
   });
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cv?${query}`, {
-    headers,
+    headers, next: { revalidate: 10 } 
   });
 
   const resJson = await res.json();

@@ -1,4 +1,3 @@
-"use client";
 import { ToolCard } from "@components/common";
 import { SectionHeading } from "@components/common";
 import SectionContainer from "./SectionContainer";
@@ -8,6 +7,7 @@ const colors = ["red", "green", "blue", "yellow"];
 
 export default function ToolsSection({ tools }) {
   const grouped = groupByType(tools);
+
   return (
     <SectionContainer title="Skills">
       <div className="relative grid w-full grid-cols-12 gap-4 md:gap-12">

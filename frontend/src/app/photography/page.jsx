@@ -26,10 +26,10 @@ export default async function Page() {
                 <div className="absolute inset-0 bg-black/[15%] opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100" />
                 <Image
                   priority={true}
-                  src={convertRelativeUrl(image.large.url)}
-                  alt={image.large.name}
-                  width={image.large.width}
-                  height={image.large.height}
+                  src={convertRelativeUrl(image.medium.url)}
+                  alt={image.medium.name}
+                  width={image.medium.width}
+                  height={image.medium.height}
                   className="absolute -z-10 h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
                 />
                 <h3 className="z-10 translate-y-2 font-heading text-5xl font-semibold uppercase text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
@@ -82,8 +82,7 @@ async function getData() {
 
   let strapiRes = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${strapiQuery}`,
-    { headers: strapiHeaders }
-  );
+    { headers: strapiHeaders, next: { revalidate: 10 }});
 
   let strapiResJson = await strapiRes.json();
 
@@ -93,7 +92,7 @@ async function getData() {
 
   let instagramRes = await fetch(
     "https://graph.instagram.com/8752984111410672/media?fields=id,caption,media_type,media_url",
-    { headers: instagramHeaders }
+    { headers: instagramHeaders, next: { revalidate: 10 }}
   );
 
   let instagramResJson;
