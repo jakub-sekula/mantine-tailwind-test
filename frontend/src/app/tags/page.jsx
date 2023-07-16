@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export default async function Tags() {
   const { data } = await getData();
@@ -13,20 +14,28 @@ export default async function Tags() {
   );
 }
 async function getData() {
-  const qs = require("qs");
-  const headers = new Headers({
-    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-  });
+  try {
+    const qs = require("qs");
+    const headers = new Headers({
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+    });
 
-  const query = qs.stringify({});
+    const query = qs.stringify({});
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tags?${query}`, {
-    headers,
-  });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/tags?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
 
-  const resJson = await res.json();
+    const resJson = await res.json();
 
-  return {
-    data: resJson.data,
-  };
+    return {
+      data: resJson.data,
+    };
+  } catch (err) {
+    notFound();
+  }
 }

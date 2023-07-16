@@ -5,6 +5,7 @@ import { Tag, ToolCard, SectionHeading } from "@components/common";
 import Link from "next/link";
 import { FaGithub, FaPlayCircle } from "react-icons/fa";
 import { IconChevronLeft } from "@tabler/icons";
+import { notFound } from "next/navigation";
 
 export default async function Project({ params }) {
   const { data } = await getData(params);
@@ -33,22 +34,24 @@ export default async function Project({ params }) {
       </div>{" "}
       <div className="col-span-full mx-auto mb-6 mt-3 flex gap-4">
         {" "}
-        {!!data.github_url ? <Link
-          href={data.github_url}
-          className="group flex w-max items-center gap-2 hover:underline"
-        >
-          {" "}
-          <FaGithub size={18} /> Github link{" "}
-        </Link> : null}
-        {" "}
-        {!!data.demo_url ? <Link
-          href={data.demo_url}
-          className="group flex w-max items-center gap-2 hover:underline"
-        >
-          {" "}
-          <FaPlayCircle size={18} /> Live demo{" "}
-        </Link> : null}
-        {" "}
+        {!!data.github_url ? (
+          <Link
+            href={data.github_url}
+            className="group flex w-max items-center gap-2 hover:underline"
+          >
+            {" "}
+            <FaGithub size={18} /> Github link{" "}
+          </Link>
+        ) : null}{" "}
+        {!!data.demo_url ? (
+          <Link
+            href={data.demo_url}
+            className="group flex w-max items-center gap-2 hover:underline"
+          >
+            {" "}
+            <FaPlayCircle size={18} /> Live demo{" "}
+          </Link>
+        ) : null}{" "}
       </div>
       <Image
         src={convertRelativeUrl(
@@ -100,31 +103,42 @@ export default async function Project({ params }) {
 }
 
 async function getData(params) {
-  const qs = require("qs");
-  const { project } = params;
-  let query;
-  const headers = new Headers({
-    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-  });
-  query = qs.stringify({ filters: { slug: { $eq: project } } });
-  const idRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`, {
-    headers,
-  });
-  const idJson = await idRes.json();
-  const id = idJson.data[0].id;
-  query = qs.stringify({
-    populate: {
-      featured_image: "*",
-      tags: "*",
-      tools: { populate: "*" },
-      posts: { populate: { featured_image: "*" } },
-    },
-  });
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects/${id}?${query}`, {
-    headers,
-  });
-  const resJson = await res.json();
-  return { data: resJson.data.attributes };
+  try {
+    const qs = require("qs");
+    const { project } = params;
+    let query;
+    const headers = new Headers({
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+    });
+    query = qs.stringify({ filters: { slug: { $eq: project } } });
+    const idRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
+      {
+        headers,
+      }
+    );
+    const idJson = await idRes.json();
+    const id = idJson.data[0].id;
+    query = qs.stringify({
+      populate: {
+        featured_image: "*",
+        tags: "*",
+        tools: { populate: "*" },
+        posts: { populate: { featured_image: "*" } },
+      },
+    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${id}?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
+    const resJson = await res.json();
+    return { data: resJson.data.attributes };
+  } catch (err) {
+    notFound();
+  }
 }
 
 export async function generateStaticParams() {

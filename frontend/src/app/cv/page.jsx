@@ -8,6 +8,7 @@ import { IconDownload } from "@tabler/icons";
 import { Layout, PageWrapper } from "@components/layout";
 import { SectionHeading, TableOfContents } from "@components/common";
 import { ExperienceLine, BulletsOnly, InlineList } from "@components/cv";
+import { notFound } from "next/navigation";
 
 export default async function Cv() {
   const { data } = await getData();
@@ -76,7 +77,7 @@ export default async function Cv() {
             />
             <div className="flex flex-col gap-5">
               {section.entries.map((entry) => {
-                if(!entry.show_on_website) return
+                if (!entry.show_on_website) return;
                 switch (entry.type) {
                   case "Experience":
                     return (
@@ -112,42 +113,50 @@ export default async function Cv() {
 }
 
 async function getData() {
-  const qs = require("qs");
-  let query;
+  try {
+    const qs = require("qs");
+    let query;
 
-  const headers = new Headers({
-    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-  });
+    const headers = new Headers({
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+    });
 
-  query = qs.stringify({
-    populate: {
-      sections: {
-        populate: {
+    query = qs.stringify({
+      populate: {
+        sections: {
+          populate: {
+            entries: {
+              populate: "*",
+            },
+          },
+        },
+        cv_pdf: "*",
+      },
+      filter: {
+        sections: {
           entries: {
-            populate: "*",
+            show_on_website: {
+              $eq: false,
+            },
           },
         },
       },
-      cv_pdf: "*",
-    },
-    filter: {
-      sections: {
-        entries: {
-          show_on_website: {
-            $eq: false,
-          },
-        },
-      },
-    },
-  });
+    });
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cv?${query}`, {
-    headers, next: { revalidate: 10 } 
-  });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/cv?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
 
-  const resJson = await res.json();
+    const resJson = await res.json();
 
-  return {
-    data: resJson.data.attributes,
-  };
+    return {
+      data: resJson.data.attributes,
+    };
+  } catch (err) {
+    notFound();
+  }
 }

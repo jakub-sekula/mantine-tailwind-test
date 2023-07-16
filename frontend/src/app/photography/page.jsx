@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { convertRelativeUrl } from "@lib/utils";
 import { cleanPhotosData } from "@/lib/cleanPhotosData";
+import { notFound } from "next/navigation";
 
 export default async function Page() {
   const { data, instagramData } = await getData();
@@ -14,8 +15,7 @@ export default async function Page() {
         {Object.keys(filtered).map((item) => {
           if (filtered[item].length != 1) return null;
           return filtered[item].map((category) => {
-            const image =
-              category.featured_image.data.attributes.formats;
+            const image = category.featured_image.data.attributes.formats;
             return (
               <Link
                 key={`index-${category.title}`}
@@ -65,43 +65,48 @@ export default async function Page() {
 }
 
 async function getData() {
-  const qs = require("qs");
+  try {
+    const qs = require("qs");
 
-  const strapiHeaders = new Headers({
-    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-  });
+    const strapiHeaders = new Headers({
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+    });
 
-  let strapiQuery = qs.stringify({
-    populate: ["featured_image"],
-    filters: {
-      showAsCategory: {
-        $eq: true,
+    let strapiQuery = qs.stringify({
+      populate: ["featured_image"],
+      filters: {
+        showAsCategory: {
+          $eq: true,
+        },
       },
-    },
-  });
+    });
 
-  let strapiRes = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${strapiQuery}`,
-    { headers: strapiHeaders, next: { revalidate: 10 }});
+    let strapiRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${strapiQuery}`,
+      { headers: strapiHeaders, next: { revalidate: 10 } }
+    );
 
-  let strapiResJson = await strapiRes.json();
+    let strapiResJson = await strapiRes.json();
 
-  const instagramHeaders = new Headers({
-    Authorization: `Bearer ${process.env.INSTAGRAM_TOKEN}`,
-  });
+    const instagramHeaders = new Headers({
+      Authorization: `Bearer ${process.env.INSTAGRAM_TOKEN}`,
+    });
 
-  let instagramRes = await fetch(
-    "https://graph.instagram.com/8752984111410672/media?fields=id,caption,media_type,media_url",
-    { headers: instagramHeaders, next: { revalidate: 10 }}
-  );
+    let instagramRes = await fetch(
+      "https://graph.instagram.com/8752984111410672/media?fields=id,caption,media_type,media_url",
+      { headers: instagramHeaders, next: { revalidate: 10 } }
+    );
 
-  let instagramResJson;
-  if (instagramRes.ok) {
-    instagramResJson = await instagramRes.json();
+    let instagramResJson;
+    if (instagramRes.ok) {
+      instagramResJson = await instagramRes.json();
+    }
+
+    return {
+      data: strapiResJson.data,
+      instagramData: !!instagramResJson && instagramResJson.data.slice(0, 24),
+    };
+  } catch (err) {
+    notFound();
   }
-
-  return {
-    data: strapiResJson.data,
-    instagramData: !!instagramResJson && instagramResJson.data.slice(0, 24),
-  };
 }

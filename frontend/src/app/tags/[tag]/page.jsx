@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 export default async function Tag({ params }) {
   const { data } = await getData(params);
   return (
     <>
-      
-    <div>
-    <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
+      <div>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      </div>
       {data?.albums.data.length != 0
         ? data.albums.data.map((album) => (
             <Link
@@ -43,40 +42,44 @@ export default async function Tag({ params }) {
 }
 
 async function getData(params) {
-  const qs = require("qs");
-  const { tag } = params;
-  let query;
+  try {
+    const qs = require("qs");
+    const { tag } = params;
+    let query;
 
-  const headers = new Headers({
-    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-  });
+    const headers = new Headers({
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+    });
 
-  query = qs.stringify({
-    filters: {
-      slug: {
-        $eq: tag,
+    query = qs.stringify({
+      filters: {
+        slug: {
+          $eq: tag,
+        },
       },
-    },
-    populate: "*"
-  });
+      populate: "*",
+    });
 
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/tags?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tags?${query}`, {
-    headers,
-  });
+    const json = await res.json();
 
-  const json = await res.json();
-
-  if(json.data.length) {
-    return {
-      data: json.data[0].attributes,
-    };
-
-  } else {
-    notFound()
+    if (json.data.length) {
+      return {
+        data: json.data[0].attributes,
+      };
+    } else {
+      notFound();
+    }
+  } catch (err) {
+    notFound();
   }
-
-
 }
 
 export async function generateStaticParams() {

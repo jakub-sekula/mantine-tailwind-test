@@ -7,6 +7,7 @@ import {
   PhotographySection,
 } from "@/components/home";
 import { Footer, Header } from "@/components/layout";
+import { notFound } from "next/navigation";
 
 export default async function Home() {
   const data = await getData();
@@ -40,103 +41,114 @@ export default async function Home() {
 }
 
 async function getData() {
-  const qs = require("qs");
-  const headers = new Headers({
-    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-  });
+  try {
+    const qs = require("qs");
+    const headers = new Headers({
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+    });
 
-  let query = qs.stringify({
-    populate: "*",
-    filters: {
-      show_on_homepage: {
-        $eq: true,
+    let query = qs.stringify({
+      populate: "*",
+      filters: {
+        show_on_homepage: {
+          $eq: true,
+        },
       },
-    },
-  });
+    });
 
-  let tools = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/tools?${query}`,
-    {
-      headers,
-    }
-  );
+    let tools = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/tools?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
 
-  let toolsJson = await tools.json();
+    let toolsJson = await tools.json();
 
-  query = qs.stringify({
-    populate: ["featured_image", "tags"],
-  });
+    query = qs.stringify({
+      populate: ["featured_image", "tags"],
+    });
 
-  let projects = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
-    {
-      headers,
-    }
-  );
+    let projects = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
 
-  let projectsJson = await projects.json();
+    let projectsJson = await projects.json();
 
-  query = qs.stringify({
-    populate: ["featured_image", "tags", "author"],
-    sort: {
-      createdAt: "desc",
-    },
-    pagination: {
-      start: 0,
-      limit: 5,
-    },
-  });
+    query = qs.stringify({
+      populate: ["featured_image", "tags", "author"],
+      sort: {
+        createdAt: "desc",
+      },
+      pagination: {
+        start: 0,
+        limit: 5,
+      },
+    });
 
-  const posts = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`,
-    {
-      headers,
-    }
-  );
+    const posts = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
 
-  const postsJson = await posts.json();
+    const postsJson = await posts.json();
 
-  query = qs.stringify({
-    populate: {
-      sections: {
-        populate: {
-          entries: {
-            populate: "image",
+    query = qs.stringify({
+      populate: {
+        sections: {
+          populate: {
+            entries: {
+              populate: "image",
+            },
           },
         },
       },
-    },
-  });
+    });
 
-  const cv = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cv?${query}`, {
-    headers,
-  });
+    const cv = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/cv?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
 
-  const cvJson = await cv.json();
+    const cvJson = await cv.json();
 
-  query = qs.stringify({
-    populate: ["featured_image"],
-    filters: {
-      show_on_homepage: {
-        $eq: true,
+    query = qs.stringify({
+      populate: ["featured_image"],
+      filters: {
+        show_on_homepage: {
+          $eq: true,
+        },
       },
-    },
-  });
+    });
 
-  let photosRes = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${query}`,
-    { headers: headers }
-  );
+    let photosRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${query}`,
+      { headers, next: { revalidate: 10 } }
+    );
 
-  let photosResJson = await photosRes.json();
+    let photosResJson = await photosRes.json();
 
-  return {
-    tools: toolsJson.data,
-    projects: projectsJson.data,
-    photos: photosResJson.data,
-    posts: postsJson.data,
-    cv: cvJson.data,
-  };
+    return {
+      tools: toolsJson.data,
+      projects: projectsJson.data,
+      photos: photosResJson.data,
+      posts: postsJson.data,
+      cv: cvJson.data,
+    };
+  } catch (err) {
+    notFound();
+  }
 }
 
 async function getMenuItems() {

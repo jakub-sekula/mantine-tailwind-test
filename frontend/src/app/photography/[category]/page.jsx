@@ -1,9 +1,8 @@
-// "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { IconChevronLeft } from "@tabler/icons";
 import { LightboxWrapper } from "@components/common";
+import { notFound } from "next/navigation";
 
 import { convertRelativeUrl } from "@lib/utils";
 
@@ -15,7 +14,7 @@ export default async function Page({ params }) {
       {/* Hero section */}
       <section
         key={`hero-${data.title}`}
-        className="relative flex max-h-[400px] h-screen rounded-sm overflow-hidden mt-6 max-w-[1920px] justify-center items-center"
+        className="relative mt-6 flex h-screen max-h-[400px] max-w-[1920px] items-center justify-center overflow-hidden rounded-sm"
       >
         <div className="absolute inset-0 z-10 h-full bg-gradient-to-tr from-darkbg/90" />
         <Image
@@ -61,96 +60,105 @@ export default async function Page({ params }) {
 }
 
 async function getData(params) {
-  const qs = require("qs");
-  const { category } = params;
+  try {
+    const qs = require("qs");
+    const { category } = params;
 
-  let query;
+    let query;
 
-  const headers = new Headers({
-    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-  });
+    const headers = new Headers({
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+    });
 
-  query = qs.stringify({
-    filters: {
-      slug: {
-        $eq: category,
+    query = qs.stringify({
+      filters: {
+        slug: {
+          $eq: category,
+        },
       },
-    },
-  });
+    });
 
-  const idRes = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${query}`,
-    {
-      headers, next: { revalidate: 10 } 
-    }
-  );
-  const idJson = await idRes.json();
+    const idRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
+    const idJson = await idRes.json();
 
-  const id = idJson?.data[0]?.id;
+    const id = idJson?.data[0]?.id;
 
-  query = qs.stringify({
-    populate: {
-      sections: {
-        tags: "*",
-        populate: {
-          gallery: true,
-          featured_image: true,
-          albums: {
-            populate: {
-              featured_image: "*",
+    query = qs.stringify({
+      populate: {
+        sections: {
+          tags: "*",
+          populate: {
+            gallery: true,
+            featured_image: true,
+            albums: {
+              populate: {
+                featured_image: "*",
+              },
             },
           },
         },
+        featured_image: {
+          populate: "formats",
+        },
       },
-      featured_image: {
-        populate: "formats",
-      },
-    },
-  });
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/albums/${id}?${query}`,
-    {
-      headers,  next: { revalidate: 10 } 
-    }
-  );
-
-  const resJson = await res.json();
-
-  const data = resJson.data.attributes;
-
-  let imageLinks = [];
-
-  if (!!data.sections) {
-    data.sections.forEach((section) => {
-      if (section.__component === "album.sections" && !!section.gallery?.data) {
-        section.gallery.data.forEach((item) => {
-          // generate a srcset from all strapi formats
-          const sizes = Object.keys(item.attributes.formats).map((key) => {
-            const format = item.attributes.formats[key];
-            return {
-              size:key,
-              src: convertRelativeUrl(format.url),
-              width: format.width,
-              height: format.height,
-            };
-          });
-
-          imageLinks.push({
-            id: item.id,
-            src: convertRelativeUrl(item.attributes.formats.xlarge.url),
-            width: item.attributes.formats.xlarge.width,
-            height: item.attributes.formats.xlarge.height,
-            srcSet: sizes,
-            description: item.attributes.caption,
-          });
-        });
-      }
     });
-  }
 
-  return {
-    data,
-    imageLinks,
-  };
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/albums/${id}?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
+
+    const resJson = await res.json();
+
+    const data = resJson.data.attributes;
+
+    let imageLinks = [];
+
+    if (!!data.sections) {
+      data.sections.forEach((section) => {
+        if (
+          section.__component === "album.sections" &&
+          !!section.gallery?.data
+        ) {
+          section.gallery.data.forEach((item) => {
+            // generate a srcset from all strapi formats
+            const sizes = Object.keys(item.attributes.formats).map((key) => {
+              const format = item.attributes.formats[key];
+              return {
+                size: key,
+                src: convertRelativeUrl(format.url),
+                width: format.width,
+                height: format.height,
+              };
+            });
+
+            imageLinks.push({
+              id: item.id,
+              src: convertRelativeUrl(item.attributes.formats.xlarge.url),
+              width: item.attributes.formats.xlarge.width,
+              height: item.attributes.formats.xlarge.height,
+              srcSet: sizes,
+              description: item.attributes.caption,
+            });
+          });
+        }
+      });
+    }
+
+    return {
+      data,
+      imageLinks,
+    };
+  } catch (err) {
+    notFound();
+  }
 }

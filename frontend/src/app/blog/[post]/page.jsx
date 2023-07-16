@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { TableOfContents, MarkdownRenderer } from "@components/common";
 import { convertRelativeUrl } from "@/lib/utils";
+import { notFound } from "next/navigation";
 
 export default async function Page({ params }) {
   const { data, author, featured_image } = await getData(params);
@@ -29,7 +30,7 @@ export default async function Page({ params }) {
 
         {/* Title block */}
         <div
-          className={`col-span-full px-6 pt-8 pb-6 md:col-span-8 md:col-start-3 lg:col-span-10 lg:col-start-2 lg:px-0 ${
+          className={`col-span-full px-6 pb-6 pt-8 md:col-span-8 md:col-start-3 lg:col-span-10 lg:col-start-2 lg:px-0 ${
             false ? "lg:col-span-6 lg:col-start-4" : "col-span-full"
           } `}
         >
@@ -83,64 +84,77 @@ export default async function Page({ params }) {
 }
 
 async function getData(params) {
-  const qs = require("qs");
-  const { post } = params;
-  let query;
+  try {
+    const qs = require("qs");
+    const { post } = params;
+    let query;
 
-  const headers = new Headers({
-    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-  });
+    const headers = new Headers({
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+    });
 
-  query = qs.stringify({
-    filters: {
-      slug: {
-        $eq: post,
-      },
-    },
-  });
-
-  const idRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`, {
-    headers,
-  });
-  const idJson = await idRes.json();
-
-  const id = idJson?.data[0]?.id;
-
-  if (!id) {
-    return {
-      notFound: true,
-    };
-  }
-
-  query = qs.stringify({
-    populate: {
-      tags: true,
-      sections: {
-        populate: {
-          gallery: true,
-          featured_image: true,
+    query = qs.stringify({
+      filters: {
+        slug: {
+          $eq: post,
         },
       },
-      featured_image: {
-        populate: "formats",
+    });
+
+    const idRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`,
+      {
+        headers,
+      }
+    );
+    const idJson = await idRes.json();
+
+    const id = idJson?.data[0]?.id;
+
+    if (!id) {
+      return {
+        notFound: true,
+      };
+    }
+
+    query = qs.stringify({
+      populate: {
+        tags: true,
+        sections: {
+          populate: {
+            gallery: true,
+            featured_image: true,
+          },
+        },
+        featured_image: {
+          populate: "formats",
+        },
+        author: true,
       },
-      author: true,
-    },
-  });
+    });
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}?${query}`, {
-    headers,
-  });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
 
-  const resJson = await res.json();
+    const resJson = await res.json();
 
-  return {
-    data: resJson.data.attributes,
-    author: resJson.data.attributes.author.data?.attributes || null,
-    featured_image: !!resJson.data.attributes.featured_image.data
-      ? convertRelativeUrl(resJson.data.attributes.featured_image.data?.attributes.url)
-      : "",
-  };
+    return {
+      data: resJson.data.attributes,
+      author: resJson.data.attributes.author.data?.attributes || null,
+      featured_image: !!resJson.data.attributes.featured_image.data
+        ? convertRelativeUrl(
+            resJson.data.attributes.featured_image.data?.attributes.url
+          )
+        : "",
+    };
+  } catch (err) {
+    notFound();
+  }
 }
 
 export async function generateStaticParams() {

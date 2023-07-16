@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import ProjectsList from "./ProjectsList";
 
 import { PageWrapper } from "@components/layout";
@@ -15,30 +16,35 @@ export default async function Projects() {
 }
 
 async function getData() {
-  const qs = require("qs");
-  const headers = new Headers({
-    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-  });
+  try {
+    const qs = require("qs");
+    const headers = new Headers({
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+    });
 
-  const query = qs.stringify({
-    populate: {
-      featured_image: true,
-      tools: {
-        populate: "*",
+    const query = qs.stringify({
+      populate: {
+        featured_image: true,
+        tools: {
+          populate: "*",
+        },
       },
-    },
-  });
+    });
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
-    {
-      headers,
-    }
-  );
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
 
-  const resJson = await res.json();
+    const resJson = await res.json();
 
-  return {
-    data: resJson.data,
-  };
+    return {
+      data: resJson.data,
+    };
+  } catch (err) {
+    notFound();
+  }
 }
