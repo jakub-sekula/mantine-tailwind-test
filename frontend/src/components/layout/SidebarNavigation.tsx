@@ -13,18 +13,11 @@ export default function SidebarNavigation({ data }: { data: any }) {
   const filtered = cleanPhotosData(data.data);
 
   return (
-    <header
+    <aside
       className={clsx(
-        "z-50 hidden h-full w-full max-w-[20%] flex-col gap-6 px-12 py-12 pb-px text-text backdrop-blur-lg transition-all duration-200 dark:bg-darkbg/70 dark:text-darktext md:flex"
+        "hidden h-full w-full max-w-[20%] flex-col gap-6 px-4 py-12 pb-px text-text backdrop-blur-lg transition-all duration-200 dark:bg-darkbg/70 dark:text-darktext md:flex"
       )}
     >
-      <Link
-        href="/#Photography-section"
-        className="mb-4 flex items-center gap-1 text-sm font-light"
-      >
-        <IconChevronLeft size={16} />
-        Back to main site
-      </Link>
       <NavLink label="All albums" href="/photography" />
       {filtered
         ? Object.keys(filtered).map((item: any) => {
@@ -48,7 +41,7 @@ export default function SidebarNavigation({ data }: { data: any }) {
           })
         : null}
       <ColorSchemeToggle className="mt-6" />
-    </header>
+    </aside>
   );
 }
 

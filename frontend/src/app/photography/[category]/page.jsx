@@ -14,7 +14,7 @@ export default async function Page({ params }) {
       {/* Hero section */}
       <section
         key={`hero-${data.title}`}
-        className="relative mt-6 flex h-screen max-h-[400px] max-w-[1920px] items-center justify-center overflow-hidden rounded-sm"
+        className="relative flex h-screen max-h-[400px] max-w-[1920px] items-center justify-center overflow-hidden rounded-sm"
       >
         <div className="absolute inset-0 z-10 h-full bg-gradient-to-tr from-darkbg/90" />
         <Image

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import "@/styles/globals.css";
-import { SidebarNavigation } from "@/components/layout";
+import { Header, SidebarNavigation } from "@/components/layout";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -13,14 +13,39 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const data = await getData();
+  const menuItems = await getMenuItems();
   return (
-    <div className="flex h-full min-h-screen mx-auto max-w-[1920px]">
-      <SidebarNavigation data={data} />
-      <main className="flex h-full w-full md:max-w-[80%] flex-col md:pr-6 ">
-        {children}
-      </main>
-    </div>
+    <>
+      <Header menuItems={menuItems} />
+      <div className="mx-auto flex h-full min-h-screen max-w-page w-screen">
+        <SidebarNavigation data={data} />
+        <main className="flex h-full w-full flex-col md:max-w-[80%] md:pr-4 lg:pr-0 pt-4 lg:pt-0">
+          {children}
+        </main>
+      </div>
+    </>
   );
+}
+
+async function getMenuItems() {
+  const qs = require("qs");
+
+  let menuQuery = qs.stringify({
+    populate: "links",
+    filters: {
+      name: {
+        $eq: "Header",
+      },
+    },
+  });
+
+  let menu = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/menus?${menuQuery}`
+  );
+
+  const menuJson = await menu.json();
+
+  return menuJson.data[0].attributes.links;
 }
 
 async function getData() {

@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { useScrollDirection, useScrollPosition } from ".";
 import { useEffect, useState } from "react";
 import { reveal } from "@lib/utils";
+import clsx from "clsx";
+import { IconMenu, IconX } from "@tabler/icons";
 
 interface menuItem {
   id: number;
@@ -25,6 +27,7 @@ export default function Header({ menuItems }: { menuItems: menuItem[] }) {
   const { scrollDirection } = useScrollDirection();
   const { scrollPosition } = useScrollPosition();
   const [heroHeight, setHeroHeight] = useState<number | undefined>(0);
+  const [open, setOpen] = useState<boolean>(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -37,52 +40,73 @@ export default function Header({ menuItems }: { menuItems: menuItem[] }) {
 
   return (
     <header
-      className={`sticky border-transparent pb-px backdrop-blur-lg
-      ${pathname === "/" ? "text-darktext" : "text-text"}
-      ${
+      className={clsx(
+        pathname === "/" ? "text-darktext" : "text-text",
         heroHeight && scrollPosition < heroHeight && pathname === "/"
-          ? "text-darktext"
-          : "bg-white/90 text-text dark:bg-darkbg/70 dark:text-darktext"
-      }
-      ${
-        scrollDirection === "down" ? "-top-16" : "top-0"
-      } z-50 flex h-16 w-full items-center justify-center px-6 transition-all duration-200 xl:px-4 2xl:px-0 `}
+          ? "md:bg-transparent md:text-darktext dark:text-darktext"
+          : "md:dark:bg-darkbg/75 md:bg-white/95 md:text-text  dark:text-darktext",
+          open
+          ? "bg-white dark:bg-darkbg text-text dark:text-darktext"
+          : " dark:text-darktext",
+        scrollDirection === "down" ? "-top-16" : "top-0",
+        open ? "fixed" : "sticky",
+        "md:sticky z-50 flex h-full  w-full justify-center border-transparent px-6 pb-px md:backdrop-blur-lg md:h-16 md:items-center xl:px-4 2xl:px-0 transition-[top] duration-200"
+      )}
     >
-      <div className="flex w-screen max-w-page">
-        <Link
-          href="/"
-          className="mx-auto flex flex-col items-center gap-2 font-mono md:mx-0 md:mr-auto md:flex-row"
-        >
-          {/* <DotsLogo /> */}
-          <span className="font-bold">
-            <span className="text-js-yellow">
-              jakubsekula<span className="text-js-blue">@personal</span>:
+      <div className="flex w-screen max-w-page flex-col md:flex-row">
+        <div className="flex w-full items-center justify-between">
+          <Link
+            href="/"
+            className="mx-auto flex h-16 w-full flex-col items-center justify-center gap-2 font-mono  md:mx-0 md:flex-row md:justify-start"
+          >
+            {/* <DotsLogo /> */}
+            <span className="font-bold">
+              <span className="text-js-yellow">
+                jakubsekula<span className="text-js-blue">@personal</span>:
+              </span>
+              <span className="text-white">~</span>
+              <span className="text-js-blue">$</span>
             </span>
-            <span className="text-white">~</span>
-            <span className="text-js-blue">$</span>
-          </span>
-        </Link>
-        <nav className="hidden flex-row items-center gap-14 md:flex ">
-          {!!menuItems?.length ? (
-            menuItems.map((link) => {
-              return (
-                <NavLink
-                  key={link?.title}
-                  label={link.title}
-                  href={link.url}
-                  color={link?.color}
-                />
-              );
-            })
-          ) : (
-            <>
-              <NavLink label="My work" href="/projects" color="blue" />
-              <NavLink label="About" href="/about" color="green" />
-              <NavLink label="CV" href="/cv" color="yellow" />
-              <NavLink label="Blog" href="/blog" color="red" />
-            </>
+          </Link>
+          <button
+            className="md:hidden"
+            onClick={() => {
+              setOpen((open) => !open);
+            }}
+          >
+            {open ? <IconX size={20} /> : <IconMenu size={20} />}
+          </button>
+        </div>
+        <nav
+          className={clsx(
+            open
+              ? "h-full overflow-y-auto"
+              : "h-0 shrink-0 overflow-hidden md:h-auto",
+            ""
           )}
-          <ColorSchemeToggle />
+        >
+          <ul className="flex h-full w-full flex-col items-center pt-4 uppercase md:flex-row md:gap-14 md:pt-0 md:normal-case">
+            {!!menuItems?.length ? (
+              menuItems.map((link) => {
+                return (
+                  <NavLink
+                    key={link?.title}
+                    label={link.title}
+                    href={link.url}
+                    color={link?.color}
+                  />
+                );
+              })
+            ) : (
+              <>
+                <NavLink label="My work" href="/projects" color="blue" />
+                <NavLink label="About" href="/about" color="green" />
+                <NavLink label="CV" href="/cv" color="yellow" />
+                <NavLink label="Blog" href="/blog" color="red" />
+              </>
+            )}
+            <ColorSchemeToggle />
+          </ul>
         </nav>
       </div>
     </header>
@@ -91,16 +115,17 @@ export default function Header({ menuItems }: { menuItems: menuItem[] }) {
 
 function NavLink({ label, href, color = "red", ...props }: any) {
   const path = usePathname();
-  const selected = path === href;
+  console.log({path, href, split: path.split('/')})
+  const selected = `/${path.split('/')[1]}` === href;
   return (
-    <Link
-      {...props}
-      className={`font-headings relative text-sm  after:absolute after:-bottom-1 after:left-0 after:-z-10 after:h-[2px] after:w-full after:opacity-0 after:transition-all after:duration-300 hover:after:opacity-100 ${
+    <li
+      className={`font-headings border-text-10 relative flex h-fit w-full grow-0 items-center justify-center border-b py-6 transition-all duration-200 after:absolute after:-bottom-1 after:left-0 after:-z-10 after:h-[2px] after:w-full after:opacity-0 after:transition-all after:duration-300 hover:border-transparent hover:after:opacity-100 dark:border-darktext/10 hover:dark:bg-darkbg/50 md:h-min md:border-none md:py-0 md:text-sm ${
         selected ? "after:opacity-100" : null
       } ${COLORS?.[color]}`}
-      href={href}
     >
-      {label}
-    </Link>
+      <Link {...props} href={href}>
+        {label}
+      </Link>
+    </li>
   );
 }

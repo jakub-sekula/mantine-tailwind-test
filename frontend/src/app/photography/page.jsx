@@ -11,7 +11,7 @@ export default async function Page() {
 
   return (
     <>
-      <div className="col-span-full mx-auto mt-6 grid w-full grid-cols-6">
+      <div className="col-span-full mx-auto grid w-full grid-cols-6">
         {Object.keys(filtered).map((item) => {
           if (filtered[item].length != 1) return null;
           return filtered[item].map((category) => {
