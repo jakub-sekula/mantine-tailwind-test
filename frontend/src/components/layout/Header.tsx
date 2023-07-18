@@ -42,15 +42,19 @@ export default function Header({ menuItems }: { menuItems: menuItem[] }) {
     <header
       className={clsx(
         pathname === "/" ? "text-darktext" : "text-text",
+
         heroHeight && scrollPosition < heroHeight && pathname === "/"
-          ? "md:bg-transparent md:text-darktext dark:text-darktext"
-          : "md:dark:bg-darkbg/75 md:bg-white/95 md:text-text  dark:text-darktext",
-          open
-          ? "bg-white dark:bg-darkbg text-text dark:text-darktext"
-          : " dark:text-darktext",
+
+          ? "dark:text-darktext md:bg-transparent md:text-darktext"
+          : "dark:text-darktext bg-transparent md:bg-white/95 md:text-text  md:dark:bg-darkbg/75",
+
+        open
+          ? "fixed bg-white text-text dark:bg-darkbg dark:text-darktext"
+          : " sticky dark:text-darktext",
+
         scrollDirection === "down" ? "-top-16" : "top-0",
-        open ? "fixed" : "sticky",
-        "md:sticky z-50 flex h-full  w-full justify-center border-transparent px-6 pb-px md:backdrop-blur-lg md:h-16 md:items-center xl:px-4 2xl:px-0 transition-[top] duration-200"
+
+        "z-50 flex h-full w-full  justify-center border-transparent px-6 pb-px transition-[top] duration-200 md:sticky md:h-16 md:items-center backdrop-blur-lg xl:px-4 2xl:px-0"
       )}
     >
       <div className="flex w-screen max-w-page flex-col md:flex-row">
@@ -115,8 +119,8 @@ export default function Header({ menuItems }: { menuItems: menuItem[] }) {
 
 function NavLink({ label, href, color = "red", ...props }: any) {
   const path = usePathname();
-  console.log({path, href, split: path.split('/')})
-  const selected = `/${path.split('/')[1]}` === href;
+  console.log({ path, href, split: path.split("/") });
+  const selected = `/${path.split("/")[1]}` === href;
   return (
     <li
       className={`font-headings border-text-10 relative flex h-fit w-full grow-0 items-center justify-center border-b py-6 transition-all duration-200 after:absolute after:-bottom-1 after:left-0 after:-z-10 after:h-[2px] after:w-full after:opacity-0 after:transition-all after:duration-300 hover:border-transparent hover:after:opacity-100 dark:border-darktext/10 hover:dark:bg-darkbg/50 md:h-min md:border-none md:py-0 md:text-sm ${

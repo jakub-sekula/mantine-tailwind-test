@@ -17,9 +17,9 @@ export default async function RootLayout({
   return (
     <>
       <Header menuItems={menuItems} />
-      <div className="mx-auto flex h-full min-h-screen max-w-page w-screen">
+      <div className="mx-auto flex h-full min-h-screen max-w-page w-full md:w-screen">
         <SidebarNavigation data={data} />
-        <main className="flex h-full w-full flex-col md:max-w-[80%] md:pr-4 lg:pr-0 pt-4 lg:pt-0">
+        <main className="flex h-full w-full flex-col md:max-w-[80%] md:pr-4 lg:pr-0 pt-2 pb-4 md:pt-4 lg:pt-0 px-4 md:px-0">
           {children}
         </main>
       </div>

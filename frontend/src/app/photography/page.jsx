@@ -11,7 +11,7 @@ export default async function Page() {
 
   return (
     <>
-      <div className="col-span-full mx-auto grid w-full grid-cols-6">
+      <div className="col-span-full mx-auto grid w-full grid-cols-6 gap-4 md:gap-0">
         {Object.keys(filtered).map((item) => {
           if (filtered[item].length != 1) return null;
           return filtered[item].map((category) => {
@@ -21,7 +21,7 @@ export default async function Page() {
                 key={`index-${category.title}`}
                 href="/photography/[category]"
                 as={`/photography/${category.slug}`}
-                className="group relative col-span-3 flex aspect-[3/2] w-full items-center justify-center overflow-hidden"
+                className="group relative col-span-full flex aspect-[2.5] w-full items-center justify-center overflow-hidden rounded-sm md:col-span-3 md:aspect-[3/2] md:rounded-none"
               >
                 <div className="absolute inset-0 bg-black/[15%] opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100" />
                 <Image
@@ -41,12 +41,12 @@ export default async function Page() {
         })}
       </div>
 
-      <div className="col-span-full mx-auto grid w-full max-w-3xl grid-cols-6 gap-3">
-        <h2 className="col-span-full text-center">
-          Latest photos from my Instagram
-        </h2>
-        {!!instagramData &&
-          instagramData.map((item) => {
+      {!!instagramData ? (
+        <div className="col-span-full mx-auto grid w-full max-w-3xl grid-cols-6 gap-3">
+          <h2 className="col-span-full text-center">
+            Latest photos from my Instagram
+          </h2>
+          {instagramData.map((item) => {
             return (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -59,7 +59,8 @@ export default async function Page() {
               />
             );
           })}
-      </div>
+        </div>
+      ) : null}
     </>
   );
 }
