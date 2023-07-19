@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FaGithub, FaPlayCircle } from "react-icons/fa";
 import { IconChevronLeft } from "@tabler/icons";
 import { notFound } from "next/navigation";
-import { convertRelativeUrl } from "@/lib/utils";
+import { convertRelativeUrl, toTitleCase } from "@/lib/utils";
 
 export async function generateMetadata({ params }) {
   const { data } = await getData(params);
