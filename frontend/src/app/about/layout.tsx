@@ -3,8 +3,8 @@ import { Footer, Header } from "@components/layout";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "Home",
-  description: "Welcome to Next.js",
+  title: "About me - Jakub Sekula",
+  description: "About me",
 };
 
 export default async function RootLayout({

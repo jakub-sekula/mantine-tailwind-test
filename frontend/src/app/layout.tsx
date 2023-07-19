@@ -1,11 +1,6 @@
-import { Metadata } from "next";
 import "@/styles/globals.css";
 import ThemeWrapper from "@components/contexts/ThemeWrapper";
 
-export const metadata: Metadata = {
-  title: "Jakub Sekula - Homepage",
-  description: "Welcome to my personal portfolio and blog.",
-};
 
 export default async function RootLayout({
   children,

@@ -1,4 +1,3 @@
-import { convertRelativeUrl } from "@lib/utils";
 import Image from "next/image";
 import { BlogPostCard } from "@components/blog";
 import { Tag, ToolCard, SectionHeading } from "@components/common";
@@ -6,6 +5,15 @@ import Link from "next/link";
 import { FaGithub, FaPlayCircle } from "react-icons/fa";
 import { IconChevronLeft } from "@tabler/icons";
 import { notFound } from "next/navigation";
+import { convertRelativeUrl } from "@/lib/utils";
+
+export async function generateMetadata({ params }) {
+  const { data } = await getData(params);
+  return {
+    title: `${toTitleCase(params.project)} - Jakub Sekula`,
+    description: `${data.excerpt}`
+  };
+}
 
 export default async function Project({ params }) {
   const { data } = await getData(params);

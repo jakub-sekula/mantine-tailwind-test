@@ -3,8 +3,8 @@ import "@/styles/globals.css";
 import { Header, SidebarNavigation } from "@/components/layout";
 
 export const metadata: Metadata = {
-  title: "Home",
-  description: "Welcome to Next.js",
+  title: "Photography home - Jakub Sekula",
+  description: "A place for sharing my photography work",
 };
 
 export default async function RootLayout({

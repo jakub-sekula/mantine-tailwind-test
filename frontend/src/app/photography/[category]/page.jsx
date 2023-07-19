@@ -2,9 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { IconChevronLeft } from "@tabler/icons";
 import { LightboxWrapper } from "@components/common";
-import { notFound } from "next/navigation";
+import { toTitleCase, convertRelativeUrl } from "@lib/utils";
 
-import { convertRelativeUrl } from "@lib/utils";
+export async function generateMetadata({ params }) {
+  const { data } = await getData(params);
+  return {
+    title: `${toTitleCase(params.category)} - Jakub Sekula`,
+    description: `${data.description}`
+  };
+}
 
 export default async function Page({ params }) {
   const { data, imageLinks } = await getData(params);
