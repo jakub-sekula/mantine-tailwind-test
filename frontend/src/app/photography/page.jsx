@@ -6,39 +6,41 @@ import { notFound } from "next/navigation";
 
 export default async function Page() {
   const { data, instagramData } = await getData();
+  // console.log(data);
 
-  const filtered = cleanPhotosData(data);
 
   return (
     <>
       <div className="col-span-full mx-auto grid w-full grid-cols-6 gap-4 md:gap-0">
-        {Object.keys(filtered).map((item) => {
-          if (filtered[item].length != 1) return null;
-          return filtered[item].map((category) => {
-            const image = category.featured_image.data.attributes.formats;
-            return (
-              <Link
-                key={`index-${category.title}`}
-                href="/photography/[category]"
-                as={`/photography/${category.slug}`}
-                className="group relative col-span-full flex aspect-[2.5] w-full items-center justify-center overflow-hidden rounded-sm md:col-span-3 md:aspect-[3/2] md:rounded-none"
-              >
-                <div className="absolute inset-0 bg-black/[15%] opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100" />
-                <Image
-                  priority={true}
-                  src={convertRelativeUrl(image.medium.url)}
-                  alt={image.medium.name}
-                  width={image.medium.width}
-                  height={image.medium.height}
-                  className="absolute -z-10 h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                />
-                <h3 className="z-10 translate-y-2 font-heading text-5xl font-semibold uppercase text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                  {category.title}
-                </h3>
-              </Link>
-            );
-          });
-        })}
+        {data
+          .map((item) => {
+            if (false) {
+              return null;
+            } else {
+              const image = item.attributes.featured_image.data.attributes.formats;
+              return (
+                <Link
+                  key={`index-${item.attributes.title}`}
+                  href="/photography/[category]"
+                  as={`/photography/${item.attributes.slug}`}
+                  className="group relative col-span-full flex aspect-[2.5] w-full items-center justify-center overflow-hidden rounded-sm md:col-span-3 md:aspect-[3/2] md:rounded-none"
+                >
+                  <div className="absolute inset-0 bg-black/[15%] opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100" />
+                  <Image
+                    priority={true}
+                    src={convertRelativeUrl(image.medium.url)}
+                    alt={image.medium.name}
+                    width={image.medium.width}
+                    height={image.medium.height}
+                    className="absolute -z-10 h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                  />
+                  <h3 className="z-10 translate-y-2 font-heading text-5xl font-semibold uppercase text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                    {item.attributes.title}
+                  </h3>
+                </Link>
+              );
+            }
+          })}
       </div>
 
       {!!instagramData ? (
@@ -74,38 +76,41 @@ async function getData() {
     });
 
     let strapiQuery = qs.stringify({
-      populate: ["featured_image"],
-      filters: {
-        showAsCategory: {
-          $eq: true,
-        },
-      },
+      populate: {
+        albums: {
+          populate: {
+            featured_image: "*"
+          }
+        }
+      }
     });
 
     let strapiRes = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${strapiQuery}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/photography-home?${strapiQuery}`,
       { headers: strapiHeaders, next: { revalidate: 10 } }
     );
 
     let strapiResJson = await strapiRes.json();
 
-    const instagramHeaders = new Headers({
-      Authorization: `Bearer ${process.env.INSTAGRAM_TOKEN}`,
-    });
+    // const instagramHeaders = new Headers({
+    //   Authorization: `Bearer ${process.env.INSTAGRAM_TOKEN}`,
+    // });
 
-    let instagramRes = await fetch(
-      "https://graph.instagram.com/8752984111410672/media?fields=id,caption,media_type,media_url",
-      { headers: instagramHeaders, next: { revalidate: 10 } }
-    );
+    // let instagramRes = await fetch(
+    //   "https://graph.instagram.com/8752984111410672/media?fields=id,caption,media_type,media_url",
+    //   { headers: instagramHeaders, next: { revalidate: 10 } }
+    // );
 
-    let instagramResJson;
-    if (instagramRes.ok) {
-      instagramResJson = await instagramRes.json();
-    }
+    // let instagramResJson;
+    // if (instagramRes.ok) {
+    //   instagramResJson = await instagramRes.json();
+    // }
+
+    console.log(strapiResJson.data.attributes.albums.data)
 
     return {
-      data: strapiResJson.data,
-      instagramData: !!instagramResJson && instagramResJson.data.slice(0, 24),
+      data: strapiResJson.data.attributes.albums.data,
+      instagramData: null, //!!instagramResJson && instagramResJson.data.slice(0, 24),
     };
   } catch (err) {
     notFound();

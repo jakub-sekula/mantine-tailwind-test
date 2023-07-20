@@ -3,6 +3,7 @@ import {
   ProjectsSection,
   AboutSection,
   ToolsSection,
+  SkillsSection,
   BlogSection,
   PhotographySection,
 } from "@/components/home";
@@ -10,37 +11,49 @@ import { Footer, Header } from "@/components/layout";
 import { notFound } from "next/navigation";
 
 export default async function Home() {
-  const data = await getData();
+  const { posts, cv } = await getPostsAndCv();
   const menuItems = await getMenuItems();
+  const { data } = await getData();
+  const { skills, projects, photography, blog, about, hero } = data.attributes;
 
   return (
     <>
       <Header menuItems={menuItems} />
-      <Hero />
-      <AboutSection title="About me" cv={data.cv} />
-      <ToolsSection title="Skills" tools={data.tools} />
-      <ProjectsSection
-        reverse={false}
-        title="Web & Software Projects"
-        projects={data.projects.filter(
-          (project) => project.attributes.type === "Software"
-        )}
-      />
-      <ProjectsSection
-        reverse
-        title="Engineering & DIY projects"
-        projects={data.projects.filter(
-          (project) => project.attributes.type === "Engineering"
-        )}
-      />
-      <PhotographySection title="Photography" photos={data.photos} />
-      <BlogSection title="Recent blog posts" posts={data.posts} />
+      <Hero data={hero} />
+      <AboutSection title="About me" about={about} cv={cv} />
+      {skills.filter((skill) => skill.enabled).length > 0 ? (
+        <SkillsSection title="Skills" skills={skills} />
+      ) : null}
+
+      {projects.filter((item) => item.enabled).length > 0
+        ? projects
+            .filter((item) => item.enabled)
+            .map((project, index) => {
+              return (
+                <ProjectsSection
+                  key={`project-section-${project.category}`}
+                  reverse={(index + 1) % 2 === 0}
+                  title={project.category}
+                  projects={project.projects.data}
+                />
+              );
+            })
+        : null}
+
+      {photography.enabled ? (
+        <PhotographySection title="Photography" data={photography} />
+      ) : null}
+
+      {blog.enabled ? (
+        <BlogSection title="Recent blog posts" posts={posts} />
+      ) : null}
+
       <Footer />
     </>
   );
 }
 
-async function getData() {
+async function getPostsAndCv() {
   try {
     const qs = require("qs");
     const headers = new Headers({
@@ -48,39 +61,6 @@ async function getData() {
     });
 
     let query = qs.stringify({
-      populate: "*",
-      filters: {
-        show_on_homepage: {
-          $eq: true,
-        },
-      },
-    });
-
-    let tools = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/tools?${query}`,
-      {
-        headers,
-        next: { revalidate: 10 },
-      }
-    );
-
-    let toolsJson = await tools.json();
-
-    query = qs.stringify({
-      populate: ["featured_image", "tags"],
-    });
-
-    let projects = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
-      {
-        headers,
-        next: { revalidate: 10 },
-      }
-    );
-
-    let projectsJson = await projects.json();
-
-    query = qs.stringify({
       populate: ["featured_image", "tags", "author"],
       sort: {
         createdAt: "desc",
@@ -132,19 +112,88 @@ async function getData() {
       },
     });
 
-    let photosRes = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/albums?${query}`,
-      { headers, next: { revalidate: 10 } }
-    );
-
-    let photosResJson = await photosRes.json();
-
     return {
-      tools: toolsJson.data,
-      projects: projectsJson.data,
-      photos: photosResJson.data,
       posts: postsJson.data,
       cv: cvJson.data,
+    };
+  } catch (err) {
+    notFound();
+  }
+}
+
+async function getData() {
+  try {
+    const qs = require("qs");
+    const headers = new Headers({
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+    });
+
+    let query = qs.stringify({
+      populate: {
+        skills: {
+          populate: {
+            tools: {
+              populate: "*",
+            },
+          },
+        },
+        projects: {
+          populate: {
+            projects: {
+              populate: "*",
+            },
+          },
+        },
+        photography: {
+          populate: {
+            albums: {
+              populate: "*",
+            },
+          },
+        },
+        blog: {
+          populate: {
+            posts: {
+              populate: "*",
+            },
+          },
+        },
+        about: {
+          populate: {
+            avatar: {
+              populate: "*",
+            },
+          },
+        },
+        hero: {
+          populate: {
+            socials: {
+              populate: {
+                icon: {
+                  populate: true,
+                },
+              },
+            },
+            avatar: true,
+          },
+        },
+        seo: true,
+      },
+    });
+
+    const homepageRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/homepage?${query}`,
+      {
+        headers,
+        next: { revalidate: 10 },
+      }
+    );
+
+    const homepageJson = await homepageRes.json();
+
+    return {
+      data: homepageJson.data,
+      seo: homepageJson.data.attributes.seo,
     };
   } catch (err) {
     notFound();

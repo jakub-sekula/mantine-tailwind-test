@@ -4,8 +4,22 @@ import { TableOfContents, MarkdownRenderer } from "@components/common";
 import { convertRelativeUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
+export async function generateMetadata({ params }) {
+  const { data } = await getData(params);
+  return {
+    title: data?.seo?.metaTitle,
+    description: data?.seo?.metaDescription,
+  };
+}
+
 export default async function Page({ params }) {
-  const { data, author, featured_image } = await getData(params);
+  const { data } = await getData(params);
+  const author = data?.author.data?.attributes || null;
+  const featured_image = data.featured_image?.data
+    ? convertRelativeUrl(
+        data?.featured_image?.data?.attributes?.url
+      )
+    : "";
   return (
     <>
       <main className="mx-auto grid w-full max-w-page grid-cols-12">
@@ -84,40 +98,88 @@ export default async function Page({ params }) {
 }
 
 async function getData(params) {
+  // try {
+  //   const qs = require("qs");
+  //   const { post } = params;
+  //   let query;
+
+  //   const headers = new Headers({
+  //     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+  //   });
+
+  //   query = qs.stringify({
+  //     filters: {
+  //       slug: {
+  //         $eq: post,
+  //       },
+  //     },
+  //   });
+
+  //   const idRes = await fetch(
+  //     `${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`,
+  //     {
+  //       headers,
+  //     }
+  //   );
+  //   const idJson = await idRes.json();
+
+  //   const id = idJson?.data[0]?.id;
+
+  //   if (!id) {
+  //     return {
+  //       notFound: true,
+  //     };
+  //   }
+
+  //   query = qs.stringify({
+  //     populate: {
+  //       tags: true,
+  //       sections: {
+  //         populate: {
+  //           gallery: true,
+  //           featured_image: true,
+  //         },
+  //       },
+  //       featured_image: {
+  //         populate: "formats",
+  //       },
+  //       author: true,
+  //     },
+  //   });
+
+  //   const res = await fetch(
+  //     `${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}?${query}`,
+  //     {
+  //       headers,
+  //       next: { revalidate: 10 },
+  //     }
+  //   );
+
+  //   const resJson = await res.json();
+
+  //   return {
+  //     data: resJson.data.attributes,
+  //     author: resJson.data.attributes.author.data?.attributes || null,
+  //     featured_image: !!resJson.data.attributes.featured_image.data
+  //       ? convertRelativeUrl(
+  //           resJson.data.attributes.featured_image.data?.attributes.url
+  //         )
+  //       : "",
+  //   };
+  // } catch (err) {
+  //   notFound();
+  // }
+
   try {
     const qs = require("qs");
     const { post } = params;
-    let query;
 
     const headers = new Headers({
       Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
     });
 
-    query = qs.stringify({
-      filters: {
-        slug: {
-          $eq: post,
-        },
-      },
-    });
-
-    const idRes = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`,
-      {
-        headers,
-      }
-    );
-    const idJson = await idRes.json();
-
-    const id = idJson?.data[0]?.id;
-
-    if (!id) {
-      return {
-        notFound: true,
-      };
-    }
-
-    query = qs.stringify({
+    let query = qs.stringify({
+      filters: { slug: { $eq: post } },
       populate: {
         tags: true,
         sections: {
@@ -130,28 +192,20 @@ async function getData(params) {
           populate: "formats",
         },
         author: true,
+        seo: "*",
       },
     });
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}?${query}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`,
       {
         headers,
         next: { revalidate: 10 },
       }
     );
+    const json = await res.json();
 
-    const resJson = await res.json();
-
-    return {
-      data: resJson.data.attributes,
-      author: resJson.data.attributes.author.data?.attributes || null,
-      featured_image: !!resJson.data.attributes.featured_image.data
-        ? convertRelativeUrl(
-            resJson.data.attributes.featured_image.data?.attributes.url
-          )
-        : "",
-    };
+    return { data: json.data[0].attributes, seo: json.data[0].seo };
   } catch (err) {
     notFound();
   }

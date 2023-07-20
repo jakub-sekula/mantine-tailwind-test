@@ -5,7 +5,8 @@ import SectionContainer from "./SectionContainer";
 import { Hyperlink } from "@components/common";
 import { convertRelativeUrl } from "@lib/utils";
 
-export default function PhotographySection({ photos }) {
+export default function PhotographySection({ data }) {
+  const photos = data.albums.data
   return (
     <SectionContainer title="Photography">
       <div className="relative grid w-full grid-cols-12 gap-4">

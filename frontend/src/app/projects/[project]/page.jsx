@@ -8,10 +8,14 @@ import { notFound } from "next/navigation";
 import { convertRelativeUrl, toTitleCase } from "@/lib/utils";
 
 export async function generateMetadata({ params }) {
-  const { data } = await getData(params);
+  const { data, seo } = await getData(params);
   return {
-    title: `${toTitleCase(params.project)} - Jakub Sekula`,
-    description: `${data.excerpt}`
+    title:
+      seo?.metaTitle ||
+      `${toTitleCase(params?.project)} - Jakub Sekula` ||
+      "Project page - Jakub Sekula",
+    description:
+      seo?.metaDescription || `${data?.excerpt}` || "Generic project",
   };
 }
 
@@ -63,10 +67,32 @@ export default async function Project({ params }) {
       </div>
       <Image
         src={convertRelativeUrl(
-          data.featured_image.data.attributes.formats.xlarge.url
+          data.featured_image.data.attributes.formats?.xlarge?.url ||
+            data.featured_image.data.attributes.formats?.large?.url ||
+            data.featured_image.data.attributes.formats?.medium?.url ||
+            data.featured_image.data.attributes.formats?.small?.url ||
+            data.featured_image.data.attributes.formats?.xsmall?.url ||
+            data.featured_image.data.attributes.formats?.thumbnail?.url ||
+            "/default.jpg"
         )}
-        width={data.featured_image.data.attributes.formats.xlarge.width}
-        height={data.featured_image.data.attributes.formats.xlarge.height}
+        width={
+          data.featured_image.data.attributes.formats?.xlarge?.width ||
+          data.featured_image.data.attributes.formats?.large?.width ||
+          data.featured_image.data.attributes.formats?.medium?.width ||
+          data.featured_image.data.attributes.formats?.small?.width ||
+          data.featured_image.data.attributes.formats?.xsmall?.width ||
+          data.featured_image.data.attributes.formats?.thumbnail?.width ||
+          300
+        }
+        height={
+          data.featured_image.data.attributes.formats?.xlarge?.height ||
+          data.featured_image.data.attributes.formats?.large?.height ||
+          data.featured_image.data.attributes.formats?.medium?.height ||
+          data.featured_image.data.attributes.formats?.small?.height ||
+          data.featured_image.data.attributes.formats?.xsmall?.height ||
+          data.featured_image.data.attributes.formats?.thumbnail?.height ||
+          300
+        }
         alt={data.featured_image.data.attributes.name}
         className="col-span-full mx-auto mb-12 aspect-video w-full rounded-md object-cover shadow-xl"
       />{" "}
@@ -126,9 +152,9 @@ async function getData(params) {
         tags: "*",
         tools: { populate: "*" },
         posts: { populate: { featured_image: "*" } },
+        seo: true,
       },
     });
-
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
       {
@@ -138,7 +164,7 @@ async function getData(params) {
     );
     const json = await res.json();
 
-    return { data: json.data[0].attributes };
+    return { data: json.data[0].attributes, seo: json.data[0].attributes.seo };
   } catch (err) {
     notFound();
   }

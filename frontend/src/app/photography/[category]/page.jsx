@@ -8,7 +8,7 @@ export async function generateMetadata({ params }) {
   const { data } = await getData(params);
   return {
     title: `${toTitleCase(params.category)} - Jakub Sekula`,
-    description: `${data.description}`
+    description: `${data.description}`,
   };
 }
 
@@ -165,7 +165,9 @@ async function getData(params) {
           imageLinks.push({
             id: item.id,
             src: convertRelativeUrl(
-              item.attributes.formats?.xlarge?.url ||
+              item.attributes?.url ||
+                item.attributes.formats?.xxlarge?.url ||
+                item.attributes.formats?.xlarge?.url ||
                 item.attributes.formats?.large?.url ||
                 item.attributes.formats?.medium?.url ||
                 item.attributes.formats?.small?.url ||
@@ -174,6 +176,8 @@ async function getData(params) {
                 "/default.jpg"
             ),
             width:
+              item.attributes?.width ||
+              item.attributes.formats?.xxlarge?.width ||
               item.attributes.formats?.xlarge?.width ||
               item.attributes.formats?.large?.width ||
               item.attributes.formats?.medium?.width ||
@@ -182,6 +186,8 @@ async function getData(params) {
               item.attributes.formats?.thumbnail?.width ||
               300,
             height:
+              item.attributes?.height ||
+              item.attributes.formats?.xxlarge?.height ||
               item.attributes.formats?.xlarge?.height ||
               item.attributes.formats?.large?.height ||
               item.attributes.formats?.medium?.height ||

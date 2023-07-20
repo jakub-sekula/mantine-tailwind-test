@@ -61,7 +61,7 @@ export default function Header({ menuItems }: { menuItems: menuItem[] }) {
         <div className="flex w-full items-center justify-between">
           <Link
             href="/"
-            className="mx-auto flex h-16 w-full flex-col items-center justify-center gap-2 font-mono  md:mx-0 md:flex-row md:justify-start"
+            className="mx-auto flex h-16 w-full flex-col items-start justify-center md:items-center gap-2 font-mono  md:mx-0 md:flex-row md:justify-start"
           >
             {/* <DotsLogo /> */}
             <span className="font-bold">
@@ -119,7 +119,6 @@ export default function Header({ menuItems }: { menuItems: menuItem[] }) {
 
 function NavLink({ label, href, color = "red", ...props }: any) {
   const path = usePathname();
-  console.log({ path, href, split: path.split("/") });
   const selected = `/${path.split("/")[1]}` === href;
   return (
     <li

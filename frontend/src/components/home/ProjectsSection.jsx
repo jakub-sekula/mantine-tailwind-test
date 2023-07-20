@@ -28,10 +28,10 @@ export default function ProjectsSection({ title, reverse, projects }) {
                   <div className=" absolute z-0 h-0 w-full" />
                   <Link href={`/projects/${project.attributes.slug}`}>
                     <Image
-                      src={convertRelativeUrl(featured.formats.large.url)}
-                      alt={featured.name}
-                      height={featured.formats.large.height}
-                      width={featured.formats.large.width}
+                      src={convertRelativeUrl(featured.formats?.large?.url) || "placeholder-project.jpg"}
+                      alt={featured?.name || "Featured photo"}
+                      height={featured?.formats?.large?.height || 300}
+                      width={featured?.formats?.large?.width || 150}
                       className={`z-50 h-full w-full rounded-md object-cover transition-all ease-out group-hover:scale-105 duration-500`}
                     />
                   </Link>
