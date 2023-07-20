@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "photography_homes",
+  "info": {
+    "singularName": "photography-home",
+    "pluralName": "photography-homes",
+    "displayName": "Photography home"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "albums": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::album.album"
+    }
+  }
+}

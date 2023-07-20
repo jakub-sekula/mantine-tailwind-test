@@ -62,11 +62,6 @@
       "required": true,
       "default": "album"
     },
-    "showAsCategory": {
-      "type": "boolean",
-      "default": true,
-      "required": true
-    },
     "category": {
       "type": "string",
       "required": true
@@ -78,6 +73,11 @@
     "show_on_homepage": {
       "type": "boolean",
       "default": true
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
     }
   }
 }
