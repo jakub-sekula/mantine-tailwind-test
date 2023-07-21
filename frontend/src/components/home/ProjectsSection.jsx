@@ -18,11 +18,12 @@ export default function ProjectsSection({ title, reverse, projects }) {
               <div
                 key={`featured-project-${project.id}`}
                 className="col-span-full grid grid-rows-1 gap-6 md:grid-cols-2 
-                           md:gap-12 xl:col-span-10 xl:col-start-2"
+                           md:gap-12 xl:col-span-10 xl:col-start-2 relative"
               >
+                {/* <div className="absolute -left-[100vw] -right-[100vw] -top-6 -bottom-6 bg-neutral-100 shadow-inner -z-10" /> */}
                 <div
-                  className={`relative w-full rounded-md bg-js-yellow object-cover group md:aspect-[3/2] overflow-hidden ${
-                    reverse ? "md:col-start-1" : "md:col-start-2"
+                  className={`relative w-full md:w-[175%] rounded-md bg-js-yellow object-cover group md:aspect-video overflow-hidden ${
+                    reverse ? "md:col-start-1 md:place-self-end" : "md:col-start-2 md:place-self-start"
                   } `}
                 >
                   <div className=" absolute z-0 h-0 w-full" />
@@ -37,7 +38,7 @@ export default function ProjectsSection({ title, reverse, projects }) {
                   </Link>
                 </div>
                 <div
-                  className={`mb-12 flex h-min flex-col gap-4 md:row-start-1 md:pt-12 ${
+                  className={`mb-12 flex h-min flex-col gap-4 md:row-start-1 md:pt-36 ${
                     reverse ? "md:col-start-2" : "md:col-start-1"
                   } `}
                 >
@@ -45,7 +46,7 @@ export default function ProjectsSection({ title, reverse, projects }) {
                     href={`/projects/${project.attributes.slug}`}
                     className="hover-group w-fit"
                   >
-                    <h3 className="animate-underline mb-1 font-heading text-2xl font-semibold leading-none sm:text-3xl">
+                    <h3 className="animate-underline mb-1 font-heading md:text-4xl font-semibold leading-none text-3xl">
                       {project.attributes.title}
                     </h3>
                   </Link>
