@@ -20,6 +20,15 @@
       "type": "component",
       "repeatable": true,
       "component": "menu.link"
+    },
+    "albums": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::album.album"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
     }
   }
 }

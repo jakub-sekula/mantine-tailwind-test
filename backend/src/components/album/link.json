@@ -2,7 +2,8 @@
   "collectionName": "components_album_links",
   "info": {
     "displayName": "links",
-    "description": ""
+    "description": "",
+    "icon": "bulletList"
   },
   "options": {},
   "attributes": {

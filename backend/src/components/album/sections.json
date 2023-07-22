@@ -1,8 +1,9 @@
 {
   "collectionName": "components_album_sections",
   "info": {
-    "displayName": "section",
-    "description": ""
+    "displayName": "gallery",
+    "description": "",
+    "icon": "apps"
   },
   "options": {},
   "attributes": {
