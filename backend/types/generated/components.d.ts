@@ -173,6 +173,7 @@ export interface MenuLink extends Schema.Component {
     url: Attribute.String;
     icon: Attribute.Media;
     color: Attribute.String & Attribute.Required & Attribute.DefaultTo<'red'>;
+    enabled: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<true>;
   };
 }
 
