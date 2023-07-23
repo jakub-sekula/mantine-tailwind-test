@@ -1,15 +1,22 @@
 import Link from "next/link";
 import React from "react";
+import { ApiTagTag } from "../../../types/strapi/contentTypes";
 
-export default function Tag({ tag, noLink }) {
-  if (!noLink) {
+export default function Tag({
+  title,
+  href = "",
+}: {
+  title:string,
+  href?: string,
+}) {
+  if (href != "") {
     return (
       <Link
-        href={`/tags/${tag.attributes.slug}`}
+        href={href}
         className="w-fit rounded-sm bg-text px-2 py-0.5
 		text-xs text-white dark:bg-darktext dark:text-text"
       >
-        {tag.attributes.title || tag.attributes.name}
+        {title}
       </Link>
     );
   } else {
@@ -18,7 +25,7 @@ export default function Tag({ tag, noLink }) {
         className="w-fit rounded-sm bg-text px-2 py-0.5
 		text-xs text-white dark:bg-darktext dark:text-text"
       >
-        {tag.attributes.title || tag.attributes.name}
+        {title}
       </span>
     );
   }

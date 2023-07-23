@@ -7,7 +7,7 @@ interface MenuObject {
 		createdAt: string;
 		updatedAt: string;
 		publishedAt: string;
-		showTags: boolean;
+		show_tags: boolean;
 		type: string;
 		category: string | null;
 	};
@@ -55,7 +55,7 @@ export function cleanPhotosData(data: any) {
 	for (const category in grouped) {
 		const categoryItems = grouped[category];
 		const filteredItems = categoryItems.filter(
-			(item: any) => { return item.title !== category || item.show_on_homepage || categoryItems.length === 1 }
+			(item: any) => { return item.title !== category || categoryItems.length === 1 }
 		);
 		if (filteredItems.length > 0) {
 			filtered[category] = filteredItems;

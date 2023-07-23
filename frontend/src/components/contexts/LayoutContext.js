@@ -15,8 +15,8 @@ export const LayoutProvider = ({ children }) => {
       let menuQuery = qs.stringify({
         populate: "links",
         filters: {
-          name: {
-            $eq: "Header",
+          slug: {
+            $eq: "header-menu",
           },
         },
       });

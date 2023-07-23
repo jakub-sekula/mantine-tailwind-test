@@ -4,49 +4,77 @@ import SectionContainer from "./SectionContainer";
 import { convertRelativeUrl } from "@lib/utils";
 import clsx from "clsx";
 import Link from "next/link";
+import {
+  ApiProjectProject,
+  ApiTagTag,
+} from "../../../types/strapi/contentTypes";
 
-export default function ProjectsSection({ title, reverse, projects }) {
+interface ApiProjectProjectWithId extends ApiProjectProject {
+  id: number;
+}
+
+export default function ProjectsSection({
+  title,
+  reverse,
+  projects,
+}: {
+  title: string;
+  reverse: boolean;
+  projects: ApiProjectProjectWithId[];
+}) {
   return (
     <SectionContainer title={title}>
-      <div className="relative grid w-full grid-cols-12 md:gap-12 lg:gap-16">
+      <div className="relative grid w-full grid-cols-12 md:gap-12 lg:gap-16 lg:gap-y-24">
         {/* Featured project(s) display */}
         {projects
           .filter((project) => project.attributes.highlighted)
-          .map((project) => {
+          .map((project, index) => {
             const featured = project.attributes.featured_image.data?.attributes;
             return (
               <div
                 key={`featured-project-${project.id}`}
-                className="col-span-full grid grid-rows-1 gap-6 md:grid-cols-2 
-                           md:gap-12 xl:col-span-10 xl:col-start-2 relative"
+                className="relative col-span-full grid grid-rows-1 gap-6 
+                           md:grid-cols-2 md:gap-12 xl:col-span-10 xl:col-start-2 "
               >
                 {/* <div className="absolute -left-[100vw] -right-[100vw] -top-6 -bottom-6 bg-neutral-100 shadow-inner -z-10" /> */}
                 <div
-                  className={`relative w-full md:w-[175%] rounded-md bg-js-yellow object-cover group md:aspect-video overflow-hidden ${
-                    reverse ? "md:col-start-1 md:place-self-end" : "md:col-start-2 md:place-self-start"
+                  className={`group relative w-full overflow-hidden rounded-md bg-js-yellow object-cover md:aspect-video md:w-[125%] ${
+                    index % 2 === 0
+                      ? "md:col-start-1 md:place-self-end"
+                      : "md:col-start-2 md:place-self-start"
                   } `}
                 >
                   <div className=" absolute z-0 h-0 w-full" />
                   <Link href={`/projects/${project.attributes.slug}`}>
                     <Image
-                      src={convertRelativeUrl(featured.formats?.large?.url) || "placeholder-project.jpg"}
+                      src={
+                        convertRelativeUrl(featured.formats?.large?.url) ||
+                        "placeholder-project.jpg"
+                      }
                       alt={featured?.name || "Featured photo"}
                       height={featured?.formats?.large?.height || 300}
                       width={featured?.formats?.large?.width || 150}
-                      className={`z-50 h-full w-full rounded-md object-cover transition-all ease-out group-hover:scale-105 duration-500`}
+                      className={`z-50 h-full w-full rounded-md object-cover transition-all duration-500 ease-out group-hover:scale-105`}
                     />
                   </Link>
                 </div>
                 <div
-                  className={`mb-12 flex h-min flex-col gap-4 md:row-start-1 md:pt-36 ${
-                    reverse ? "md:col-start-2" : "md:col-start-1"
-                  } `}
+                  className={clsx(
+                    `flex h-min flex-col gap-4 md:row-start-1 md:mb-0 md:place-self-center`,
+
+                    projects.filter(
+                      (project) => !project.attributes.highlighted
+                    ).length != 0
+                      ? "mb-12"
+                      : null,
+                    index % 2 === 0 ? "md:col-start-2" : "md:col-start-1"
+                  )}
                 >
                   <Link
                     href={`/projects/${project.attributes.slug}`}
                     className="hover-group w-fit"
                   >
-                    <h3 className="animate-underline mb-1 font-heading md:text-4xl font-semibold leading-none text-3xl">
+                    <h3 className="animate-underline mb-1 font-heading text-3xl font-semibold leading-none md:text-4xl">
                       {project.attributes.title}
                     </h3>
                   </Link>
@@ -54,8 +82,12 @@ export default function ProjectsSection({ title, reverse, projects }) {
                   {/* Tags display */}
                   {project.attributes.tags.data.length ? (
                     <ul className="flex flex-wrap gap-2">
-                      {project.attributes.tags.data?.map((tag) => (
-                        <Tag key={tag.attributes.name} tag={tag} />
+                      {project.attributes.tags.data?.map((tag: ApiTagTag) => (
+                        <Tag
+                          key={tag.attributes.title}
+                          href={`/tags/${tag.attributes.slug}`}
+                          title={tag.attributes.title}
+                        />
                       ))}
                     </ul>
                   ) : null}
@@ -76,13 +108,13 @@ export default function ProjectsSection({ title, reverse, projects }) {
           })}
 
         {/* Other projects display */}
-        <div className="col-span-full grid grid-cols-1 items-stretch gap-4 md:grid-cols-3 lg:grid-cols-5">
+        <div className="col-span-full flex flex-wrap justify-center gap-4">
           {projects
             .filter((project) => !project.attributes.highlighted)
             .map((project, index) => {
               return (
                 <ProjectCard
-                  key={`${project.title}-${project.id}`}
+                  key={`${project.attributes.title}-${project.id}`}
                   project={project}
                   className={clsx(
                     projects.filter(
@@ -97,9 +129,9 @@ export default function ProjectsSection({ title, reverse, projects }) {
         </div>
       </div>
       <Hyperlink
-        title="All projects"
+        title="View all projects"
         href="/projects"
-        className="reveal fade-bottom"
+        className="reveal fade-bottom  place-self-end md:place-self-auto"
       />
     </SectionContainer>
   );

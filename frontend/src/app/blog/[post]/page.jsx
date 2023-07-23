@@ -5,10 +5,11 @@ import { convertRelativeUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
-  const { data } = await getData(params);
+  const { seo, data } = await getData(params);
+
   return {
-    title: data?.seo?.metaTitle,
-    description: data?.seo?.metaDescription,
+    title: seo?.metaTitle || `${data.title} - Jakub Sekula`,
+    description: seo?.metaDescription || `${data.description}`,
   };
 }
 
@@ -98,78 +99,6 @@ export default async function Page({ params }) {
 }
 
 async function getData(params) {
-  // try {
-  //   const qs = require("qs");
-  //   const { post } = params;
-  //   let query;
-
-  //   const headers = new Headers({
-  //     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-  //   });
-
-  //   query = qs.stringify({
-  //     filters: {
-  //       slug: {
-  //         $eq: post,
-  //       },
-  //     },
-  //   });
-
-  //   const idRes = await fetch(
-  //     `${process.env.NEXT_PUBLIC_API_URL}/api/posts?${query}`,
-  //     {
-  //       headers,
-  //     }
-  //   );
-  //   const idJson = await idRes.json();
-
-  //   const id = idJson?.data[0]?.id;
-
-  //   if (!id) {
-  //     return {
-  //       notFound: true,
-  //     };
-  //   }
-
-  //   query = qs.stringify({
-  //     populate: {
-  //       tags: true,
-  //       sections: {
-  //         populate: {
-  //           gallery: true,
-  //           featured_image: true,
-  //         },
-  //       },
-  //       featured_image: {
-  //         populate: "formats",
-  //       },
-  //       author: true,
-  //     },
-  //   });
-
-  //   const res = await fetch(
-  //     `${process.env.NEXT_PUBLIC_API_URL}/api/posts/${id}?${query}`,
-  //     {
-  //       headers,
-  //       next: { revalidate: 10 },
-  //     }
-  //   );
-
-  //   const resJson = await res.json();
-
-  //   return {
-  //     data: resJson.data.attributes,
-  //     author: resJson.data.attributes.author.data?.attributes || null,
-  //     featured_image: !!resJson.data.attributes.featured_image.data
-  //       ? convertRelativeUrl(
-  //           resJson.data.attributes.featured_image.data?.attributes.url
-  //         )
-  //       : "",
-  //   };
-  // } catch (err) {
-  //   notFound();
-  // }
-
   try {
     const qs = require("qs");
     const { post } = params;
@@ -192,7 +121,7 @@ async function getData(params) {
           populate: "formats",
         },
         author: true,
-        seo: "*",
+        seo: true,
       },
     });
 
@@ -205,7 +134,7 @@ async function getData(params) {
     );
     const json = await res.json();
 
-    return { data: json.data[0].attributes, seo: json.data[0].seo };
+    return { data: json.data[0].attributes, seo: json.data[0].attributes.seo };
   } catch (err) {
     notFound();
   }

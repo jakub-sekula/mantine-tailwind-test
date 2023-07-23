@@ -3,6 +3,16 @@ import ProjectsList from "./ProjectsList";
 
 import { PageWrapper } from "@components/layout";
 
+import { ApiProjectProject } from "../../../types/strapi/contentTypes";
+import { StrapiResponse } from "../../../types/strapi/responseTypes";
+
+export async function generateMetadata() {
+  return {
+    title: "Projects - Jakub Sekula",
+    description: "Projects homepage",
+  };
+}
+
 export default async function Projects() {
   const { data } = await getData();
 
@@ -15,7 +25,7 @@ export default async function Projects() {
   );
 }
 
-async function getData() {
+async function getData(): Promise<{ data: ApiProjectProject[] }> {
   try {
     const qs = require("qs");
     const headers = new Headers({
@@ -31,7 +41,7 @@ async function getData() {
       },
     });
 
-    const res = await fetch(
+    const res: Response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/projects?${query}`,
       {
         headers,
@@ -39,7 +49,7 @@ async function getData() {
       }
     );
 
-    const resJson = await res.json();
+    const resJson: StrapiResponse<ApiProjectProject[]> = await res.json();
 
     return {
       data: resJson.data,

@@ -103,15 +103,6 @@ async function getPostsAndCv() {
 
     const cvJson = await cv.json();
 
-    query = qs.stringify({
-      populate: ["featured_image"],
-      filters: {
-        show_on_homepage: {
-          $eq: true,
-        },
-      },
-    });
-
     return {
       posts: postsJson.data,
       cv: cvJson.data,
@@ -140,7 +131,7 @@ async function getData() {
         projects: {
           populate: {
             projects: {
-              populate: "*",
+              populate: "*"
             },
           },
         },
@@ -175,6 +166,7 @@ async function getData() {
               },
             },
             avatar: true,
+            background: true
           },
         },
         seo: true,
@@ -206,8 +198,8 @@ async function getMenuItems() {
   let menuQuery = qs.stringify({
     populate: "links",
     filters: {
-      name: {
-        $eq: "Header",
+      slug: {
+        $eq: "header-menu",
       },
     },
   });

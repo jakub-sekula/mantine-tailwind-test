@@ -32,9 +32,39 @@ export default function LightboxWrapper({ imageLinks = [], data }) {
         slides={imageLinks}
       />
 
+      {data.albums.data.length > 0 ? <section
+                key={`linked-albums`}
+                className="col-span-full grid w-full max-w-page grid-cols-12 gap-4 py-4"
+              >
+                {data.albums.data.map((item) => {
+                  const image =
+                    item.attributes.featured_image?.data.attributes.formats;
+                  return (
+                    <Link
+                      href="/photography/[category]"
+                      as={`/photography/${item.attributes.slug}`}
+                      key={`links-image-${item.id}`}
+                      className="group relative col-span-full md:col-span-4 flex  flex-col items-center justify-center gap-4
+                      overflow-hidden rounded-sm aspect-[2.5] md:aspect-[3/2] px-3 py-6 font-bold dark:border-0"
+                    >
+                      <Image
+                        width={image.medium.width}
+                        height={image.medium.height}
+                        src={convertRelativeUrl(image.medium.url)}
+                        alt={item.attributes.title}
+                        className="absolute -z-10 h-full w-full object-cover transition-transform group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-tr from-darkbg/50 " />
+                      <h6 className="z-10 font-heading text-2xl font-semibold uppercase text-white">
+                        {item.attributes.title}
+                      </h6>
+                    </Link>
+                  );
+                })}
+              </section> : null}
+
       {!!data.sections &&
         data.sections.map((section) => {
-          if (section.__component === "album.sections") {
             return (
               <section
                 key={`${section.title}`}
@@ -113,40 +143,6 @@ export default function LightboxWrapper({ imageLinks = [], data }) {
                 ) : null}
               </section>
             );
-          } else if (section.__component === "album.link") {
-            return (
-              <section
-                key={`links-${section.id}`}
-                className="col-span-full grid w-full max-w-page grid-cols-12 gap-4 py-4"
-              >
-                {section.albums.data.map((item) => {
-                  const image =
-                    item.attributes.featured_image?.data.attributes.formats;
-                  return (
-                    <Link
-                      href="/photography/[category]"
-                      as={`/photography/${item.attributes.slug}`}
-                      key={`links-image-${item.id}`}
-                      className="group relative col-span-full md:col-span-4 flex  flex-col items-center justify-center gap-4
-                      overflow-hidden rounded-sm aspect-[2.5] md:aspect-[3/2] px-3 py-6 font-bold dark:border-0"
-                    >
-                      <Image
-                        width={image.medium.width}
-                        height={image.medium.height}
-                        src={convertRelativeUrl(image.medium.url)}
-                        alt={item.attributes.title}
-                        className="absolute -z-10 h-full w-full object-cover transition-transform group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-tr from-darkbg/50 " />
-                      <h6 className="z-10 font-heading text-2xl font-semibold uppercase text-white">
-                        {item.attributes.title}
-                      </h6>
-                    </Link>
-                  );
-                })}
-              </section>
-            );
-          }
         })}
     </>
   );

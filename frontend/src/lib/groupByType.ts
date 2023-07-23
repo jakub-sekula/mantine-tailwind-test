@@ -7,7 +7,7 @@ interface Item {
 	  createdAt: string;
 	  updatedAt: string;
 	  publishedAt: string;
-	  showTags: boolean;
+	  show_tags: boolean;
 	  type: string;
 	};
   }

@@ -1,17 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import { ColorSchemeToggle } from "@components/common";
-import { usePathname } from "next/navigation";
-import { IconChevronLeft, IconChevronUp, IconChevronDown } from "@tabler/icons";
-import clsx from "clsx";
-
-import { cleanPhotosData } from "@/lib/cleanPhotosData";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import clsx from "clsx";
+import { IconChevronUp, IconChevronDown } from "@tabler/icons";
 
-export default function SidebarNavigation({ data }: { data: any }) {
-  const filtered = cleanPhotosData(data.data);
+import { ApiAlbumAlbum } from "../../../types/strapi/contentTypes";
 
+export default function SidebarNavigation({ data }: { data: ApiAlbumAlbum[] }) {
   return (
     <aside
       className={clsx(
@@ -19,28 +16,28 @@ export default function SidebarNavigation({ data }: { data: any }) {
       )}
     >
       <NavLink label="All albums" href="/photography" />
-      {filtered
-        ? Object.keys(filtered).map((item: any) => {
-            if (filtered[item].length === 1) {
+      {data
+        ? data.map((item: ApiAlbumAlbum) => {
+            if (item.attributes.type === "album") {
               return (
                 <NavLink
-                  key={`${filtered[item][0]?.slug}-menuLink`}
-                  label={filtered[item][0].title}
-                  href={`/photography/${filtered[item][0].slug}`}
+                  key={`${item.attributes.slug}-menuLink`}
+                  label={item.attributes.title}
+                  href={`/photography/${item.attributes.slug}`}
+                />
+              );
+            } else {
+              return (
+                <NestedNavLinks
+                  key={`${item.attributes.slug}-nestedMenu`}
+                  links={item.attributes.albums.data}
+                  title={item.attributes.title}
+                  slug={item.attributes.slug}
                 />
               );
             }
-            return (
-              <NestedNavLinks
-                key={`nestedMenu-${item}`}
-                links={filtered[item]}
-                title={item}
-                slug={item.toLowerCase()}
-              />
-            );
           })
         : null}
-      <ColorSchemeToggle className="mt-6" />
     </aside>
   );
 }
@@ -73,7 +70,7 @@ function NestedNavLinks({ title, slug, links }: any) {
 
   // Open dropdown when top level category is selected
   useEffect(() => {
-    if(path.toLowerCase() === title.toLowerCase())  setExpanded(true);
+    if (path.toLowerCase() === title.toLowerCase()) setExpanded(true);
   }, [path]);
 
   return (
@@ -107,9 +104,9 @@ function NestedNavLinks({ title, slug, links }: any) {
           return (
             <NavLink
               className={"ml-2 mt-3 text-xs"}
-              key={`${link.slug}-menuLink`}
-              label={link.title}
-              href={`/photography/${link.slug}`}
+              key={`${link.attributes.slug}-menuLink`}
+              label={link.attributes.title}
+              href={`/photography/${link.attributes.slug}`}
             />
           );
         })}

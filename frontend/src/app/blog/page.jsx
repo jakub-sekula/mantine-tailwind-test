@@ -1,11 +1,23 @@
 import Head from "next/head";
-import { Layout, PageWrapper } from "@components/layout";
+import { PageWrapper } from "@components/layout";
 import { BlogPostCard } from "@components/blog";
 import { convertRelativeUrl } from "@lib/utils";
 import Link from "next/link";
 import { IconArrowRight } from "@tabler/icons";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata() {
+  const { data, seo } = await getData();
+  return {
+    title:
+      seo?.metaTitle ||
+      "Blog - Jakub Sekula",
+    description:
+      seo?.metaDescription || "A place for my thoughts, projects and random ramblings. Do not take too seriously.",
+  };
+}
+
 
 export default async function Blog() {
   const { data } = await getData();
@@ -97,7 +109,7 @@ async function getData() {
     });
 
     const query = qs.stringify({
-      populate: ["featured_image", "tags", "author"],
+      populate: ["featured_image", "tags", "author", "seo"],
       sort: {
         createdAt: "desc",
       },
@@ -115,6 +127,7 @@ async function getData() {
 
     return {
       data: resJson.data,
+      seo: resJson.data.seo
     };
   } catch (err) {
     notFound();

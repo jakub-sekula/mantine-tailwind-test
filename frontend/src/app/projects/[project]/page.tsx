@@ -6,8 +6,18 @@ import { FaGithub, FaPlayCircle } from "react-icons/fa";
 import { IconChevronLeft } from "@tabler/icons";
 import { notFound } from "next/navigation";
 import { convertRelativeUrl, toTitleCase } from "@/lib/utils";
+import {
+  ApiPostPost,
+  ApiTagTag,
+  ApiToolTool,
+} from "../../../../types/strapi/contentTypes";
+import { getImageOfSizeOrLargest } from "@/lib/getImageOfSizeOrLargest";
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { project: string };
+}) {
   const { data, seo } = await getData(params);
   return {
     title:
@@ -19,7 +29,11 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function Project({ params }) {
+export default async function Project({
+  params,
+}: {
+  params: { project: string };
+}) {
   const { data } = await getData(params);
   return (
     <main className="mx-auto mt-6 grid w-full max-w-6xl grid-cols-12 gap-2 px-6 md:mt-6 lg:mt-12 xl:px-4 2xl:px-0">
@@ -38,8 +52,12 @@ export default async function Project({ params }) {
         {!!data.tags.data.length ? (
           <ul className="col-span-full flex gap-4">
             {" "}
-            {data.tags.data.map((tag) => (
-              <Tag key={tag.attributes.title} tag={tag} />
+            {data.tags.data.map((tag: ApiTagTag) => (
+              <Tag
+                key={tag.attributes.title}
+                href={`/tags/${tag.attributes.slug}`}
+                title={tag.attributes.title}
+              />
             ))}{" "}
           </ul>
         ) : null}{" "}
@@ -67,33 +85,21 @@ export default async function Project({ params }) {
       </div>
       <Image
         src={convertRelativeUrl(
-          data.featured_image.data.attributes.formats?.xlarge?.url ||
-            data.featured_image.data.attributes.formats?.large?.url ||
-            data.featured_image.data.attributes.formats?.medium?.url ||
-            data.featured_image.data.attributes.formats?.small?.url ||
-            data.featured_image.data.attributes.formats?.xsmall?.url ||
-            data.featured_image.data.attributes.formats?.thumbnail?.url ||
-            "/default.jpg"
+          getImageOfSizeOrLargest(data.featured_image.data.attributes, "xlarge")
+            .url
         )}
+        alt={
+          getImageOfSizeOrLargest(data.featured_image.data.attributes, "xlarge")
+            .name
+        }
         width={
-          data.featured_image.data.attributes.formats?.xlarge?.width ||
-          data.featured_image.data.attributes.formats?.large?.width ||
-          data.featured_image.data.attributes.formats?.medium?.width ||
-          data.featured_image.data.attributes.formats?.small?.width ||
-          data.featured_image.data.attributes.formats?.xsmall?.width ||
-          data.featured_image.data.attributes.formats?.thumbnail?.width ||
-          300
+          getImageOfSizeOrLargest(data.featured_image.data.attributes, "xlarge")
+            .width
         }
         height={
-          data.featured_image.data.attributes.formats?.xlarge?.height ||
-          data.featured_image.data.attributes.formats?.large?.height ||
-          data.featured_image.data.attributes.formats?.medium?.height ||
-          data.featured_image.data.attributes.formats?.small?.height ||
-          data.featured_image.data.attributes.formats?.xsmall?.height ||
-          data.featured_image.data.attributes.formats?.thumbnail?.height ||
-          300
+          getImageOfSizeOrLargest(data.featured_image.data.attributes, "xlarge")
+            .height
         }
-        alt={data.featured_image.data.attributes.name}
         className="col-span-full mx-auto mb-12 aspect-video w-full rounded-md object-cover shadow-xl"
       />{" "}
       <div className="col-span-full flex gap-16">
@@ -111,7 +117,7 @@ export default async function Project({ params }) {
             {" "}
             Tools used{" "}
           </h2>{" "}
-          {data.tools.data.map((tool) => (
+          {data.tools.data.map((tool: ApiToolTool) => (
             <ToolCard
               tool={tool}
               key={`${tool.attributes.name}-card`}
@@ -127,7 +133,7 @@ export default async function Project({ params }) {
             {" "}
             Related blog posts{" "}
           </h2>{" "}
-          {data.posts.data.map((post) => (
+          {data.posts.data.map((post: ApiPostPost) => (
             <BlogPostCard key={post.attributes.title} post={post} />
           ))}{" "}
         </div>
@@ -136,7 +142,7 @@ export default async function Project({ params }) {
   );
 }
 
-async function getData(params) {
+async function getData(params: { project: string }) {
   try {
     const qs = require("qs");
     const { project } = params;
@@ -180,5 +186,5 @@ export async function generateStaticParams() {
   )
     .then((res) => res.json())
     .then((json) => json.data);
-  return posts.map((post) => ({ project: post.attributes.slug }));
+  return posts.map((post: ApiPostPost) => ({ project: post.attributes.slug }));
 }

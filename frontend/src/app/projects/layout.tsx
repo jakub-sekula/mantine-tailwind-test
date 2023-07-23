@@ -2,11 +2,6 @@ import { Metadata } from "next";
 import { Footer, Header } from "@components/layout";
 import "@/styles/globals.css";
 
-export const metadata: Metadata = {
-  title: "Projects - Jakub Sekula",
-  description: "A showcase of my web and engineering projects",
-};
-
 export default async function RootLayout({
   children,
 }: {
@@ -28,8 +23,8 @@ async function getMenuItems() {
   let menuQuery = qs.stringify({
     populate: "links",
     filters: {
-      name: {
-        $eq: "Header",
+      slug: {
+        $eq: "header-menu",
       },
     },
   });

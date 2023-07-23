@@ -8,13 +8,8 @@ import { useEffect, useState } from "react";
 import { reveal } from "@lib/utils";
 import clsx from "clsx";
 import { IconMenu, IconX } from "@tabler/icons";
-
-interface menuItem {
-  id: number;
-  title: string;
-  url: string;
-  color: string;
-}
+import { ApiMenuMenu } from "../../../types/strapi/contentTypes";
+import { MenuLink } from "../../../types/strapi/components";
 
 const COLORS: Record<string, string> = {
   red: "after:bg-js-red",
@@ -23,7 +18,11 @@ const COLORS: Record<string, string> = {
   yellow: "after:bg-js-yellow",
 };
 
-export default function Header({ menuItems }: { menuItems: menuItem[] }) {
+export default function Header({
+  menuItems,
+}: {
+  menuItems: Array<MenuLink["attributes"]>;
+}) {
   const { scrollDirection } = useScrollDirection();
   const { scrollPosition } = useScrollPosition();
   const [heroHeight, setHeroHeight] = useState<number | undefined>(0);
@@ -44,9 +43,8 @@ export default function Header({ menuItems }: { menuItems: menuItem[] }) {
         pathname === "/" ? "text-darktext" : "text-text",
 
         heroHeight && scrollPosition < heroHeight && pathname === "/"
-
           ? "dark:text-darktext md:bg-transparent md:text-darktext"
-          : "dark:text-darktext bg-transparent md:bg-white/95 md:text-text  md:dark:bg-darkbg/75",
+          : "bg-transparent dark:text-darktext md:bg-white/95 md:text-text  md:dark:bg-darkbg/75",
 
         open
           ? "fixed bg-white text-text dark:bg-darkbg dark:text-darktext"
@@ -54,14 +52,14 @@ export default function Header({ menuItems }: { menuItems: menuItem[] }) {
 
         scrollDirection === "down" ? "-top-16" : "top-0",
 
-        "z-50 flex h-full w-full  justify-center border-transparent px-6 pb-px transition-[top] duration-200 md:sticky md:h-16 md:items-center backdrop-blur-lg xl:px-4 2xl:px-0"
+        "z-50 flex h-full w-full  justify-center border-transparent px-6 pb-px backdrop-blur-lg transition-[top] duration-200 md:sticky md:h-16 md:items-center xl:px-4 2xl:px-0"
       )}
     >
       <div className="flex w-screen max-w-page flex-col md:flex-row">
         <div className="flex w-full items-center justify-between">
           <Link
             href="/"
-            className="mx-auto flex h-16 w-full flex-col items-start justify-center md:items-center gap-2 font-mono  md:mx-0 md:flex-row md:justify-start"
+            className="mx-auto flex h-16 w-full flex-col items-start justify-center gap-2 font-mono md:mx-0  md:flex-row md:items-center md:justify-start"
           >
             {/* <DotsLogo /> */}
             <span className="font-bold">
@@ -91,16 +89,18 @@ export default function Header({ menuItems }: { menuItems: menuItem[] }) {
         >
           <ul className="flex h-full w-full flex-col items-center pt-4 uppercase md:flex-row md:gap-14 md:pt-0 md:normal-case">
             {!!menuItems?.length ? (
-              menuItems.map((link) => {
-                return (
-                  <NavLink
-                    key={link?.title}
-                    label={link.title}
-                    href={link.url}
-                    color={link?.color}
-                  />
-                );
-              })
+              menuItems
+                .filter((link) => link.enabled)
+                .map((link) => {
+                  return (
+                    <NavLink
+                      key={link?.title}
+                      label={link.title}
+                      href={link.url}
+                      color={link?.color}
+                    />
+                  );
+                })
             ) : (
               <>
                 <NavLink label="My work" href="/projects" color="blue" />

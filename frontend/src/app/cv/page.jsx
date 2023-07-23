@@ -10,6 +10,16 @@ import { SectionHeading, TableOfContents } from "@components/common";
 import { ExperienceLine, BulletsOnly, InlineList } from "@components/cv";
 import { notFound } from "next/navigation";
 
+export async function generateMetadata() {
+  const {seo} = await getData();
+
+  return {
+    title: seo?.metaTitle || "CV - Jakub Sekula",
+    description: seo?.metaDescription ||  "My professional experience, education, and interests",
+  };
+}
+
+
 export default async function Cv() {
   const { data } = await getData();
   return (
@@ -131,6 +141,7 @@ async function getData() {
           },
         },
         cv_pdf: "*",
+        seo: true
       },
       filter: {
         sections: {
@@ -155,6 +166,7 @@ async function getData() {
 
     return {
       data: resJson.data.attributes,
+      seo: resJson.data.attributes.seo
     };
   } catch (err) {
     notFound();

@@ -47,6 +47,7 @@ export default function AboutSection({ cv, about }) {
           <SectionHeading title="Education" color="yellow" />
           <ExperienceLine
             key={"education"}
+            summaryView={true}
             entry={
               sections.filter((section) => section.title === "Education")[0]
                 .entries[0]

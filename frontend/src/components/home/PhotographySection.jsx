@@ -30,7 +30,7 @@ export function PhotoCard({ title, image, delay = 0, href }) {
   return (
     <Link
       href={href}
-      className=" group relative aspect-[2.5] md:aspect-[3/2] col-span-full md:col-span-6 lg:col-span-4 flex w-full flex-col items-center
+      className=" group relative aspect-[2.5] md:aspect-[3/2] col-span-full md:col-span-6 xl:col-span-4 flex w-full flex-col items-center
     justify-center gap-4 overflow-hidden rounded-md border border-text/10 px-3 py-6 font-bold dark:border-0"
       style={{ animationDelay: `${delay}ms`, transitionDelay: `${delay}ms` }}
       key={`photocard-${title}`}
