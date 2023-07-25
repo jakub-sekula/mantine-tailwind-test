@@ -66,7 +66,8 @@
       "type": "enumeration",
       "enum": [
         "Software",
-        "Engineering"
+        "Engineering",
+        "Commercial"
       ],
       "required": true,
       "default": "Software"
@@ -103,14 +104,15 @@
       "component": "shared.seo"
     },
     "featured_image_small": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     }
   }
 }

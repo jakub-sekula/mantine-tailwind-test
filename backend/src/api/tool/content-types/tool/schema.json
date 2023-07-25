@@ -50,6 +50,11 @@
         "general",
         "engineering"
       ]
+    },
+    "prefer_light": {
+      "type": "boolean",
+      "default": true,
+      "required": true
     }
   }
 }

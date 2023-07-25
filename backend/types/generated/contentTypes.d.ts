@@ -924,7 +924,7 @@ export interface ApiProjectProject extends Schema.CollectionType {
     github_url: Attribute.String;
     demo_url: Attribute.String;
     gallery: Attribute.Media;
-    type: Attribute.Enumeration<['Software', 'Engineering']> &
+    type: Attribute.Enumeration<['Software', 'Engineering', 'Commercial']> &
       Attribute.Required &
       Attribute.DefaultTo<'Software'>;
     highlighted: Attribute.Boolean &
@@ -1050,6 +1050,9 @@ export interface ApiToolTool extends Schema.CollectionType {
     type: Attribute.Enumeration<
       ['frontend', 'backend', 'general', 'engineering']
     >;
+    prefer_light: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::tool.tool', 'oneToOne', 'admin::user'> &
