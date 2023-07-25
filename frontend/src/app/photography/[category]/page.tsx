@@ -60,9 +60,6 @@ export default async function Page({
   const { title, description, show_tags, tags, featured_image, imageLinks } =
     data;
 
-  console.log(
-    getImageOfSizeOrLargest(featured_image.data.attributes, "thumbnail")
-  );
   return (
     <>
       {/* Hero section */}
@@ -90,7 +87,7 @@ export default async function Page({
           priority={true}
           className="absolute inset-0 z-0 mx-auto h-full w-full object-cover"
         />
-        <div className="z-20 flex w-full max-w-page flex-col items-center text-white ">
+        <div className="z-20 p-6 flex w-full max-w-page flex-col items-center text-white ">
           <Link
             href="/photography"
             className="mb-4 flex items-center gap-1 text-sm font-light"
@@ -99,7 +96,7 @@ export default async function Page({
             Back to albums
           </Link>
           <h1
-            className="mb-3 break-words font-heading text-[3.5rem] font-bold
+            className="mb-3 break-words font-heading text-3xl md:text-5xl font-bold
                 uppercase leading-none tracking-tight xl:text-[5.5rem] 2xl:text-[6rem]"
           >
             {title}

@@ -131,7 +131,13 @@ async function getData() {
         projects: {
           populate: {
             projects: {
-              populate: "*"
+              populate: {
+                featured_image: true,
+                tags: true,
+                tools: {
+                  populate: "*"
+                }
+              }
             },
           },
         },

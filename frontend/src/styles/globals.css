@@ -122,3 +122,15 @@ h2 {
 .glow {
   box-shadow: 0 100px 200px 150px #63849f33;
 }
+
+.bg-noisy {
+  background-image: url(/background_noisy.webp);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -100;
+    height: 100vh;
+    width: 100vw;
+    background-blend-mode: normal;
+    background-size: 25ww auto;
+}

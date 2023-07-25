@@ -122,11 +122,13 @@ function NavLink({ label, href, color = "red", ...props }: any) {
   const selected = `/${path.split("/")[1]}` === href;
   return (
     <li
-      className={`font-headings border-text-10 relative flex h-fit w-full grow-0 items-center justify-center border-b py-6 transition-all duration-200 after:absolute after:-bottom-1 after:left-0 after:-z-10 after:h-[2px] after:w-full after:opacity-0 after:transition-all after:duration-300 hover:border-transparent hover:after:opacity-100 dark:border-darktext/10 hover:dark:bg-darkbg/50 md:h-min md:border-none md:py-0 md:text-sm ${
-        selected ? "after:opacity-100" : null
-      } ${COLORS?.[color]}`}
+      className={"w-full md:w-auto"}
     >
-      <Link {...props} href={href}>
+      <Link {...props} href={href} className={clsx(
+        `font-headings border-text-10 relative flex h-fit w-full grow-0 items-center justify-center border-b py-6 transition-all duration-200 after:absolute after:-bottom-1 after:left-0 after:-z-10 after:h-[2px] after:w-full after:opacity-0 after:transition-all after:duration-300 hover:border-transparent hover:after:opacity-100 dark:border-darktext/10 hover:dark:bg-darkbg/50 md:h-min md:border-none md:py-0 md:text-sm`,
+        selected ? "after:opacity-100" : null,
+        COLORS?.[color]
+      )}>
         {label}
       </Link>
     </li>

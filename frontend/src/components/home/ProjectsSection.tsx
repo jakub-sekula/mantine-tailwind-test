@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { Hyperlink, Tag, ProjectCard } from "@components/common";
 import SectionContainer from "./SectionContainer";
@@ -7,6 +8,7 @@ import Link from "next/link";
 import {
   ApiProjectProject,
   ApiTagTag,
+  ApiToolTool,
 } from "../../../types/strapi/contentTypes";
 
 interface ApiProjectProjectWithId extends ApiProjectProject {
@@ -15,7 +17,6 @@ interface ApiProjectProjectWithId extends ApiProjectProject {
 
 export default function ProjectsSection({
   title,
-  reverse,
   projects,
 }: {
   title: string;
@@ -36,7 +37,12 @@ export default function ProjectsSection({
                 className="relative col-span-full grid grid-rows-1 gap-6 
                            md:grid-cols-2 md:gap-12 xl:col-span-10 xl:col-start-2 "
               >
-                {/* <div className="absolute -left-[100vw] -right-[100vw] -top-6 -bottom-6 bg-neutral-100 shadow-inner -z-10" /> */}
+                <div
+                  className={clsx(
+                    "absolute left-1/2  top-1/2 -z-50 h-full max-h-[75px]  w-full max-w-[300px]  -translate-y-1/2 rounded-full  bg-gradient-to-t from-blue-500 to-blue-300  opacity-0 blur-[100px] dark:opacity-100",
+                    index % 2 === 0 ? "-translate-x-3/4" : "-translate-x-1/4"
+                  )}
+                />
                 <div
                   className={`group relative w-full overflow-hidden rounded-md bg-js-yellow object-cover md:aspect-video md:w-[125%] ${
                     index % 2 === 0
@@ -96,6 +102,38 @@ export default function ProjectsSection({
                     <p className="font-light leading-normal md:leading-snug">
                       {project.attributes.excerpt}
                     </p>
+                  ) : null}
+
+                  {!!project.attributes.tools.data.length ? (
+                    <div className="flex gap-2">
+                      {project.attributes.tools.data
+                        .filter(
+                          (tool: ApiToolTool) =>
+                            tool.attributes.show_on_homepage
+                        )
+                        .map((tool: ApiToolTool, index: number) => {
+                          return (
+                            <Image
+                              key={`${tool.attributes.name}-mini-${index}`}
+                              src={convertRelativeUrl(
+                                tool.attributes.icon_dark.data?.attributes
+                                  ?.url ||
+                                  tool.attributes.icon_light.data?.attributes
+                                    ?.url
+                              )}
+                              width={
+                                tool.attributes.icon_light.data.attributes.width
+                              }
+                              height={
+                                tool.attributes.icon_light.data.attributes
+                                  .height
+                              }
+                              alt={tool.attributes.name}
+                              className="h-6 w-6 opacity-75 "
+                            />
+                          );
+                        })}
+                    </div>
                   ) : null}
 
                   <Hyperlink
