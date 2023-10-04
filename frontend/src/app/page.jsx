@@ -2,7 +2,6 @@ import {
   Hero,
   ProjectsSection,
   AboutSection,
-  ToolsSection,
   SkillsSection,
   BlogSection,
   PhotographySection,
@@ -21,10 +20,6 @@ export default async function Home() {
       <Header menuItems={menuItems} />
       <Hero data={hero} />
       <AboutSection title="About me" about={about} cv={cv} />
-      {skills.filter((skill) => skill.enabled).length > 0 ? (
-        <SkillsSection title="Skills" skills={skills} />
-      ) : null}
-
       {projects.filter((item) => item.enabled).length > 0
         ? projects
             .filter((item) => item.enabled)
@@ -39,6 +34,10 @@ export default async function Home() {
               );
             })
         : null}
+      {skills.filter((skill) => skill.enabled).length > 0 ? (
+        <SkillsSection title="Skills" skills={skills} />
+      ) : null}
+
 
       {photography.enabled ? (
         <PhotographySection title="Photography" data={photography} />
