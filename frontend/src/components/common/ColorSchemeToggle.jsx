@@ -21,18 +21,22 @@ export default function ColorSchemeToggle({ className = "" }) {
     <button
       aria-label="colour-theme-toggle"
       className={clsx(
-        "mt-8 flex h-fit w-full items-center justify-center gap-4 md:mt-0 md:block md:h-[18px] md:w-[18px]",
+        "font-headings  relative mt-auto flex h-fit w-full grow-0 flex-row-reverse items-center justify-between border-t border-text pt-4 pb-8 text-lg  md:m-0 md:mt-0 md:block md:h-[18px] md:w-[18px]",
         className
       )}
       onClick={() => toggleColorScheme()}
       key={resolvedTheme === "dark" ? "dark-icon" : "light-icon"}
     >
       {mounted && resolvedTheme === "dark" ? (
-        <IconMoonStars size={18} />
+        <i className="h-6 w-6">
+          <IconMoonStars size={18} className="h-full w-full" />
+        </i>
       ) : (
-        <IconSun size={18} />
+        <i className="h-6 w-6">
+          <IconSun size={18} className="h-full w-full" />
+        </i>
       )}
-      <span className="inline-block md:hidden">TOGGLE THEME</span>
+      <span className="inline-block md:hidden">Toggle theme</span>
     </button>
   );
 }

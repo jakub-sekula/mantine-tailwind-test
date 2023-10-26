@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import "@/styles/globals.css";
-import { Header, SidebarNavigation } from "@/components/layout";
+import { HeaderNew, SidebarNavigation } from "@/components/layout";
 
 export default async function RootLayout({
   children,
@@ -11,8 +11,8 @@ export default async function RootLayout({
   const menuItems = await getMenuItems();
   return (
     <>
-      <Header menuItems={menuItems} />
-      <div className="mx-auto flex h-full min-h-screen w-full max-w-page md:w-screen">
+      <HeaderNew menuItems={menuItems} />
+      <div className="mx-auto flex h-full min-h-screen w-full max-w-page md:w-screen pt-16">
         <SidebarNavigation data={data} />
         <main className="flex h-full w-full flex-col px-4 pb-4 pt-2 md:max-w-[80%] md:px-0 md:pr-4 md:pt-4 lg:pr-0 lg:pt-0">
           {children}

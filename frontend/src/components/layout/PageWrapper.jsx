@@ -2,7 +2,7 @@ export default function PageWrapper({ children, title, ...props }) {
   return (
     <>
       {!!title ? (
-        <h1 className="mt-6 col-span-full text-center font-heading text-3xl font-bold md:mb-6 md:text-4xl lg:text-5xl">
+        <h1 className="mt-6 pt-16 col-span-full text-center font-heading text-3xl font-bold md:mb-6 md:text-4xl lg:text-5xl">
           {title}
         </h1>
       ) : null}

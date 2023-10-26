@@ -134,3 +134,7 @@ h2 {
     background-blend-mode: normal;
     background-size: 25ww auto;
 }
+
+.no-scroll {
+  overflow: hidden!important
+}

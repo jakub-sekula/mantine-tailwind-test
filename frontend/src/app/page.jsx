@@ -6,7 +6,7 @@ import {
   BlogSection,
   PhotographySection,
 } from "@/components/home";
-import { Footer, Header } from "@/components/layout";
+import { Footer, Header, HeaderNew } from "@/components/layout";
 import { notFound } from "next/navigation";
 
 export default async function Home() {
@@ -17,7 +17,7 @@ export default async function Home() {
 
   return (
     <>
-      <Header menuItems={menuItems} />
+      <HeaderNew menuItems={menuItems} />
       <Hero data={hero} />
       <AboutSection title="About me" about={about} cv={cv} />
       {projects.filter((item) => item.enabled).length > 0

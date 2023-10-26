@@ -23,7 +23,7 @@ export default async function Page({ params }) {
     : "";
   return (
     <>
-      <main className="mx-auto grid w-full max-w-page grid-cols-12">
+      <main className="mx-auto grid w-full max-w-page grid-cols-12 pt-16">
         {/* Hero image */}
         {!!featured_image ? (
           <div

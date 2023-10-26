@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Footer, Header } from "@components/layout";
+import { Footer, HeaderNew } from "@components/layout";
 import "@/styles/globals.css";
 
 
@@ -11,7 +11,7 @@ export default async function RootLayout({
   const menuItems = await getMenuItems();
   return (
     <>
-      <Header menuItems={menuItems} />
+      <HeaderNew menuItems={menuItems} />
       {children}
       <Footer />
     </>
