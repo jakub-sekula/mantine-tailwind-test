@@ -47,6 +47,13 @@ export default function HeaderNew({
     document.body.classList.toggle("no-scroll", !isActive);
   }
 
+  useEffect(()=>{
+    buttonRef.current.setAttribute("data-active", String(false));
+    siteNavigationRef.current.setAttribute("data-active", String(false));
+    headerRef.current.setAttribute("data-active", String(false));
+    document.body.classList.remove("no-scroll");
+  },[pathname])
+
   return (
     <header
       data-active={false}
