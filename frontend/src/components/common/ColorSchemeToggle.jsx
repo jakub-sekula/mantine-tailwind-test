@@ -21,18 +21,17 @@ export default function ColorSchemeToggle({ className = "" }) {
     <button
       aria-label="colour-theme-toggle"
       className={clsx(
-        "font-headings  relative mt-auto flex h-fit w-full grow-0 flex-row-reverse items-center justify-between border-t border-text pt-4 pb-8 text-lg  md:m-0 md:mt-0 md:block md:h-[18px] md:w-[18px]",
-        className
+        "font-headings  relative mt-auto flex h-fit w-full grow-0 flex-row-reverse items-center justify-between border-t border-text pt-4 pb-8 text-lg  md:m-0  md:h-8 md:w-8 md:border-none md:justify-center md:p-0"
       )}
       onClick={() => toggleColorScheme()}
       key={resolvedTheme === "dark" ? "dark-icon" : "light-icon"}
     >
       {mounted && resolvedTheme === "dark" ? (
-        <i className="h-6 w-6">
+        <i className="h-6 w-6 md:w-5 md:h-5 block">
           <IconMoonStars size={18} className="h-full w-full" />
         </i>
       ) : (
-        <i className="h-6 w-6">
+        <i className="h-6 w-6 md:w-5 md:h-5 block">
           <IconSun size={18} className="h-full w-full" />
         </i>
       )}

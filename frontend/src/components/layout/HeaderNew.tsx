@@ -47,12 +47,22 @@ export default function HeaderNew({
     document.body.classList.toggle("no-scroll", !isActive);
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     buttonRef.current.setAttribute("data-active", String(false));
     siteNavigationRef.current.setAttribute("data-active", String(false));
     headerRef.current.setAttribute("data-active", String(false));
     document.body.classList.remove("no-scroll");
-  },[pathname])
+  }, [pathname]);
+
+  const textColor =
+    heroHeight && scrollPosition < heroHeight - 200 && pathname === "/"
+      ? "text-darktext stroke-darktext"
+      : " dark:text-darktext  md:text-text dark:stroke-darktext  md:stroke-text ";
+
+  const strokeColor =
+    heroHeight && scrollPosition < heroHeight - 200 && pathname === "/"
+      ? "stroke-darktext"
+      : "dark:stroke-darktext  stroke-text ";
 
   return (
     <header
@@ -66,6 +76,11 @@ export default function HeaderNew({
           ? "text-darktext"
           : "data-[active=false]:bg-white/90  dark:text-darktext  dark:data-[active=false]:bg-darkbg/90  dark:data-[active=false]:backdrop-blur-md md:text-text ",
 
+        heroHeight && scrollPosition < heroHeight - 200 && pathname === "/"
+          ? null
+          : "data-[active=false]:bg-white/90    dark:data-[active=false]:bg-darkbg/90  dark:data-[active=false]:backdrop-blur-md ",
+        textColor,
+
         "group fixed z-50 flex h-screen max-h-16 w-full shrink-0 flex-col items-baseline justify-between gap-8 overflow-hidden  px-6 py-4 transition-all delay-100 duration-300 ease-out  data-[active=true]:top-0 data-[active=true]:max-h-screen data-[active=true]:bg-black dark:text-darktext  md:h-auto  md:max-h-full md:w-full md:flex-row md:border-r md:bg-transparent "
       )}
     >
@@ -73,7 +88,7 @@ export default function HeaderNew({
         <Link href="/" rel="home">
           {/* <DotsLogo /> */}
           <div className="mx-auto flex w-full flex-col items-start justify-center gap-2 font-mono  md:mx-0  md:flex-row md:items-center md:justify-start">
-            <span className="font-bold ">
+            <span className={clsx("font-bold")}>
               <span className="text-js-yellow">
                 jakubsekula<span className="text-js-blue">@personal</span>:
               </span>
@@ -109,7 +124,7 @@ export default function HeaderNew({
           <i className="h-8 w-8 p-1 group-data-[active=true]:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-full w-full dark:stroke-darktext stroke-text"
+              className={clsx("h-full w-full", strokeColor)}
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke-linecap="round"
@@ -127,10 +142,10 @@ export default function HeaderNew({
       <nav
         ref={siteNavigationRef}
         id="site-navigation"
-        className="h-full w-full opacity-0 transition-opacity duration-150 delay-200 ease-out data-[active=true]:opacity-100 md:opacity-100"
+        className="h-full w-full opacity-0 transition-opacity delay-200 duration-150 ease-out data-[active=true]:opacity-100 md:opacity-100"
         data-active="false"
       >
-        <ul className="flex h-full w-full flex-col items-center md:justify-end md:flex-row md:gap-14 md:pt-0">
+        <ul className="flex h-full w-full flex-col items-center md:flex-row md:justify-end md:gap-14 md:pt-0">
           {!!menuItems?.length ? (
             menuItems
               .filter((link) => link.enabled)
@@ -165,14 +180,14 @@ function NavLink({ label, href, color = "red", ...props }: any) {
   return (
     <li
       className={
-        "w-full md:w-fit border-b border-text md:m-0 md:border-none md:p-0 text-lg"
+        "w-full border-b border-text text-lg md:m-0 md:w-fit md:border-none md:p-0"
       }
     >
       <Link
         {...props}
         href={href}
         className={clsx(
-          `font-headings border-text-10 relative flex h-fit w-full grow-0 items-center md:justify-center py-4 transition-all duration-200 after:absolute after:-bottom-1 after:left-0 after:-z-10 after:h-[2px] after:w-full after:opacity-0 after:transition-all after:duration-300  hover:after:opacity-100  hover:dark:bg-darkbg/50 md:h-min md:border-none md:py-0 md:text-sm`,
+          `font-headings border-text-10 relative flex h-fit w-full grow-0 items-center py-4 transition-all md:transition-none duration-200 after:absolute after:-bottom-1 after:left-0 after:-z-10 after:h-[2px] after:w-full after:opacity-0 after:transition-all after:duration-300 hover:after:opacity-100  hover:dark:bg-darkbg/50  md:h-min md:justify-center md:border-none md:py-0 md:text-sm`,
           selected ? "md:after:opacity-100" : null,
           COLORS?.[color]
         )}
