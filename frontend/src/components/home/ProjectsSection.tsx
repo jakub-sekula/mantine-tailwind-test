@@ -35,7 +35,7 @@ export default function ProjectsSection({
               <div
                 key={`featured-project-${project.id}`}
                 className="relative col-span-full grid grid-rows-1 gap-6 
-                           md:grid-cols-2 md:gap-12 xl:col-span-10 xl:col-start-2 "
+                           md:grid-cols-2 md:gap-12 xl:col-span-10 xl:col-start-2"
               >
                 <div
                   className={clsx(
@@ -66,13 +66,8 @@ export default function ProjectsSection({
                 </div>
                 <div
                   className={clsx(
-                    `flex h-min flex-col gap-4 md:row-start-1 md:mb-0 md:place-self-center`,
+                    `mb-4 flex h-min flex-col gap-4 md:row-start-1 md:mb-0 md:place-self-center`,
 
-                    projects.filter(
-                      (project) => !project.attributes.highlighted
-                    ).length != 0
-                      ? "mb-12"
-                      : null,
                     index % 2 === 0 ? "md:col-start-2" : "md:col-start-1"
                   )}
                 >
@@ -146,28 +141,34 @@ export default function ProjectsSection({
           })}
 
         {/* Other projects display */}
-        <div className="col-span-full flex flex-wrap justify-center gap-4">
-          {projects
-            .filter((project) => !project.attributes.highlighted)
-            .map((project, index) => {
-              return (
-                <ProjectCard
-                  key={`${project.attributes.title}-${project.id}`}
-                  project={project}
-                  className={clsx(
-                    projects.filter(
-                      (project) => !project.attributes.highlighted
-                    ).length === 3 && index === 0
-                      ? "lg:col-start-2"
-                      : ""
-                  )}
-                />
-              );
-            })}
-        </div>
+        {projects.filter((project) => !project.attributes.highlighted)
+          .length ? (
+          <div className="col-span-full flex flex-wrap justify-center gap-4">
+            <h2 className="font-heading text-2xl font-semibold md:mb-4 md:text-4xl text-center w-full">
+              Other projects
+            </h2>
+            {projects
+              .filter((project) => !project.attributes.highlighted)
+              .map((project, index) => {
+                return (
+                  <ProjectCard
+                    key={`${project.attributes.title}-${project.id}`}
+                    project={project}
+                    className={clsx(
+                      projects.filter(
+                        (project) => !project.attributes.highlighted
+                      ).length === 3 && index === 0
+                        ? "lg:col-start-2"
+                        : ""
+                    )}
+                  />
+                );
+              })}
+          </div>
+        ) : null}
       </div>
       <Hyperlink
-        title="View all projects"
+        title={`View all projects`}
         href="/projects"
         className="reveal fade-bottom  place-self-end md:place-self-auto"
       />

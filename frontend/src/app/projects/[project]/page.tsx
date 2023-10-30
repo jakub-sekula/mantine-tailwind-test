@@ -39,7 +39,7 @@ export default async function Project({
 }) {
   const { data } = await getData(params);
   return (
-    <main className="mx-auto mt-6 grid w-full max-w-6xl grid-cols-12 gap-2 px-6 md:mt-6 lg:mt-12 xl:px-4 2xl:px-0">
+    <main className="mx-auto mt-6 grid w-full max-w-6xl grid-cols-12 gap-2 px-6 md:mt-6 lg:mt-12 xl:px-4 2xl:px-0 pt-16">
       {/* Header */}
       <div className="col-span-full flex flex-col items-center gap-4">
         <Link href="/projects" className="flex gap-1 text-sm font-light  ">
@@ -100,7 +100,7 @@ export default async function Project({
           getImageOfSizeOrLargest(data.featured_image.data.attributes, "xlarge")
             .height
         }
-        className="col-span-full mx-auto md:mb-12 mb-6 mt-10 aspect-video w-full rounded-md object-cover shadow-xl"
+        className="col-span-full mx-auto md:mb-12 mb-6 md:mt-10 aspect-video w-full rounded-md object-cover shadow-xl"
       />
       {/* End header */}
       <div className="col-span-full mb-12 flex flex-col gap-12 md:flex-row">
@@ -119,7 +119,7 @@ export default async function Project({
               <ToolCard
                 tool={tool}
                 key={`${tool.attributes.name}-card`}
-                className="col-span-4"
+                className="col-span-6 md:col-span-4"
               />
             ))}
           </div>
