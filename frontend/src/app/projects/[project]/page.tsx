@@ -104,10 +104,10 @@ export default async function Project({
       />
       {/* End header */}
       <div className="col-span-full mb-12 flex flex-col gap-12 md:flex-row">
-        <div className={clsx("mx-auto w-full max-w-3xl font-light", !!data.tools.data.length ? "md:w-1/2" : null)}>
-          <h2 className="font-heading text-xl font-semibold">Description</h2>{" "}
-          <p>{data.description}</p>{" "}
-        </div>{" "}
+      {data?.description ? <div className={clsx("mx-auto w-full max-w-3xl font-light", !!data.tools.data.length ? "md:w-1/2" : null)}>
+           <h2 className="font-heading text-xl font-semibold">Description</h2>
+          <p>{data.description}</p>
+        </div> : null}
         {!!data.tools.data.length ? (
           <div className="grid w-full grid-cols-12 gap-2 md:w-1/2 ">
             {" "}
