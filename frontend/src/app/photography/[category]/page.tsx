@@ -163,7 +163,7 @@ async function getData(params: { category: string }) {
   // This ensures that they are all in the same order as images on the page
   let imageLinks: ImageLink[] = [];
 
-  if (!!data.sections) {
+  if (!!data?.sections) {
     data.sections.forEach((section: AlbumSections["attributes"]) => {
       section.gallery.data.forEach((item: PluginUploadFileWithId) => {
         // generate a srcset from all strapi formats
